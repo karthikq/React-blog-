@@ -1,0 +1,20 @@
+/** @format */
+
+@mixin button {
+  font-family: "Quicksand", sans-serif;
+  padding: 0.42rem 1.5rem;
+
+  border: 2px solid rgba(0, 0, 0, 0);
+  background-color: #4dbc92;
+  color: white;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    border: 2px solid rgba(0, 0, 0, 0.603);
+    background: transparent;
+    color: black;
+  }
+}

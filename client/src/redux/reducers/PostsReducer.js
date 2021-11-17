@@ -1,0 +1,51 @@
+/** @format */
+const inittalState = [];
+export const PostsReducer = (state = inittalState, action) => {
+  switch (action.type) {
+    case "CREATE_USER_POST":
+      return [
+        ...state,
+        { fieldName: action.payload.fieldName, usersPost: [action.payload] },
+      ];
+    case "UPDATE_POST":
+      return state.map((item, index) =>
+        item.fieldName === action.payload.fieldName
+          ? {
+              ...item,
+              usersPost: [...item.usersPost, action.payload],
+            }
+          : state[index]
+      );
+    case "LIKE_POST":
+      return state.map((item, index) =>
+        item.fieldName === action.payload.fieldName
+          ? {
+              ...item,
+              usersPost: item.usersPost.map((el) =>
+                el.post_Id === action.payload.post_Id
+                  ? { ...el, like: el.like + 1 }
+                  : el
+              ),
+            }
+          : state[index]
+      );
+    case "REMOVE_LIKE":
+      return state.map((item, index) =>
+        item.fieldName === action.payload.fieldName
+          ? {
+              ...item,
+              usersPost: item.usersPost.map((post) =>
+                post.post_Id === action.payload.post_Id
+                  ? { ...post, like: post.like - 1 }
+                  : post
+              ),
+            }
+          : state[index]
+      );
+    case "FETCH_POST":
+      return [...action.payload];
+
+    default:
+      return state;
+  }
+};
