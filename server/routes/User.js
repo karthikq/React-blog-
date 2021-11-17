@@ -25,7 +25,6 @@ router.get("/details", Authmiddleware, async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   const checkEmail = await User.findOne({ email });
   if (!checkEmail) {
@@ -53,7 +52,7 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const { username, email, password, profileUrl } = req.body;
-  console.log(req.body);
+  console.log(username);
   const checkUsername = await User.findOne({ username: username });
   const checkEmail = await User.findOne({ email });
 
@@ -66,13 +65,13 @@ router.post("/register", async (req, res) => {
     const salt = randomBytes(16).toString("hex");
     const hashedPassword = scryptSync(password, salt, 64).toString("hex");
     const userId = nanoid();
-
+    const date = new Date().toLocaleDateString();
     try {
       const newUser = new User({
         username,
         email,
         password: `${salt}:${hashedPassword}`,
-        date: new Date().toLocaleDateString(),
+        date,
         userId,
         profileUrl,
       });

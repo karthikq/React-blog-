@@ -20,7 +20,7 @@ const UserPostdetails = (props) => {
   );
 
   return (
-    <div className="avatar">
+    <div className={props.class}>
       <img src={userData?.profileUrl} alt="" />
       <p> {userData ? userData.username : "Refresh page"}</p>
     </div>

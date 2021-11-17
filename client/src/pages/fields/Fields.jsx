@@ -53,13 +53,13 @@ const Fields = (props) => {
                 <FcLikePlaceholder className="fav-icon" />
               </div>
               <h3>{post.title} </h3>
-              <UserPostdetails post={post} />
+              <UserPostdetails post={post} class="avatar" />
               <span className="field-desp">
                 {post.description.substring(0, 100) + "..."}
               </span>
               <div className="field-likes">
                 <span className="likes">
-                  {props.userDetails?.userData?.likes.find(
+                  {props.userDetails?.userData?.likes?.find(
                     (user) => user.post_Id === post.post_Id
                   ) ? (
                     <AiTwotoneLike
@@ -79,7 +79,7 @@ const Fields = (props) => {
                   <BiDislike
                     className="like-icons dislike"
                     onClick={() => handledisLikes(post)}
-                  />{" "}
+                  />
                   1
                 </span>
               </div>

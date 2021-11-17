@@ -10,12 +10,14 @@ export const UserReducer = (state = [], action) => {
           ? { ...user, likes: action.payload.likes }
           : user
       );
-    case "REMOVE_USER_LIKE":
+
+    case "DISLIKE_POST_USER":
       return state.map((user) =>
         user.userId === action.payload.userId
-          ? { ...user, likes: action.payload.likes }
+          ? { ...user, dislikes: action.payload.dislikes }
           : user
       );
+
     default:
       return state;
   }

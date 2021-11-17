@@ -122,12 +122,62 @@ export const removeLikes = (post) => async (dispatch, getState) => {
         payload: data.elem2,
       });
       dispatch({
-        type: "REMOVE_USER_LIKE",
+        type: "UPDATE_USER",
         payload: data.removeuserLikes,
       });
       dispatch({
-        type: "REMOVE_USER_AUTH_LIKE",
+        type: "UPDATE_AUTH_USER",
         payload: data.removeuserLikes,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const DislikePost = (post) => async (dispatch, getState) => {
+  try {
+    const loggedInuserId = getState().Auth.userData.userId;
+    post.loggedInuserId = loggedInuserId;
+
+    const { data } = await Api.patch("/post/dislike/" + post.post_Id, post);
+    console.log(data);
+    if (data) {
+      dispatch({
+        type: "DISLIKE_POST",
+        payload: data.elem2,
+      });
+      dispatch({
+        type: "DISLIKE_POST_USER",
+        payload: data.userData,
+      });
+      dispatch({
+        type: "DISLIKE_POST_USER_AUTH",
+        payload: data.userData,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const removedisLikes = (post) => async (dispatch, getState) => {
+  try {
+    const loggedInuserId = getState().Auth.userData.userId;
+    post.loggedInuserId = loggedInuserId;
+
+    const { data } = await Api.patch("/post/undislike/" + post.post_Id, post);
+    if (data) {
+      dispatch({
+        type: "REMOVE_DISLIKE",
+        payload: data.elem2,
+      });
+      dispatch({
+        type: "DISLIKE_POST_USER",
+        payload: data.removeuserdisLikes,
+      });
+      dispatch({
+        type: "DISLIKE_POST_USER_AUTH",
+        payload: data.removeuserdisLikes,
       });
     }
   } catch (error) {

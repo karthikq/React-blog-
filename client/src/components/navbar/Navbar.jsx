@@ -85,13 +85,13 @@ const Navbar = (props) => {
             <Link to="/">Popular</Link>
           </li>
           <li>
-            <Link to="/sports">Sports</Link>
+            <Link to="/field/sports">Sports</Link>
           </li>
           <li>
-            <Link to="/engineering">Engineering</Link>
+            <Link to="/field/engineering">Engineering</Link>
           </li>
           <li>
-            <Link to="/latest"> Latest</Link>
+            <Link to="/field/latest"> Latest</Link>
           </li>
           {props.isAuth && (
             <li>

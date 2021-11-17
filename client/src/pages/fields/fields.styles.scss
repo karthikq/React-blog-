@@ -5,6 +5,12 @@
   min-height: 50vh;
   margin-bottom: 2rem;
 }
+.box {
+  width: 12px;
+  height: 45px;
+  background-color: rgba(134, 134, 134, 0.466);
+  margin-right: 0.5rem;
+}
 .field-header {
   width: 85%;
   display: flex;
@@ -15,12 +21,6 @@
     display: flex;
     align-items: center;
 
-    .box {
-      width: 12px;
-      height: 45px;
-      background-color: rgba(134, 134, 134, 0.466);
-      margin-right: 0.5rem;
-    }
     h2 {
       font-size: 1.5rem;
     }

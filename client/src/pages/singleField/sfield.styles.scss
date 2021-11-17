@@ -1,0 +1,143 @@
+/** @format */
+
+.sfield-container {
+  width: 100%;
+  height: auto;
+}
+.sfield-contents {
+  padding: 1% 10%;
+}
+.sfield-header {
+  width: 100%;
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+}
+.sfield-posts {
+  padding: 6% 0 3%;
+}
+.avatar-align {
+  justify-content: flex-end;
+}
+.post-align-left {
+  flex-direction: row-reverse;
+}
+.sfield-post-box,
+.post-align-left {
+  margin: 0rem 0 6rem;
+  padding-bottom: 6.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.041);
+  position: relative;
+  .sfield-post-text {
+    align-self: flex-start;
+    width: 32rem;
+
+    h3 {
+      font-family: "Poppins", sans-serif;
+      font-size: 2rem;
+      margin-bottom: 0.9rem;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    .sfield-desp {
+      font-family: "Poppins", sans-serif;
+      display: block;
+      margin-top: 0.8rem;
+      line-height: 1.8;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+  }
+  .sfield-text-align {
+    text-align: right;
+  }
+}
+.sfield-image {
+  width: 460px;
+  height: 260px;
+
+  img {
+    border-radius: 2px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.082);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
+}
+.sfield-likes {
+  width: 6.5rem;
+  position: absolute;
+  bottom: 1.8rem;
+  right: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .sfield-like-icon {
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-right: 0.4rem;
+    position: relative;
+    top: 0.02rem;
+    &:hover {
+      fill: #29c97e;
+    }
+  }
+  .sfield-dislike-icon {
+    margin-right: 0;
+    margin-left: 0.4rem;
+  }
+}
+.btn-submit {
+  display: flex;
+  align-items: center;
+}
+.btn-opacity {
+  opacity: 0.7;
+  &:hover .loading {
+    border-top-color: rgb(0, 0, 0);
+  }
+}
+.sfield-loading {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  margin-right: 0rem;
+  border: 0.25rem solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(32, 32, 32, 0.788);
+  animation: spin 1s infinite linear;
+}
+.sfield-loading-span {
+  user-select: none;
+
+  transition: 0.5s ease-in-out;
+
+  font-size: 10px;
+
+  cursor: pointer;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

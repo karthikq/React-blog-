@@ -49,11 +49,13 @@ export const AuthReducer = (state = initialState, action) => {
         ...state,
         userData: { ...state.userData, likes: action.payload.likes },
       };
-    case "REMOVE_USER_AUTH_LIKE":
+
+    case "DISLIKE_POST_USER_AUTH":
       return {
         ...state,
-        userData: { ...state.userData, likes: action.payload.likes },
+        userData: { ...state.userData, dislikes: action.payload.dislikes },
       };
+
     default:
       return state;
   }

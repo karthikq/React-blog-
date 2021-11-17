@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/navbar/ProtectedRoute";
 import { connect } from "react-redux";
 import { fetchUser } from "./redux/actions";
 import { fetchUsersPosts } from "./redux/actions/post";
+import SingleField from "./pages/singleField/SingleField";
 
 function App(props) {
   const { user } = window.Qs.parse(window.location.search, {
@@ -42,9 +43,7 @@ function App(props) {
           isAuth={props.isAuth}
         />
         <Route path="/" exact component={Home} />
-        <Route path="/sports" exact component={Home} />
-        <Route path="/latest" exact component={Home} />
-        <Route path="/Engineering" exact component={Home} />
+        <Route path="/field/:id" exact component={SingleField} />
         <Route path="/user/login" exact component={Login} />
         <Route path="/user/register" exact component={Register} />
       </Switch>

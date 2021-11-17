@@ -29,6 +29,7 @@ export const PostsReducer = (state = inittalState, action) => {
             }
           : state[index]
       );
+
     case "REMOVE_LIKE":
       return state.map((item, index) =>
         item.fieldName === action.payload.fieldName
@@ -37,6 +38,32 @@ export const PostsReducer = (state = inittalState, action) => {
               usersPost: item.usersPost.map((post) =>
                 post.post_Id === action.payload.post_Id
                   ? { ...post, like: post.like - 1 }
+                  : post
+              ),
+            }
+          : state[index]
+      );
+    case "DISLIKE_POST":
+      return state.map((item, index) =>
+        item.fieldName === action.payload.fieldName
+          ? {
+              ...item,
+              usersPost: item.usersPost.map((el) =>
+                el.post_Id === action.payload.post_Id
+                  ? { ...el, dislike: el.dislike + 1 }
+                  : el
+              ),
+            }
+          : state[index]
+      );
+    case "REMOVE_DISLIKE":
+      return state.map((item, index) =>
+        item.fieldName === action.payload.fieldName
+          ? {
+              ...item,
+              usersPost: item.usersPost.map((post) =>
+                post.post_Id === action.payload.post_Id
+                  ? { ...post, dislike: post.dislike - 1 }
                   : post
               ),
             }

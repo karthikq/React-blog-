@@ -126,4 +126,68 @@ router.patch("/post/unlike/:id", async (req, res) => {
   res.json({ elem2, removeuserLikes });
 });
 
+router.patch("/post/dislike/:id", async (req, res) => {
+  const { userId, _id, post_Id, fieldName, loggedInuserId } = req.body;
+  console.log(userId);
+  const checkPost = await Post.findOne({
+    fieldName,
+  });
+  const elem = checkPost.usersPost.find((el) => el.post_Id === post_Id);
+
+  const updateUserdiskes = await User.findOneAndUpdate(
+    { userId: loggedInuserId },
+    {
+      $push: {
+        dislikes: { user: loggedInuserId, postuserId: userId, post_Id },
+      },
+    },
+    { new: true }
+  );
+  const updatepostDislike = await Post.findOneAndUpdate(
+    { fieldName, "usersPost.post_Id": post_Id },
+    {
+      $set: { "usersPost.$.dislike": elem.dislike + 1 },
+    },
+    {
+      new: true,
+    }
+  );
+  const elem2 = updatepostDislike.usersPost.find(
+    (el) => el.post_Id === post_Id
+  );
+  res.json({ elem2, userData: updateUserdiskes });
+});
+
+router.patch("/post/undislike/:id", async (req, res) => {
+  const { userId, _id, post_Id, fieldName, loggedInuserId } = req.body;
+  console.log(userId);
+  const checkPost = await Post.findOne({
+    fieldName,
+  });
+
+  //finding userspost with post_Id
+  const elem = checkPost.usersPost.find((el) => el.post_Id === post_Id);
+
+  const removeuserdisLikes = await User.findOneAndUpdate(
+    { userId: loggedInuserId },
+    {
+      $pull: { dislikes: { post_Id: post_Id } },
+    },
+    { new: true }
+  );
+
+  const removedisLikes = await Post.findOneAndUpdate(
+    { fieldName, "usersPost.post_Id": post_Id },
+    {
+      $set: { "usersPost.$.dislike": elem.dislike - 1 },
+    },
+    {
+      new: true,
+    }
+  );
+  const elem2 = removedisLikes.usersPost.find((el) => el.post_Id === post_Id);
+
+  res.json({ elem2, removeuserdisLikes });
+});
+
 export default router;

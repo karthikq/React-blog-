@@ -1,6 +1,7 @@
 /** @format */
 
 import api from "../../api/Api";
+import history from "../../history";
 
 export const fetchUser = () => async (dispatch) => {
   try {
@@ -67,7 +68,7 @@ export const loginUser = (data, history) => async (dispatch) => {
 export const registerUser = (data) => async (dispatch) => {
   try {
     const resp = await api.post("/user/register", data);
-
+    console.log(resp.data);
     if (resp.data.usernameExists) {
       return dispatch({
         type: "USERNAME_EXISTS",
@@ -80,10 +81,11 @@ export const registerUser = (data) => async (dispatch) => {
     }
     if (!resp.data.usernameExists && !resp.data.useremailExists) {
       localStorage.setItem("authToken", resp.data.token);
-      return dispatch({
+      dispatch({
         type: "REGISTER_USER",
         payload: resp.data,
       });
+      return history.push("/");
     }
   } catch (error) {
     console.log(error);

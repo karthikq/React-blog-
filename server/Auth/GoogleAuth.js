@@ -8,8 +8,8 @@ async function GoogleAuth(passport) {
   passport.use(
     new GoogleStrategy(
       {
-        clientID: "",
-        clientSecret: "",
+        clientID: " ",
+        clientSecret: " ",
         callbackURL: "http://localhost:4000/auth/google/login",
       },
       async function (token, refreshToken, profile, cb) {
