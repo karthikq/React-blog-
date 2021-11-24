@@ -13,6 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebookSquare } from "react-icons/fa";
 import { connect } from "react-redux";
 import axios from "axios";
+import Checkenv from "../../api/Checkenv";
 
 const schema = yup
   .object()
@@ -93,7 +94,7 @@ const Authform = ({
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="auth-left">
             {!loginState && (
-              <>
+              <React.Fragment>
                 <Inputfield>
                   <input
                     type="text"
@@ -112,7 +113,7 @@ const Authform = ({
                 <span className="auth-errors">
                   {nameExists && "username already exists"}
                 </span>
-              </>
+              </React.Fragment>
             )}
             <Inputfield>
               <input type="text" required {...register("email")} />
@@ -149,7 +150,7 @@ const Authform = ({
               {passwordErr && "Wrong password!"}
             </span>
             {!loginState && (
-              <>
+              <React.Fragment>
                 <Inputfield>
                   <input
                     type="password"
@@ -181,7 +182,7 @@ const Authform = ({
                     </div>
                   )}
                 </div>
-              </>
+              </React.Fragment>
             )}
             <div className="no-account">
               {!loginState ? (
@@ -198,17 +199,19 @@ const Authform = ({
           </div>
           {/* //from ceratestyles */}
           <div className="auth-btn">
-            <button type="submit">{header}</button>
+            <button type="submit">
+              {header === "Sign In" ? header : " Create account"}
+            </button>
           </div>{" "}
           <p className="opt">Or continue with</p>
           <div className="social-login">
             <div className="circle-bg">
-              <a href="http://localhost:4000/auth/google">
+              <a href={Checkenv() + "/auth/google"}>
                 <FcGoogle className="social-icon" title="Google Sign in" />
               </a>
             </div>
             <div className="circle-bg">
-              <a href="http://localhost:4000/auth/facebook">
+              <a href={Checkenv() + "/auth/facebook"}>
                 <FaFacebookSquare
                   className="social-icon"
                   title="Facebook Sign in"
@@ -222,7 +225,6 @@ const Authform = ({
   );
 };
 const mapStatetoProps = (state, props) => {
-  console.log(state, props);
   return {
     nameExists: state.Auth.usernameExists,
     emailExists: state.Auth.useremailExists,

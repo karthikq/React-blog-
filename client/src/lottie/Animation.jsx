@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect } from "react";
-import Lottie from "react-lottie";
+import Lottie from "react-lottie-wrapper";
 
 import createAn from "./social.json";
 import createAn2 from "./75241-map-reveal.json";
@@ -71,7 +71,7 @@ const Animation = ({ h, w, name }) => {
   return (
     <div>
       <Lottie
-        options={name === "loginAn" ? defaultOptions2 : value()}
+        options={name === "loginAn" ? defaultOptions2 : defaultOptions1}
         height={h}
         width={w}
       />
