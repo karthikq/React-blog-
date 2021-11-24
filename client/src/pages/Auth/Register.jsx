@@ -22,7 +22,7 @@ const Register = (props) => {
   return (
     <div>
       <Authform
-        header="Register"
+        header="Sign up"
         loginState={false}
         handleLogin={handleRegister}
       />

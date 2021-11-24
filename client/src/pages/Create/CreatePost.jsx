@@ -2,20 +2,27 @@
 
 import React, { Component, createRef } from "react";
 import "./create.styles.scss";
+import toast, { Toaster } from "react-hot-toast";
 
-import Resizer from "react-image-file-resizer";
 import "../../constant.styles.scss";
 import Animation from "../../lottie/Animation";
-import Api from "../../api/Api";
+import imageCompression from "browser-image-compression";
 import { connect } from "react-redux";
 import { CreateUserPost } from "../../redux/actions/post";
 import history from "../../history";
 
+import ImageUpload from "../../customhook/ImageUpload";
+
 export class CreatePost extends Component {
   state = {
+    selectState: true,
+    submitState: false,
+    uploadStatus: "Uploading Image...",
     files: {
-      base64: "",
+      imageURL: "",
     },
+
+    imageFile: "",
     largeSize: false,
     details: "",
     userPosts: {
@@ -27,63 +34,105 @@ export class CreatePost extends Component {
   };
   componentDidMount() {
     this.ref = createRef();
+    this.ref2 = createRef();
   }
-  getFiles = (e) => {
-    // console.log(files);
-    // const ImageSize = files.size.split(" ")[0];
-    // if (ImageSize > 200) {
-    //   this.setState({ largeSize: true });
-    //   this.setState({
-    //     files: {
-    //       base64:
-    //         "https://images.pexels.com/photos/7789192/pexels-photo-7789192.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-    //     },
-    //   });
-    // } else {
-    //   this.setState({ files: files });
-    // }
+  getFiles = async (e) => {
+    if (!e.target.files[0]) {
+      document.querySelector(".createimg").classList.add("error-img");
+      this.setState({
+        details: "Error",
+      });
+      return document
+        .querySelector(".createimg")
+        .setAttribute(
+          "src",
+          "https://cdn-icons.flaticon.com/png/512/2797/premium/2797387.png?token=exp=1637731825~hmac=e81400f91a8738f08822bd5f3464386b"
+        );
+    }
 
+    this.setState({
+      details: e.target.files[0] ? e.target.files[0].name : "Error",
+    });
+    setTimeout(() => {
+      document.querySelector(".createimg").classList.remove("error-img");
+      document.querySelector("#imgbtn").style.width = "11rem";
+      document.querySelector("#imgbtn").innerHTML = "Click here to change";
+    }, 1200);
+
+    const options = {
+      maxSizeMB: 0.2,
+      maxWidthOrHeight: 1024,
+      useWebWorker: true,
+    };
     try {
-      Resizer.imageFileResizer(
-        e.target.files[0],
-        460,
-        250,
-        "JPEG",
-        80,
-        0,
-        (uri) => {
-          console.log(uri);
-          this.setState({ details: e.target.files[0].name });
-          this.setState({ files: { base64: uri } });
-          this.setState({ userPosts: { ...this.state.userPosts, image: uri } });
-        },
-        "base64",
-        200,
-        200
-      );
+      const compressedFile = await imageCompression(e.target.files[0], options);
+      this.setState({ imageFile: compressedFile });
+      const Imagesrc = URL.createObjectURL(compressedFile);
+      document.querySelector(".createimg").setAttribute("src", Imagesrc);
     } catch (err) {
       console.log(err);
     }
   };
+  handleImage = async (data) => {
+    if (data) {
+      this.setState({ userPosts: { ...this.state.userPosts, image: data } });
+
+      toast.success("Post Created", {
+        id: this.toastId,
+      });
+      await this.props.CreateUserPost(this.state.userPosts);
+
+      this.setState({ uploadStatus: "Image uploaded sucessfully" });
+
+      setTimeout(() => {
+        this.setState({ submitState: false });
+        history.push("/field/" + this.state.userPosts.fieldName.toLowerCase());
+      }, 2000);
+    }
+  };
   handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!this.state.userPosts.image) {
+    const containes = document
+      .querySelector(".createimg")
+      .classList.contains("error-img");
+    if (containes) {
       return this.setState({ details: "This field is required" });
     }
-    this.ref.current.classList.add("btn-opacity");
-    this.ref.current.innerHTML = `<div class="btn-submit" ><div class="loading"></div>Creating Post</div>`;
-    await this.props.CreateUserPost(this.state.userPosts);
-    this.ref.current.classList.remove("btn-opacity");
-    this.ref.current.innerHTML = `Post Created`;
-    history.push("/");
+    if (!this.state.imageFile) {
+      return this.setState({ details: "This field is required" });
+    }
+
+    this.setState({ submitState: true });
+    this.toastId = toast.loading("Creating post please wait ");
+    setTimeout(async () => {
+      this.progressbar = this.ref2.current.children[1];
+      await ImageUpload(
+        this.state.imageFile,
+        this.progressbar,
+        this.handleImage
+      );
+    }, 1200);
   };
   render() {
     return (
       <div className="create-conatiner">
+        {this.state.submitState && (
+          <div className="image-progress-upload">
+            <div ref={this.ref2} className="progress">
+              <p> {this.state.uploadStatus}</p>
+              <span className="progress-span"> </span>
+            </div>
+            <Toaster />
+          </div>
+        )}
         <div className="create-contents">
           <form onSubmit={this.handleSubmit}>
-            <div className="create-items-left">
+            <div
+              className={
+                this.state.submitState
+                  ? "create-items-left form-opacity"
+                  : "create-items-left"
+              }>
               <div className="input-container">
                 <label>Title</label>
                 <input
@@ -91,6 +140,7 @@ export class CreatePost extends Component {
                   name="title"
                   placeholder="Title of the article"
                   required
+                  minLength="7"
                   onChange={(e) => {
                     this.setState({
                       userPosts: {
@@ -108,6 +158,7 @@ export class CreatePost extends Component {
                   cols="30"
                   required
                   rows="5"
+                  minLength="20"
                   onChange={(e) => {
                     this.setState({
                       userPosts: {
@@ -117,34 +168,73 @@ export class CreatePost extends Component {
                     });
                   }}
                   placeholder="Description of the article"></textarea>
+                <span className="desp-length">
+                  {this.state.userPosts.description &&
+                    this.state.userPosts.description.length}
+                </span>
               </div>
               <div className="input-container">
                 <label>Field</label>
-                <select
-                  name="fieldName"
-                  required
-                  value={this.state.userPosts.field}
-                  onChange={(e) => {
-                    this.setState({
-                      userPosts: {
-                        ...this.state.userPosts,
-                        fieldName: e.target.value,
-                      },
-                    });
-                  }}>
-                  <option value="Design">Design</option>
-                  <option value="Engineering">Engineering</option>
-                  <option value="Fashion">Fashion</option>
-                  <option value="Sports">Sports</option>
-                  <option value="News">News</option>
-                  <option value="Festival">Festival</option>
-                  <option value="Religion">Religion</option>
-                </select>
+                {this.state.selectState ? (
+                  <select
+                    name="fieldName"
+                    required
+                    value={this.state.userPosts.field}
+                    onChange={(e) => {
+                      this.setState({
+                        userPosts: {
+                          ...this.state.userPosts,
+                          fieldName: e.target.value,
+                        },
+                      });
+                    }}>
+                    <option value="Design">Design</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Fashion">Fashion</option>
+                    <option value="Sports">Sports</option>
+                    <option value="News">News</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Religion">Religion</option>
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    name="fieldName"
+                    required
+                    placeholder="eg:clothing"
+                    onChange={(e) =>
+                      this.setState({
+                        userPosts: {
+                          ...this.state.userPosts,
+                          fieldName: e.target.value.replace(/\s/g, ""),
+                        },
+                      })
+                    }
+                  />
+                )}
+                <p className="usercreate-field">
+                  {this.state.selectState
+                    ? "Or To create new field   "
+                    : "Or to choose from dropdown  "}
+                  <span
+                    onClick={() =>
+                      this.setState({ selectState: !this.state.selectState })
+                    }>
+                    click here
+                  </span>
+                </p>
               </div>
             </div>
-            <div className="create-right-container">
+            <div
+              className={
+                this.state.submitState
+                  ? "create-right-container form-opacity"
+                  : "create-right-container"
+              }>
               <div className="input-conatiner">
-                <label htmlFor="postimg">Choose Img</label>
+                <label htmlFor="postimg" id="imgbtn">
+                  Choose Img
+                </label>
                 <input
                   type="file"
                   id="postimg"
@@ -160,15 +250,21 @@ export class CreatePost extends Component {
                 //   onDone={(file) => this.getFiles(file)}
                 // /> */}
 
-                <span className="filename">{this.state.details}</span>
+                <span className="filename">
+                  {this.state.details.substring(0, 40)}
+                </span>
 
                 {/* {this.state.largeSize && (
                   <span className="errors">{this.state.details}</span>
                 )} */}
               </div>
               <div className="uploaded-img">
-                {this.state.files.base64 ? (
-                  <img src={this.state.files.base64} alt="error" />
+                {this.state.imageFile ? (
+                  <img
+                    className="createimg"
+                    src={this.state.files.base64}
+                    alt="error"
+                  />
                 ) : (
                   <Animation w={200} h={200} name="createAn" />
                 )}
@@ -178,7 +274,8 @@ export class CreatePost extends Component {
               <button ref={this.ref}>Submit</button>
             </div>
           </form>
-        </div>
+        </div>{" "}
+        <Toaster />
       </div>
     );
   }

@@ -27,7 +27,6 @@
   p {
     color: rgb(247, 71, 65);
     font-size: 0.9rem;
-    font-weight: 600;
   }
   a {
     padding: 0.2rem 0.4rem;
@@ -82,17 +81,20 @@
     font-weight: 500;
     letter-spacing: 0.7px;
     color: rgb(53, 194, 107);
+    font-family: "Poppins", sans-serif;
+    margin-bottom: 0.2rem;
   }
   form {
     max-width: 55rem;
     display: flex;
     flex-direction: column;
+
     .auth-btn {
       width: 100%;
 
       button {
         @include button();
-        margin-top: 0.5rem;
+        margin-top: 1rem;
         padding: 0.55rem 0;
         width: 100%;
         letter-spacing: 0.8px;
@@ -117,6 +119,7 @@
 .auth-left {
   margin-top: 20px;
   width: 100%;
+  font-family: "Poppins", sans-serif;
 
   .input-wrapper {
     width: 100%;
@@ -130,7 +133,7 @@
       outline: 0;
       transition: all 0.45s cubic-bezier(0.19, 1, 0.22, 1);
       font-family: "Quicksand", sans-serif;
-      font-weight: 600;
+      font-weight: 500;
       letter-spacing: 0.8px;
       font-size: 1rem;
 
@@ -146,7 +149,8 @@
       }
     }
     label {
-      font-weight: 500;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.747);
       position: absolute;
       bottom: 1rem;
       left: 0;
@@ -166,8 +170,13 @@
       right: 0;
       cursor: pointer;
       padding: 0.3rem 0.3rem 0.4rem;
+      opacity: 0.6;
       &:hover {
+        opacity: 1;
         color: rgb(233, 45, 45);
+      }
+      &:active {
+        opacity: 1;
       }
     }
     .underline {
@@ -198,6 +207,47 @@
       height: 100%;
       object-fit: cover;
       border-radius: 50%;
+    }
+  }
+}
+@media screen and (max-width: 720px) {
+  .auth-left {
+    .input-wrapper {
+      input[type="file"] {
+        &:focus ~ label,
+        &:valid ~ label {
+          transform: translateY(-10px);
+          font-size: 0.8rem;
+          color: rgb(53, 194, 107);
+        }
+        &:focus ~ .underline::before,
+        &:valid ~ .underline::before {
+          transform: scale(1);
+        }
+      }
+      label {
+        font-size: 1rem;
+      }
+      .check-password {
+        font-size: 0.9rem;
+      }
+    }
+    .uploaded-img {
+      width: 100%;
+      height: 150px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+      }
+    }
+    .profile-label {
+      top: -1.5rem;
+      font-size: 0.8rem !important;
+      right: 0;
+      left: auto;
     }
   }
 }

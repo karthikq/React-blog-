@@ -20,7 +20,7 @@ const Login = (props) => {
   };
   return (
     <div>
-      <Authform header="Login" loginState={true} handleLogin={handleLogin} />
+      <Authform header="Sign In" loginState={true} handleLogin={handleLogin} />
     </div>
   );
 };

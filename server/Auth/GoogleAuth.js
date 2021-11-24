@@ -3,6 +3,8 @@
 import { nanoid } from "nanoid";
 import GoogleStrategy from "passport-google-oauth20";
 import User from "../models/users.js";
+import Checkenv from "./Checkenv.js";
+const port = process.env.PORT || 4000;
 
 async function GoogleAuth(passport) {
   passport.use(
@@ -10,7 +12,7 @@ async function GoogleAuth(passport) {
       {
         clientID: process.env.CLIENT_ID,
         clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:4000/auth/google/login",
+        callbackURL: Checkenv(port) + "/auth/google/login",
       },
       async function (token, refreshToken, profile, cb) {
         try {

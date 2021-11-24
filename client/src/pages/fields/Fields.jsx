@@ -3,48 +3,70 @@
 import React from "react";
 import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import "./fields.styles.scss";
-
 import { FcLikePlaceholder } from "react-icons/fc";
-import { BiDislike, BiLike } from "react-icons/bi";
-import { AiTwotoneLike } from "react-icons/ai";
-import { LikePost, removeLikes } from "../../redux/actions/post";
+import { RiShareBoxFill } from "react-icons/ri";
+
+import UserLikes from "../../components/UserLikes";
+
+import {
+  DislikePost,
+  LikePost,
+  removedisLikes,
+  removeLikes,
+} from "../../redux/actions/post";
 import { connect } from "react-redux";
+import ImageFlip from "../../ImageFlip/ImageFlip";
+import { Link } from "react-router-dom";
 
 const Fields = (props) => {
-  const randomNumber = Math.floor(Math.random() * props.item.usersPost.length);
-  const handleLikes = (postId) => {
-    props.LikePost(postId);
-  };
-  const handledisLikes = (postId) => {
-    console.log(postId);
-  };
-  const removeLike = (post) => {
-    props.removeLikes(post);
-  };
   return (
     <div className="field-container">
       <div className="field-header">
         <div className="field-header-name">
           <div className="box"></div>
-          <h2>{props.item.fieldName} </h2>
+          <h2>{props.item?.fieldName} </h2>
         </div>
-        <span className="field-header-span">
-          All {props.item.fieldName} articles
-        </span>
+        <Link
+          to={`/field/${props.item?.fieldName}`}
+          style={{ textDecoration: "none" }}>
+          <span className="field-header-span">
+            All {props.item?.fieldName} articles
+          </span>
+        </Link>
       </div>
       <div className="field-contents">
         <div className="field-left-content">
-          <img
-            src={props.item.usersPost[randomNumber].image}
-            className="post-left-img"
-            alt="postimage"
+          <ImageFlip
+            imageLink={props.item?.usersPost[0].image}
+            imageClass={"post-left-img"}
           />
-          <h3>{props.item.usersPost[randomNumber].title}</h3>
-          <UserPostdetails post={props.item.usersPost[randomNumber]} />
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
+            <h3>{props.item.usersPost[0]?.title}</h3>
+          </Link>
+
+          <UserPostdetails post={props.item?.usersPost[0]} userclass="avatar" />
           <span>
-            {props.item.usersPost[randomNumber].description.substring(0, 20) +
-              "..."}
+            {props.item.usersPost[0]?.description.length > 30 ? (
+              <React.Fragment>
+                {props.item.usersPost[0]?.description.substring(0, 50) + "... "}
+                <Link
+                  to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}
+                  className="readtag">
+                  Read more
+                </Link>
+              </React.Fragment>
+            ) : (
+              props.item.usersPost[0]?.description
+            )}
           </span>
+          {/* <Link
+            to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
+            <div className="open-left-item">
+              <RiShareBoxFill />
+            </div>
+          </Link> */}
         </div>
         <div className="field-right-content">
           {props.item.usersPost.map((post, index) => (
@@ -52,37 +74,47 @@ const Fields = (props) => {
               <div className="field-fav">
                 <FcLikePlaceholder className="fav-icon" />
               </div>
-              <h3>{post.title} </h3>
-              <UserPostdetails post={post} class="avatar" />
+              <Link
+                className="fieldatag"
+                style={{ textDecoration: "none" }}
+                to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
+                <h3>{post.title} </h3>
+              </Link>
+
+              <UserPostdetails post={post} userclass="avatar" />
               <span className="field-desp">
-                {post.description.substring(0, 100) + "..."}
+                <React.Fragment>
+                  {post.description.length > 30 ? (
+                    <React.Fragment>
+                      {post.description.substring(0, 50) + "... "}
+                      <Link
+                        className="readtag"
+                        to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
+                        Read more
+                      </Link>
+                    </React.Fragment>
+                  ) : (
+                    post.description
+                  )}
+                </React.Fragment>
               </span>
               <div className="field-likes">
-                <span className="likes">
-                  {props.userDetails?.userData?.likes?.find(
-                    (user) => user.post_Id === post.post_Id
-                  ) ? (
-                    <AiTwotoneLike
-                      className="like-icons"
-                      onClick={() => removeLike(post)}
-                    />
-                  ) : (
-                    <BiLike
-                      className="like-icons"
-                      onClick={() => handleLikes(post)}
-                    />
-                  )}
-
-                  {post.like}
-                </span>
-                <span className="likes">
-                  <BiDislike
-                    className="like-icons dislike"
-                    onClick={() => handledisLikes(post)}
-                  />
-                  1
-                </span>
+                <UserLikes
+                  props={props}
+                  item={post}
+                  itemclass={"likes"}
+                  iconClass={"like-icons"}
+                  dislikeClass={"like-icons dislike"}
+                />
               </div>
+              <Link
+                to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
+                <div className="open-item" title="Read Post">
+                  <RiShareBoxFill />
+                </div>
+              </Link>
+
+              <p className="post-date">{post.date?.substring(0, 19)}</p>
             </div>
           ))}
         </div>
@@ -91,7 +123,12 @@ const Fields = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { userDetails: state.Auth };
+  return { user: state.Auth };
 };
 
-export default connect(mapStateToProps, { LikePost, removeLikes })(Fields);
+export default connect(mapStateToProps, {
+  LikePost,
+  removeLikes,
+  removedisLikes,
+  DislikePost,
+})(Fields);

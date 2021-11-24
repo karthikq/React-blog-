@@ -5,6 +5,15 @@ import jwt from "jsonwebtoken";
 import passport from "passport";
 
 const router = express.Router();
+const port = process.env.PORT || 4000;
+
+function Checkenv2() {
+  if (port === 4000) {
+    return "http://localhost:3000";
+  } else {
+    return "https://reactblogwebsite.netlify.app";
+  }
+}
 
 router.get(
   "/google",
@@ -18,6 +27,7 @@ router.get("/google/login", passport.authenticate("google"), (req, res) => {
     { expiresIn: "24h" }
   );
 
-  res.redirect("http://localhost:3000/?user=" + token);
+  const username = req.user.username;
+  res.redirect(Checkenv2() + "/?user=" + token + "&username=" + username);
 });
 export default router;
