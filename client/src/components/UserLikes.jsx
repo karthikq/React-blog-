@@ -12,7 +12,14 @@ import {
   DislikePost,
 } from "../redux/actions/post";
 
-const UserLikes = ({ props, item, itemclass, iconClass, dislikeClass }) => {
+const UserLikes = ({
+  props,
+  item,
+  itemclass,
+  iconClass,
+  dislikeClass,
+  likeActive,
+}) => {
   const [loaderState, setloaderState] = useState(false);
   const [dislikeloaderState, setdislikeloaderState] = useState(false);
   const [selPost, setselPost] = useState("");
@@ -58,14 +65,20 @@ const UserLikes = ({ props, item, itemclass, iconClass, dislikeClass }) => {
             (user) => user.post_Id === item.post_Id
           ) ? (
             <AiTwotoneLike
-              className={iconClass}
+              title="remove like"
+              className={iconClass + " " + likeActive}
               onClick={() => removeLike(item)}
             />
           ) : (
-            <BiLike className={iconClass} onClick={() => handleLikes(item)} />
+            <BiLike
+              title="like post"
+              className={iconClass}
+              onClick={() => handleLikes(item)}
+            />
           )
         ) : (
           <BiLike
+            title="like post"
             className={iconClass}
             onClick={() => history.push("/user/login")}
           />
@@ -95,6 +108,7 @@ const UserLikes = ({ props, item, itemclass, iconClass, dislikeClass }) => {
             (elem) => elem.post_Id === item.post_Id
           ) ? (
             <AiTwotoneDislike
+              title="reomve dislike"
               style={{
                 transform: "scaleX(-1)",
               }}
@@ -103,6 +117,7 @@ const UserLikes = ({ props, item, itemclass, iconClass, dislikeClass }) => {
             />
           ) : (
             <BiDislike
+              title="dislike post"
               className={dislikeClass}
               onClick={() => handledisLikes(item)}
             />
@@ -110,6 +125,7 @@ const UserLikes = ({ props, item, itemclass, iconClass, dislikeClass }) => {
         ) : (
           <React.Fragment>
             <BiDislike
+              title="dislike post"
               className={dislikeClass}
               onClick={() => history.push("/user/login")}
             />

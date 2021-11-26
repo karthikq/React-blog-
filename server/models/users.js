@@ -6,6 +6,7 @@ const PostsSchema = mongoose.Schema(
   {
     username: String,
     googleId: String,
+    githubId: String,
     email: String,
     password: String,
     date: String,

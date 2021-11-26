@@ -91,6 +91,13 @@
   overflow-y: auto;
   padding-right: 1.8rem;
   align-self: flex-start;
+  .field-right-header {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    text-align: right;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
   &::-webkit-scrollbar {
     width: 10px;
   }
@@ -168,7 +175,7 @@
         padding: 0.2rem 0.15rem;
         cursor: pointer;
         margin-right: 0.2rem;
-        fill: rgb(53, 53, 53);
+        color: rgba(8, 8, 8, 0.774);
         &:hover {
           fill: #29c97e;
         }

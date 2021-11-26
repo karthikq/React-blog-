@@ -50,8 +50,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 0.4rem;
+    margin-top: 0.9rem;
     margin-left: 0.2rem;
+    .social-atag {
+      text-decoration: none;
+      color: black;
+    }
     .circle-bg {
       padding: 0 1rem;
       border-right: 2px solid rgba(0, 0, 0, 0.144);
@@ -59,9 +63,15 @@
     .circle-bg:nth-child(2) {
       border-right: 2px solid rgba(0, 0, 0, 0);
     }
+    .auth-border {
+      border-right: 2px solid rgba(0, 0, 0, 0);
+    }
     .social-icon {
+      width: 35px;
+      height: 35px;
+
       margin-right: 0.8rem;
-      font-size: 2.2rem;
+      object-fit: cover;
       padding: 0.8rem;
       transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
       cursor: pointer;
@@ -78,7 +88,7 @@
     text-align: center;
     margin-top: 0.8rem;
     font-size: 2.2rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.7px;
     color: rgb(53, 194, 107);
     font-family: "Poppins", sans-serif;
@@ -211,7 +221,13 @@
   }
 }
 @media screen and (max-width: 720px) {
+  .auth-contents {
+    h1 {
+      font-size: 1.8rem;
+    }
+  }
   .auth-left {
+    margin-top: 0.2rem;
     .input-wrapper {
       input[type="file"] {
         &:focus ~ label,
@@ -226,7 +242,7 @@
         }
       }
       label {
-        font-size: 1rem;
+        font-size: 0.95rem;
       }
       .check-password {
         font-size: 0.9rem;

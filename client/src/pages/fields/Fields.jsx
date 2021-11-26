@@ -69,6 +69,7 @@ const Fields = (props) => {
           </Link> */}
         </div>
         <div className="field-right-content">
+          <p className="field-right-header">Related Articles</p>
           {props.item.usersPost.map((post, index) => (
             <div className="field-right-items" key={index}>
               <div className="field-fav">
