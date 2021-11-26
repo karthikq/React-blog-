@@ -17,17 +17,43 @@ function Checkenv2() {
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
+  passport.authenticate("google", { scope: ["user_friends", "manage_pages"] })
+);
+router.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] })
 );
 
-router.get("/google/login", passport.authenticate("google"), (req, res) => {
-  const token = jwt.sign(
-    { userId: req.user.userId, email: req.user.email },
-    "key",
-    { expiresIn: "24h" }
-  );
+router.get(
+  "/github/callback",
+  passport.authenticate("github", {
+    failureRedirect: Checkenv2() + "/user/login",
+  }),
+  (req, res) => {
+    const token = jwt.sign(
+      { userId: req.user.userId, email: req.user.email },
+      "key",
+      { expiresIn: "24h" }
+    );
+    const username = req.user.username;
+    res.redirect(Checkenv2() + "/?user=" + token + "&username=" + username);
+  }
+);
 
-  const username = req.user.username;
-  res.redirect(Checkenv2() + "/?user=" + token + "&username=" + username);
-});
+router.get(
+  "/google/login",
+  passport.authenticate("google", {
+    failureRedirect: Checkenv2() + "/user/login",
+  }),
+  (req, res) => {
+    const token = jwt.sign(
+      { userId: req.user.userId, email: req.user.email },
+      "key",
+      { expiresIn: "24h" }
+    );
+
+    const username = req.user.username;
+    res.redirect(Checkenv2() + "/?user=" + token + "&username=" + username);
+  }
+);
 export default router;

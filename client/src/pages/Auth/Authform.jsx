@@ -10,10 +10,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { FaFacebookSquare } from "react-icons/fa";
+import { AiFillGithub } from "react-icons/ai";
+
 import { connect } from "react-redux";
-import axios from "axios";
+
 import Checkenv from "../../api/Checkenv";
+import facebookIcon from "./Github.png";
 
 const schema = yup
   .object()
@@ -74,8 +76,6 @@ const Authform = ({
   };
 
   const onSubmit = (data) => {
-    console.log(data);
-
     if (loginState) {
       handleLogin(data);
     } else {
@@ -205,19 +205,20 @@ const Authform = ({
           </div>{" "}
           <p className="opt">Or continue with</p>
           <div className="social-login">
-            <div className="circle-bg">
-              <a href={Checkenv() + "/auth/google"}>
-                <FcGoogle className="social-icon" title="Google Sign in" />
-              </a>
-            </div>
-            <div className="circle-bg">
-              <a href={Checkenv() + "/auth/facebook"}>
-                <FaFacebookSquare
+            <a className="social-atag" href={Checkenv() + "/auth/google"}>
+              <div className="circle-bg">
+                <FcGoogle className="social-icon" title="Facebook Sign in" />{" "}
+              </div>
+            </a>
+
+            <a className="social-atag" href={Checkenv() + "/auth/github"}>
+              <div className="circle-bg auth-border">
+                <AiFillGithub
                   className="social-icon"
                   title="Facebook Sign in"
                 />
-              </a>
-            </div>
+              </div>
+            </a>
           </div>
         </form>
       </div>{" "}

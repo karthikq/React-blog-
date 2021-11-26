@@ -12,7 +12,7 @@ import { CreateUserPost } from "../../redux/actions/post";
 import history from "../../history";
 
 import ImageUpload from "../../customhook/ImageUpload";
-
+import errImage from "./warning.png";
 export class CreatePost extends Component {
   state = {
     selectState: true,
@@ -42,12 +42,7 @@ export class CreatePost extends Component {
       this.setState({
         details: "Error",
       });
-      return document
-        .querySelector(".createimg")
-        .setAttribute(
-          "src",
-          "https://cdn-icons.flaticon.com/png/512/2797/premium/2797387.png?token=exp=1637731825~hmac=e81400f91a8738f08822bd5f3464386b"
-        );
+      return document.querySelector(".createimg").setAttribute("src", errImage);
     }
 
     this.setState({

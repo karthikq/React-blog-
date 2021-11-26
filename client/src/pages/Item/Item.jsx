@@ -34,22 +34,24 @@ const Item = (props) => {
       <div className="item-contents">
         <div className="item-body">
           <div className="itempostimg-div">
-            <img src={data.image} alt="itemimage" className="itempostimg" />
-            <div className="item-download">
-              <a
-                download={data.image}
-                href={data.image}
-                target="_blank"
-                rel="noreferrer">
-                <FiDownloadCloud className="item-download-icon" />
-              </a>
-            </div>{" "}
+            <img src={data.image} alt="itemimage" className="itempostimg" />{" "}
             <div className="itempostlikes">
+              {" "}
+              <div className="item-download">
+                <a
+                  download={data.image}
+                  href={data.image}
+                  target="_blank"
+                  rel="noreferrer">
+                  <FiDownloadCloud className="item-download-icon" />
+                </a>
+              </div>
               <UserLikes
                 props={props}
                 item={data}
                 itemclass={"likes"}
                 iconClass={"itempostlikeicon"}
+                likeActive={"itempostlikeiconactive"}
                 dislikeClass={"itempostlikeicon itempostdislikeicon"}
               />
             </div>
