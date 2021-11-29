@@ -87,13 +87,15 @@ export class CreatePost extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!this.state.imageFile) {
+      return this.setState({ details: "This field is required" });
+    }
+
     const containes = document
       .querySelector(".createimg")
       .classList.contains("error-img");
     if (containes) {
-      return this.setState({ details: "This field is required" });
-    }
-    if (!this.state.imageFile) {
       return this.setState({ details: "This field is required" });
     }
 

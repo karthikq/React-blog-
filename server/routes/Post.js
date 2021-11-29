@@ -192,4 +192,22 @@ router.patch("/post/undislike/:id", async (req, res) => {
   res.json({ elem2, removeuserdisLikes });
 });
 
+router.delete("/post/delete/:id", async (req, res) => {
+  const postid = req.params.id;
+  const { fieldName } = req.body;
+
+  const deletePost = await Post.findOneAndUpdate(
+    { fieldName: fieldName },
+    { $pull: { usersPost: { post_Id: postid } } },
+    { new: true }
+  );
+  if (deletePost.usersPost.length > 0) {
+    res.json({ deletePost });
+  } else {
+    await Post.findOneAndDelete({ fieldName: fieldName }, { new: true });
+    const posts = await Post.find({});
+    res.json({ deletePost, posts });
+  }
+});
+
 export default router;

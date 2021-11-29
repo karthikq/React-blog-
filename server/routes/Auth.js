@@ -17,7 +17,7 @@ function Checkenv2() {
 
 router.get(
   "/google",
-  passport.authenticate("google", { scope: ["user_friends", "manage_pages"] })
+  passport.authenticate("google", { scope: ["profile", "email"] })
 );
 router.get(
   "/github",

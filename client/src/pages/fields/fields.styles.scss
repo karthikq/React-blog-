@@ -11,6 +11,39 @@
   background-color: rgba(0, 0, 0, 0.123);
   margin-right: 0.5rem;
 }
+.alert-container {
+  font-family: "Poppins", sans-serif;
+  .can-btn {
+    padding: 0.2rem;
+    background-color: rgba(255, 0, 0, 0);
+    outline: 0;
+    border: 0;
+    text-decoration: none;
+    font-size: 0.9rem;
+
+    &:hover {
+      color: black;
+    }
+  }
+  .con-btn {
+    margin-left: 0.6rem;
+    padding: 0.22rem 0.5rem;
+    font-size: 0.9rem;
+    background-color: rgb(255, 0, 0);
+    outline: 0;
+    color: white;
+    border: 0;
+    text-decoration: none;
+    border: 2px solid rgba(255, 0, 0, 0);
+    text-shadow: 0;
+    box-shadow: 0px 0px 0px transparent !important;
+    &:hover {
+      border: 2px solid rgb(255, 0, 0);
+      color: black;
+      background: transparent;
+    }
+  }
+}
 .field-header {
   width: 85%;
   display: flex;
@@ -121,15 +154,30 @@
     border: 2px solid rgba(0, 0, 0, 0.041);
 
     position: relative;
-    .open-item {
+    .user-options {
       position: absolute;
-      bottom: 0.8rem;
+      bottom: 0.9rem;
       right: 0.9rem;
-      color: #616161;
-      padding: 0.2rem;
-      cursor: pointer;
-      &:hover {
-        color: black;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 5.5rem;
+      .open-item {
+        font-size: 1.1rem;
+        color: #616161;
+        padding: 0.2rem;
+        cursor: pointer;
+        &:hover {
+          color: black;
+        }
+      }
+      .delete-item {
+        font-size: 1.1rem;
+        cursor: pointer;
+        padding: 0.2rem;
+        &:hover {
+          color: rgb(44, 180, 10);
+        }
       }
     }
     .field-fav {
@@ -175,7 +223,7 @@
         padding: 0.2rem 0.15rem;
         cursor: pointer;
         margin-right: 0.2rem;
-        color: rgba(8, 8, 8, 0.774);
+        color: rgba(8, 8, 8, 0.753);
         &:hover {
           fill: #29c97e;
         }
@@ -253,6 +301,15 @@
   }
 }
 @media screen and (max-width: 720px) {
+  .field-header {
+    padding-top: 3.5rem;
+    border: 0;
+    border-top: 3px solid rgba(5, 31, 4, 0.062);
+    border-style: groove;
+  }
+  .field-contents {
+    padding-bottom: 2rem;
+  }
   .field-left-content {
     width: 100%;
     padding-bottom: 2rem;
@@ -270,6 +327,26 @@
     .field-right-items {
       padding: 0.7rem 1.2rem 1.2rem;
     }
+    h3 {
+      font-size: 1.15rem;
+    }
+  }
+}
+@media screen and (max-width: 520px) {
+  .field-header {
+    padding-top: 2.5rem;
+  }
+  .field-contents {
+    padding-bottom: 1.5rem;
+  }
+  .field-left-content {
+    .field-left-flip {
+      height: 220px;
+      img {
+        border-radius: 3px;
+      }
+    }
+
     h3 {
       font-size: 1.15rem;
     }
