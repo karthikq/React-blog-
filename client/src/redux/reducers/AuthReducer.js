@@ -55,7 +55,18 @@ export const AuthReducer = (state = initialState, action) => {
         ...state,
         userData: { ...state.userData, dislikes: action.payload.dislikes },
       };
-
+    case "ADD_FAV":
+      return {
+        ...state,
+        userData: { ...state.userData, fav: action.payload.fav },
+      };
+    case "REMOVE_FAV":
+      return {
+        ...state,
+        userData: { ...state.userData, fav: action.payload.fav },
+      };
+    case "UPDATE_USER":
+      return { ...state, userData: action.payload };
     default:
       return state;
   }

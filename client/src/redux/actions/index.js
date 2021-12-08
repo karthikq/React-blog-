@@ -1,5 +1,6 @@
 /** @format */
 
+import Api from "../../api/Api";
 import api from "../../api/Api";
 import history from "../../history";
 
@@ -89,5 +90,22 @@ export const registerUser = (data) => async (dispatch) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+export const Updateuser = (user, url, toast) => async (dispatch) => {
+  console.log(user);
+  try {
+    const { data } = await Api.patch(`/user/model/update/${user.userId}`, {
+      user,
+      url,
+    });
+    if (data) {
+      dispatch({
+        type: "UPDATE_USER",
+        payload: data,
+      });
+    }
+  } catch (error) {
+    toast.error("Please refresh and try again");
   }
 };

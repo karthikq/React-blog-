@@ -55,7 +55,9 @@
     align-items: center;
 
     h2 {
+      display: block;
       font-size: 1.5rem;
+      text-overflow: ellipsis;
       color: #242424b9;
     }
   }
@@ -160,10 +162,10 @@
       right: 0.9rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 5.5rem;
+      justify-content: space-around;
+      width: 6rem;
       .open-item {
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         color: #616161;
         padding: 0.2rem;
         cursor: pointer;
@@ -172,7 +174,8 @@
         }
       }
       .delete-item {
-        font-size: 1.1rem;
+        color: #616161;
+        font-size: 1.15rem;
         cursor: pointer;
         padding: 0.2rem;
         &:hover {
@@ -184,11 +187,41 @@
       position: absolute;
       right: 1rem;
       top: 0.5em;
-      padding: 0.25rem;
-      z-index: 50;
+      padding: 0.2rem 0.25rem;
+      z-index: 100;
       .fav-icon {
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         padding: inherit;
+        color: #ff210438;
+        cursor: pointer;
+        padding: inherit;
+        animation: favAnimateout 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+      .fav-fill {
+        color: rgba(221, 3, 3, 0.897);
+        animation: favAnimate 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+    }
+    @keyframes favAnimate {
+      0% {
+        transform: scale(0.7);
+      }
+      50% {
+        transform: scale(1.4);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+    @keyframes favAnimateout {
+      0% {
+        transform: scale(1.4);
+      }
+      50% {
+        transform: scale(0.7);
+      }
+      100% {
+        transform: scale(1);
       }
     }
     .post-date {

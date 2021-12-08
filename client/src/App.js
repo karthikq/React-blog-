@@ -17,6 +17,7 @@ import { fetchUsersPosts } from "./redux/actions/post";
 import SingleField from "./pages/singleField/SingleField";
 import Item from "./pages/Item/Item";
 import toast, { Toaster } from "react-hot-toast";
+import UserProfle from "./pages/Profile/UserProfle";
 
 function App(props) {
   const { user, username } = window.Qs.parse(window.location.search, {
@@ -52,6 +53,7 @@ function App(props) {
         <Route path="/user/login" exact component={Login} />
         <Route path="/user/register" exact component={Register} />
         <Route path="/post" exact component={Item} />
+        <Route path="/user/profile/:id" exact component={UserProfle} />
       </Switch>
       <Toaster />
     </React.Fragment>

@@ -10,13 +10,16 @@ import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import SfieldAnimation from "../../lottie/SfieldAnimation";
 
 import {
+  AddFav,
   DislikePost,
   LikePost,
   removedisLikes,
+  RemoveFav,
   removeLikes,
 } from "../../redux/actions/post";
 import ImageFlip from "../../ImageFlip/ImageFlip";
 import { Link } from "react-router-dom";
+import FavComp from "../../components/FavComp";
 
 const SingleField = (props) => {
   const [posts, setPosts] = useState("");
@@ -35,7 +38,12 @@ const SingleField = (props) => {
       setitemState(false);
     }
   }, [id, props]);
-
+  const handleFav = (post) => {
+    props.AddFav(post);
+  };
+  const removeFav = (post) => {
+    props.RemoveFav(post);
+  };
   return (
     <div className="sfield-container">
       {itemState ? (
@@ -84,12 +92,24 @@ const SingleField = (props) => {
                 <div className="sfield-image">
                   <ImageFlip imageLink={item.image} imageClass="postimage" />
                 </div>
+
                 <div className="sfield-likes">
                   <UserLikes
                     props={props}
                     item={item}
                     iconClass={"sfield-like-icon"}
                     dislikeClass={"sfield-like-icon sfield-dislike-icon"}
+                  />
+                </div>
+                <div className="sfield-fav-div">
+                  <FavComp
+                    addFav={handleFav}
+                    removeFav={removeFav}
+                    post={item}
+                    itemClass="sfield-fav"
+                    iconClass="sfield-fav-icon"
+                    favClass="sfield-fav-icon-fill"
+                    user={props.user}
                   />
                 </div>
               </div>
@@ -113,4 +133,6 @@ export default connect(mapStateToProps, {
   LikePost,
   removedisLikes,
   removeLikes,
+  AddFav,
+  RemoveFav,
 })(SingleField);

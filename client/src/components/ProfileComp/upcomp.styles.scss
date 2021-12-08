@@ -1,0 +1,124 @@
+/** @format */
+
+.up-us-container {
+  margin-top: 30px;
+}
+.up-form {
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  justify-content: space-between;
+
+  .up-form-item {
+    margin: 1.8rem 0;
+  }
+  label {
+    display: block;
+    font-size: 0.9rem;
+
+    font-weight: 400;
+    color: rgba(75, 75, 75, 0.89);
+
+    width: 6rem;
+    padding: 0.3rem;
+  }
+  input {
+    font-family: "Poppins", sans-serif;
+    margin-top: 0.5rem;
+    width: 30rem;
+    padding: 0.42rem 0.5rem 0.6rem 0.6rem;
+    border: 0;
+    outline: 0;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0);
+
+    border: 2px solid rgba(0, 0, 0, 0.164);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.007);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.795);
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    &::placeholder {
+      opacity: 0.8;
+    }
+    &:active {
+      border: 2px solid rgba(0, 0, 0, 0.445);
+    }
+    &:focus {
+      border: 2px solid rgba(0, 0, 0, 0.445);
+    }
+  }
+  .up-form-img-details {
+    margin: 0.4rem 0 0.2rem;
+    span {
+      color: #4dbc92;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+      &:hover {
+        color: #000000;
+      }
+    }
+  }
+  .up-form-btn {
+    margin-top: 15px;
+    margin-bottom: 50px;
+    font-family: "Poppins", sans-serif;
+    width: 7rem;
+    padding: 0.3rem;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.288);
+    color: rgb(0, 0, 0);
+    position: relative;
+    cursor: pointer;
+    top: 1rem;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.767);
+      color: white;
+    }
+  }
+  .up-form-img {
+    width: 80%;
+    height: 180px;
+
+    margin-top: 0.8rem;
+    margin-top: 0.8rem;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .up-form-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 10rem;
+    .up-form-img-sel {
+      width: 100px;
+      height: 100px;
+
+      margin-right: 45px;
+      margin-top: 5px;
+      filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.089));
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+    }
+    .up-progress-bar {
+      max-width: 10rem;
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      height: 0.25rem;
+      margin-top: 20px;
+      margin-right: 38px;
+      transform-origin: left;
+      background-color: #4dbc92;
+    }
+  }
+}

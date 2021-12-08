@@ -115,7 +115,12 @@ const Navbar = (props) => {
                 className={
                   dropdownState ? "dropdown dropdown-active" : "dropdown"
                 }>
-                {props.isAuth && <span>Profile</span>}
+                {props.isAuth && (
+                  <Link
+                    to={`/user/profile/${props.userDetails?.userId}?path=posts`}>
+                    <span onClick={() => setDropdownState(false)}>Profile</span>
+                  </Link>
+                )}
                 {props.isAuth ? (
                   <span onClick={handleLogout}>Logout</span>
                 ) : (

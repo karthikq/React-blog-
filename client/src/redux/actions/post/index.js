@@ -206,3 +206,27 @@ export const DeletePost = (post) => async (dispatch) => {
     });
   }
 };
+
+export const AddFav = (post) => async (dispatch, getState) => {
+  const loggedInuserId = getState().Auth.userData.userId;
+  post.loggedInuserId = loggedInuserId;
+  const { data } = await Api.patch("/post/addfav/" + post.post_Id, post);
+  if (data) {
+    console.log(data);
+    dispatch({
+      type: "ADD_FAV",
+      payload: data,
+    });
+  }
+};
+export const RemoveFav = (post) => async (dispatch, getState) => {
+  const loggedInuserId = getState().Auth.userData.userId;
+  post.loggedInuserId = loggedInuserId;
+  const { data } = await Api.patch("/post/removefav/" + post.post_Id, post);
+  if (data) {
+    dispatch({
+      type: "REMOVE_FAV",
+      payload: data,
+    });
+  }
+};

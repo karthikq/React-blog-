@@ -7,18 +7,22 @@ import { FcLikePlaceholder } from "react-icons/fc";
 import { RiShareBoxFill, RiDeleteBinLine } from "react-icons/ri";
 import SweetAlert from "react-bootstrap-sweetalert";
 import UserLikes from "../../components/UserLikes";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { BsFillHeartFill } from "react-icons/bs";
 
 import {
+  AddFav,
   DeletePost,
   DislikePost,
   LikePost,
   removedisLikes,
+  RemoveFav,
   removeLikes,
 } from "../../redux/actions/post";
 import { connect } from "react-redux";
 import ImageFlip from "../../ImageFlip/ImageFlip";
 import { Link } from "react-router-dom";
+import FavComp from "../../components/FavComp";
 
 const Fields = (props) => {
   const [alertState, setAlertState] = useState(false);
@@ -30,10 +34,16 @@ const Fields = (props) => {
     setAlertState(true);
   };
   const confirmDelete = () => {
-    console.log(selPost);
     props.DeletePost(selPost);
     // setAlertState(true);
     setAlertsucessState(true);
+  };
+
+  const handleFav = (post) => {
+    props.AddFav(post);
+  };
+  const removeFav = (post) => {
+    props.RemoveFav(post);
   };
   return (
     <div className="field-container">
@@ -135,14 +145,24 @@ const Fields = (props) => {
               <p className="field-right-header">Related Articles</p>
               {props.item.usersPost.map((post, index) => (
                 <div className="field-right-items" key={index}>
-                  <div className="field-fav">
-                    <FcLikePlaceholder className="fav-icon" />
-                  </div>
+                  <FavComp
+                    addFav={handleFav}
+                    removeFav={removeFav}
+                    post={post}
+                    user={props.user}
+                    itemClass="field-fav"
+                    iconClass="fav-icon"
+                    favClass="fav-fill"
+                  />
                   <Link
                     className="fieldatag"
                     style={{ textDecoration: "none" }}
                     to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
-                    <h3>{post.title} </h3>
+                    <h3>
+                      {post.title.length > 70
+                        ? post.title.substring(0, 50) + " ..."
+                        : post.title}{" "}
+                    </h3>
                   </Link>
 
                   <UserPostdetails post={post} userclass="avatar" />
@@ -209,4 +229,6 @@ export default connect(mapStateToProps, {
   removedisLikes,
   DislikePost,
   DeletePost,
+  AddFav,
+  RemoveFav,
 })(Fields);

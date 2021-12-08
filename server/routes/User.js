@@ -90,5 +90,22 @@ router.post("/register", async (req, res) => {
     }
   }
 });
+router.patch("/model/update/:id", async (req, res) => {
+  const { username, email } = req.body.user;
+  const url = req.body.url;
 
+  const checkUser = await User.findOne({ userId: req.params.id });
+  if (checkUser) {
+    const updateUser = await User.findOneAndUpdate(
+      { userId: req.params.id },
+      {
+        $set: { username: username, profileUrl: profileUrl, email: email },
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updateUser);
+  }
+});
 export default router;
