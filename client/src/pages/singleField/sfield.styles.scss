@@ -89,6 +89,29 @@
     }
   }
 }
+.sfield-fav-div {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+}
+.sfield-fav {
+  padding: 0.25rem 0.3rem;
+  .sfield-fav-icon {
+    font-size: 1.05rem;
+    padding: inherit;
+    color: #ff210438;
+    cursor: pointer;
+    padding: inherit;
+    animation: favAnimateout 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    &:hover {
+      color: rgba(221, 3, 3, 0.897);
+    }
+  }
+  .sfield-fav-icon-fill {
+    color: rgba(221, 3, 3, 0.897);
+    animation: favAnimate 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+}
 .sfield-likes {
   width: 7rem;
   position: absolute;

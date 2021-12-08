@@ -20,7 +20,8 @@
 .auth-container {
   width: 100%;
   height: auto;
-  margin-bottom: 120px;
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 .no-account {
   margin-top: 2rem;
@@ -94,11 +95,11 @@
     font-family: "Poppins", sans-serif;
     margin-bottom: 0.2rem;
   }
-  form {
+  .auth-form {
     max-width: 55rem;
     display: flex;
     flex-direction: column;
-
+    margin: 0 auto;
     .auth-btn {
       width: 100%;
 

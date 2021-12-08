@@ -184,3 +184,49 @@ export const removedisLikes = (post) => async (dispatch, getState) => {
     console.log(error);
   }
 };
+
+export const DeletePost = (post) => async (dispatch) => {
+  const { data } = await Api.delete(`/post/delete/${post.post_Id}`, {
+    data: post,
+  });
+  console.log(data);
+  if (data.deletePost.usersPost.length > 0) {
+    dispatch({
+      type: "DELETE_POST",
+      payload: post,
+    });
+  } else {
+    dispatch({
+      type: "DELETE_POST",
+      payload: post,
+    });
+    dispatch({
+      type: "FETCH_POST",
+      payload: data.posts,
+    });
+  }
+};
+
+export const AddFav = (post) => async (dispatch, getState) => {
+  const loggedInuserId = getState().Auth.userData.userId;
+  post.loggedInuserId = loggedInuserId;
+  const { data } = await Api.patch("/post/addfav/" + post.post_Id, post);
+  if (data) {
+    console.log(data);
+    dispatch({
+      type: "ADD_FAV",
+      payload: data,
+    });
+  }
+};
+export const RemoveFav = (post) => async (dispatch, getState) => {
+  const loggedInuserId = getState().Auth.userData.userId;
+  post.loggedInuserId = loggedInuserId;
+  const { data } = await Api.patch("/post/removefav/" + post.post_Id, post);
+  if (data) {
+    dispatch({
+      type: "REMOVE_FAV",
+      payload: data,
+    });
+  }
+};

@@ -17,6 +17,7 @@ export class CreatePost extends Component {
   state = {
     selectState: true,
     submitState: false,
+    fields: [],
     uploadStatus: "Uploading Image...",
     files: {
       imageURL: "",
@@ -49,7 +50,7 @@ export class CreatePost extends Component {
       details: e.target.files[0] ? e.target.files[0].name : "Error",
     });
     setTimeout(() => {
-      document.querySelector(".createimg").classList.remove("error-img");
+      document.querySelector(".createimg")?.classList?.remove("error-img");
       document.querySelector("#imgbtn").style.width = "11rem";
       document.querySelector("#imgbtn").innerHTML = "Click here to change";
     }, 1200);
@@ -87,13 +88,15 @@ export class CreatePost extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!this.state.imageFile) {
+      return this.setState({ details: "This field is required" });
+    }
+
     const containes = document
       .querySelector(".createimg")
       .classList.contains("error-img");
     if (containes) {
-      return this.setState({ details: "This field is required" });
-    }
-    if (!this.state.imageFile) {
       return this.setState({ details: "This field is required" });
     }
 
@@ -121,7 +124,7 @@ export class CreatePost extends Component {
           </div>
         )}
         <div className="create-contents">
-          <form onSubmit={this.handleSubmit}>
+          <form className="create-form" onSubmit={this.handleSubmit}>
             <div
               className={
                 this.state.submitState
@@ -183,13 +186,18 @@ export class CreatePost extends Component {
                         },
                       });
                     }}>
-                    <option value="Design">Design</option>
+                    {/* <option value="Design">Design</option>
                     <option value="Engineering">Engineering</option>
                     <option value="Fashion">Fashion</option>
                     <option value="Sports">Sports</option>
                     <option value="News">News</option>
                     <option value="Festival">Festival</option>
-                    <option value="Religion">Religion</option>
+                    <option value="Religion">Religion</option> */}
+                    {this.props.fields.map((field, index) => (
+                      <option value={field.fieldName} key={index}>
+                        {field.fieldName}
+                      </option>
+                    ))}
                   </select>
                 ) : (
                   <input
@@ -275,5 +283,8 @@ export class CreatePost extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return { fields: state.posts };
+};
 
-export default connect(null, { CreateUserPost })(CreatePost);
+export default connect(mapStateToProps, { CreateUserPost })(CreatePost);

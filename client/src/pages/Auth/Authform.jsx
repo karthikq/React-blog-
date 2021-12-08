@@ -91,7 +91,7 @@ const Authform = ({
     <div className="auth-container">
       <div className="auth-contents">
         <h1>{header}</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="auth-left">
             {!loginState && (
               <React.Fragment>

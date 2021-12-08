@@ -34,6 +34,7 @@ router.post("/data/post", Authmiddleware, async (req, res) => {
           { $push: { usersPost: req.body } },
           { new: true }
         );
+        // const userPostdetails = { post_Id };
 
         res.status(200).json(req.body);
       } else {
@@ -44,6 +45,14 @@ router.post("/data/post", Authmiddleware, async (req, res) => {
         await post.save();
         res.status(200).json(req.body);
       }
+      await User.findOneAndUpdate(
+        { userId: req.user.userId },
+        {
+          $push: {
+            posts: { post_Id, fieldName: req.body.fieldName },
+          },
+        }
+      );
     } catch (error) {
       console.log(error);
     }
@@ -192,4 +201,61 @@ router.patch("/post/undislike/:id", async (req, res) => {
   res.json({ elem2, removeuserdisLikes });
 });
 
+router.delete("/post/delete/:id", async (req, res) => {
+  const postid = req.params.id;
+  const { fieldName } = req.body;
+
+  const deletePost = await Post.findOneAndUpdate(
+    { fieldName: fieldName },
+    { $pull: { usersPost: { post_Id: postid } } },
+    { new: true }
+  );
+  if (deletePost.usersPost.length > 0) {
+    res.json({ deletePost });
+  } else {
+    await Post.findOneAndDelete({ fieldName: fieldName }, { new: true });
+    const posts = await Post.find({});
+    res.json({ deletePost, posts });
+  }
+});
+router.patch("/post/addfav/:id", async (req, res) => {
+  const { post_Id, fieldName, userId, loggedInuserId } = req.body;
+  const favData = {
+    user: loggedInuserId,
+    postUserId: userId,
+    fav_postId: post_Id,
+  };
+  const addFav = await User.findOneAndUpdate(
+    { userId: loggedInuserId },
+    {
+      $push: { fav: favData },
+    },
+    {
+      new: true,
+    }
+  );
+  res.json(addFav);
+});
+router.patch("/post/removefav/:id", async (req, res) => {
+  const { post_Id, fieldName, userId, loggedInuserId } = req.body;
+
+  const removeFav = await User.findOneAndUpdate(
+    { userId: loggedInuserId },
+    {
+      $pull: { fav: { fav_postId: post_Id } },
+    },
+    {
+      new: true,
+    }
+  );
+  res.json(removeFav);
+});
+router.get(`/user/post/data/:id`, async (req, res) => {
+  const id = req.params.id;
+  const fieldName = req.query.fieldName;
+  const posts = await Post.findOne({ "usersPost.post_Id": id });
+  const d = posts.usersPost.filter((item) => item.post_Id === id);
+
+  res.json(d);
+});
 export default router;
