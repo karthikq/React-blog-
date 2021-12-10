@@ -14,6 +14,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   position: relative;
+  padding-bottom: 4.5%;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.048);
   .open-home-item {
     position: absolute;
     left: 0;
@@ -43,7 +45,13 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    background-color: lightgray;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+    &:hover {
+      color: rgb(20, 211, 61);
+    }
   }
   p {
     margin-left: 0.5rem;

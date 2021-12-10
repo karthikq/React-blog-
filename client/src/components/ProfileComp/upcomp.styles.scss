@@ -7,6 +7,7 @@
   font-family: "Poppins", sans-serif;
   display: flex;
   justify-content: space-between;
+  width: 95%;
 
   .up-form-item {
     margin: 1.8rem 0;
@@ -97,18 +98,17 @@
     flex-direction: column;
     align-items: center;
     width: 10rem;
+    margin-right: 0px;
+    margin-top: 2px;
     .up-form-img-sel {
       width: 100px;
       height: 100px;
 
-      margin-right: 45px;
-      margin-top: 5px;
       filter: drop-shadow(0px 10px 20px rgba(0, 0, 0, 0.089));
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        border-radius: 50%;
       }
     }
     .up-progress-bar {
@@ -120,5 +120,37 @@
       transform-origin: left;
       background-color: #4dbc92;
     }
+  }
+}
+@media screen and (max-width: 550px) {
+  .up-form {
+    margin: 0 auto;
+
+    input {
+      width: 90%;
+    }
+    .up-form-img {
+      width: 95%;
+    }
+    .up-form-right {
+      margin-top: 0.5rem;
+      align-items: flex-start;
+      width: auto;
+      margin-bottom: 1rem;
+      .up-form-img-sel {
+        width: 95%;
+        height: 140px;
+      }
+      .up-progress-bar {
+        margin-top: 30px;
+      }
+    }
+    .up-form-btn {
+      margin-top: 1rem;
+    }
+  }
+
+  .up-contents {
+    box-shadow: 0px 0px 0px black;
   }
 }

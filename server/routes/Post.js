@@ -87,7 +87,9 @@ router.patch("/post/like", async (req, res) => {
   const updateLikes = await User.findOneAndUpdate(
     { userId: loggedInuserId },
     {
-      $push: { likes: { user: loggedInuserId, postuserId: userId, post_Id } },
+      $push: {
+        likes: { user: loggedInuserId, postuserId: userId, post_Id, fieldName },
+      },
     },
     { new: true }
   );
@@ -224,6 +226,7 @@ router.patch("/post/addfav/:id", async (req, res) => {
     user: loggedInuserId,
     postUserId: userId,
     fav_postId: post_Id,
+    fieldName,
   };
   const addFav = await User.findOneAndUpdate(
     { userId: loggedInuserId },

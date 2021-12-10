@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import imageCompression from "browser-image-compression";
 import toast, { Toaster } from "react-hot-toast";
 import ImageUpload from "../../customhook/ImageUpload";
-import { async } from "@firebase/util";
+
 import { Updateuser } from "../../redux/actions";
 import { connect } from "react-redux";
 
@@ -46,15 +46,16 @@ const UserSettings = ({ userData, Updateuser }) => {
           id: tId,
         });
 
-        Updateuser(UpData, url, toast);
+        await Updateuser(UpData, url, toast);
+        setImageState(false);
       }
     }
   };
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.userId = userData.userId;
     setUpData(data);
     if (imageState) {
-      const toastId = toast.loading("Saving Data...");
+      const toastId = toast.loading("Saving Data please wait ...");
       settoastId(toastId);
 
       setTimeout(async () => {
@@ -62,10 +63,12 @@ const UserSettings = ({ userData, Updateuser }) => {
         await ImageUpload(imgUrl, progressbar, handleImage);
       }, 1200);
     } else {
-      data.profileUrl = userData.profileUrl;
+      const toastid = toast.loading("Updating Data");
+      await Updateuser(data, userData.profileUrl, toast);
+      toast.success("Data saved...", {
+        id: toastid,
+      });
     }
-
-    console.log(data);
   };
 
   const handleProfileChange = async (e) => {
@@ -85,7 +88,7 @@ const UserSettings = ({ userData, Updateuser }) => {
     <div className="up-us-container">
       <div className="up-us-contents">
         <form onSubmit={handleSubmit(onSubmit)} className="up-form">
-          <div className="up-foem-left">
+          <div className="up-form-left">
             <div className="up-form-item">
               <label>Name</label>
               <input type="text" {...register("username")} />

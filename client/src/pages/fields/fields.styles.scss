@@ -45,6 +45,7 @@
   }
 }
 .field-header {
+  padding-top: 3%;
   width: 85%;
   display: flex;
   justify-content: space-between;
@@ -69,11 +70,14 @@
   display: flex;
   width: 85%;
   margin: 2rem auto;
-  padding-bottom: 6%;
+  padding-bottom: 3%;
+
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  border-bottom: 3px solid rgba(0, 0, 0, 0.068);
 }
+
 .readtag {
   font-size: 0.85rem;
   color: #29c97e;
@@ -107,6 +111,9 @@
     font-size: 1.4rem;
     margin-bottom: 0.8rem;
     color: #353535ee;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     &:hover {
       color: #1a9e60;
       text-decoration: underline;
@@ -165,7 +172,7 @@
       justify-content: space-around;
       width: 6rem;
       .open-item {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         color: #616161;
         padding: 0.2rem;
         cursor: pointer;
@@ -175,9 +182,9 @@
       }
       .delete-item {
         color: #616161;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         cursor: pointer;
-        padding: 0.2rem;
+        padding: 0.3rem;
         &:hover {
           color: rgb(44, 180, 10);
         }
@@ -255,17 +262,26 @@
         font-size: 1.2rem;
         padding: 0.2rem 0.15rem;
         cursor: pointer;
-        margin-right: 0.2rem;
+        margin-right: 0.3rem;
         color: rgba(8, 8, 8, 0.753);
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
         &:hover {
           fill: #29c97e;
+        }
+        &:active {
+          transform: scale(1.4);
         }
       }
       .dislike {
         margin-right: 0;
-        margin-left: 0.2rem;
+        margin-left: 0.3rem;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
         &:hover {
           fill: #c03c2a;
+        }
+        &:active {
+          transform: scale(1.4);
         }
       }
     }

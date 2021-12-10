@@ -94,6 +94,7 @@ router.patch("/model/update/:id", async (req, res) => {
   const { username, email } = req.body.user;
   const url = req.body.url;
 
+  const profileUrl = url;
   const checkUser = await User.findOne({ userId: req.params.id });
   if (checkUser) {
     const updateUser = await User.findOneAndUpdate(

@@ -22,13 +22,21 @@ const UserPost = (props) => {
     const data = props.posts.find(
       (elem) => elem.fieldName === props.item.fieldName
     );
+    console.log(data);
+    if (props.state) {
+      const res = data?.usersPost?.filter(
+        (item) => item.post_Id === props.item.post_Id
+      );
+      res && setPostData(res[0]);
+    } else {
+      const res = data?.usersPost?.filter(
+        (item) => item.post_Id === props.item.fav_postId
+      );
 
-    const res = data?.usersPost?.filter(
-      (item) => item.post_Id === props.item.post_Id
-    );
+      res && setPostData(res[0]);
+    }
+  }, [props]);
 
-    res && setPostData(res[0]);
-  }, [props.item, props.posts]);
   const handleFav = (post) => {
     props.AddFav(post);
   };
@@ -37,7 +45,11 @@ const UserPost = (props) => {
   };
   return (
     <div className="up-userPost-box">
-      <h2>{postData?.title}</h2>
+      <Link
+        className="up-a-tag"
+        to={`/post/?postId=${postData.post_Id}&field=${postData.fieldName}`}>
+        <h2>{postData?.title}</h2>
+      </Link>
       <p>
         {postData.description?.length > 80 ? (
           <React.Fragment>

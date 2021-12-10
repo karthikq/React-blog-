@@ -5,12 +5,16 @@ import { connect } from "react-redux";
 import UserLikes from "../../components/UserLikes";
 import "./item.styles.scss";
 import {
+  AddFav,
   DislikePost,
   LikePost,
   removedisLikes,
+  RemoveFav,
   removeLikes,
 } from "../../redux/actions/post";
 import { FiDownloadCloud } from "react-icons/fi";
+import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
+import FavComp from "../../components/FavComp";
 
 const Item = (props) => {
   const [data, setData] = useState("");
@@ -19,7 +23,6 @@ const Item = (props) => {
     ignoreQueryPrefix: true,
   });
   useEffect(() => {
-    console.log(postId);
     const fieldItem = props.posts.find((item) => {
       return item.fieldName === field;
     });
@@ -29,12 +32,22 @@ const Item = (props) => {
       setData(userPost);
     }
   }, [postId, field, props]);
+
+  const handleFav = (post) => {
+    props.AddFav(post);
+  };
+  const removeFav = (post) => {
+    props.RemoveFav(post);
+  };
+
   return (
     <div className="item-container">
       <div className="item-contents">
         <div className="item-body">
           <div className="itempostimg-div">
             <img src={data.image} alt="itemimage" className="itempostimg" />{" "}
+          </div>
+          <div className="item-post-details">
             <div className="itempostlikes">
               {" "}
               <div className="item-download">
@@ -53,15 +66,27 @@ const Item = (props) => {
                 iconClass={"itempostlikeicon"}
                 likeActive={"itempostlikeiconactive"}
                 dislikeClass={"itempostlikeicon itempostdislikeicon"}
-              />
+              />{" "}
+              <div className="item-fav">
+                <FavComp
+                  addFav={handleFav}
+                  removeFav={removeFav}
+                  post={data}
+                  user={props.user}
+                  itemClass="field-fav"
+                  iconClass="fav-icon"
+                  favClass="fav-fill"
+                />
+              </div>
             </div>
-          </div>
-          <div className="item-post-details">
             <div className="item-details">
               <h1>
                 {data.title} <sub>{field}</sub>{" "}
               </h1>
-              <p>{data.description}</p>
+              <div className="item-user">
+                <UserPostdetails post={data} userclass="avatar" />
+              </div>
+              <p className="item-ptag">{data.description}</p>
             </div>
           </div>
         </div>
@@ -79,4 +104,6 @@ export default connect(mapStatetoProps, {
   removeLikes,
   removedisLikes,
   DislikePost,
+  AddFav,
+  RemoveFav,
 })(Item);
