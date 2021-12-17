@@ -57,13 +57,22 @@
 
     h2 {
       display: block;
+      max-width: 7rem;
       font-size: 1.5rem;
-      text-overflow: ellipsis;
+
       color: #242424b9;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .field-header-span {
     color: #4dbc92;
+    display: block;
+    max-width: 7rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .field-contents {
@@ -76,6 +85,48 @@
   justify-content: space-between;
   flex-wrap: wrap;
   border-bottom: 3px solid rgba(0, 0, 0, 0.068);
+  .field-likes {
+    margin-top: 1.4rem;
+    position: relative;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    width: 7rem;
+    justify-content: space-between;
+    .likes {
+      font-family: "Poppins", sans-serif;
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 400;
+    }
+    .like-icons {
+      font-size: 1.2rem;
+      padding: 0.2rem 0.15rem;
+      cursor: pointer;
+      margin-right: 0.3rem;
+      color: rgba(8, 8, 8, 0.753);
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      &:hover {
+        fill: #29c97e;
+      }
+      &:active {
+        transform: scale(1.4);
+      }
+    }
+    .dislike {
+      margin-right: 0;
+      margin-left: 0.3rem;
+      transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+      &:hover {
+        fill: #c03c2a;
+      }
+      &:active {
+        transform: scale(1.4);
+      }
+    }
+  }
 }
 
 .readtag {
@@ -125,8 +176,14 @@
     font-family: "Poppins", sans-serif;
     line-height: 1.7;
     font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
+// .field-right-nocontent {
+//   display: none;
+// }
 .field-right-content {
   width: 43%;
   height: 50vh;
@@ -159,32 +216,38 @@
     margin: 2rem 0;
     background-color: #ffffff;
     padding: 0.2rem 1.8rem 0.8rem;
-    border-radius: 5px;
+    border-radius: 10px;
     border: 2px solid rgba(0, 0, 0, 0.041);
-
+    filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.048));
     position: relative;
     .user-options {
       position: absolute;
       bottom: 0.9rem;
-      right: 0.9rem;
+      right: 1rem;
       display: flex;
       align-items: center;
-      justify-content: space-around;
-      width: 6rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0 1.2rem;
+      width: 7rem;
       .open-item {
         font-size: 1.1rem;
         color: #616161;
         padding: 0.2rem;
         cursor: pointer;
+        width: 100%;
+
         &:hover {
           color: black;
         }
       }
       .delete-item {
-        color: #616161;
-        font-size: 1.1rem;
+        color: #5a5a5a;
+        font-size: 1.05rem;
         cursor: pointer;
-        padding: 0.3rem;
+        padding: 0.4rem 0.55rem 0.35rem;
+        background: #00000009;
+        border-radius: 50%;
         &:hover {
           color: rgb(44, 180, 10);
         }
@@ -192,14 +255,17 @@
     }
     .field-fav {
       position: absolute;
-      right: 1rem;
+      right: 0.5rem;
       top: 0.5em;
       padding: 0.2rem 0.25rem;
       z-index: 100;
       .fav-icon {
         font-size: 1.05rem;
-        padding: inherit;
+        padding: 0.5rem;
         color: #ff210438;
+        background: #00000009;
+        border-radius: 50%;
+
         cursor: pointer;
         padding: inherit;
         animation: favAnimateout 0.7s cubic-bezier(0.19, 1, 0.22, 1);
@@ -243,48 +309,6 @@
         opacity: 0.8;
       }
     }
-    .field-likes {
-      margin-top: 1.4rem;
-      position: relative;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      width: 7rem;
-      justify-content: space-between;
-      .likes {
-        font-family: "Poppins", sans-serif;
-        display: flex;
-        align-items: center;
-        font-size: 0.95rem;
-        font-weight: 400;
-      }
-      .like-icons {
-        font-size: 1.2rem;
-        padding: 0.2rem 0.15rem;
-        cursor: pointer;
-        margin-right: 0.3rem;
-        color: rgba(8, 8, 8, 0.753);
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        &:hover {
-          fill: #29c97e;
-        }
-        &:active {
-          transform: scale(1.4);
-        }
-      }
-      .dislike {
-        margin-right: 0;
-        margin-left: 0.3rem;
-        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-
-        &:hover {
-          fill: #c03c2a;
-        }
-        &:active {
-          transform: scale(1.4);
-        }
-      }
-    }
   }
   .fieldatag {
     text-decoration: none;
@@ -292,12 +316,16 @@
   }
   h3 {
     font-family: "Poppins", sans-serif;
-    font-size: 1.38rem;
+    font-size: 1.35rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     margin-bottom: 0.6rem;
     width: 90%;
     margin-top: 0.5rem;
     font-weight: 600;
     // color: #05b439ee;
+
     letter-spacing: 0px;
     &:hover {
       color: #1a9e60;
@@ -312,6 +340,7 @@
     line-height: 1.8;
     margin-bottom: 0;
     font-size: 0.9rem;
+    width: 90%;
   }
 }
 @media screen and (max-width: 1100px) {
@@ -358,6 +387,7 @@
   }
   .field-contents {
     padding-bottom: 2rem;
+    border-bottom: 0;
   }
   .field-left-content {
     width: 100%;

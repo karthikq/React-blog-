@@ -11,6 +11,7 @@ import SfieldAnimation from "../../lottie/SfieldAnimation";
 
 import {
   AddFav,
+  DeletePost,
   DislikePost,
   LikePost,
   removedisLikes,
@@ -20,10 +21,15 @@ import {
 import ImageFlip from "../../ImageFlip/ImageFlip";
 import { Link } from "react-router-dom";
 import FavComp from "../../components/FavComp";
+import { RiDeleteBinLine } from "react-icons/ri";
+import Alert from "../../components/alert/Alert";
 
 const SingleField = (props) => {
   const [posts, setPosts] = useState("");
   const [itemState, setitemState] = useState(false);
+  const [alertState, setAlertState] = useState(false);
+  const [alertsucessState, setAlertsucessState] = useState(false);
+  const [selPost, setselPost] = useState("");
 
   const { id } = useParams();
 
@@ -44,83 +50,131 @@ const SingleField = (props) => {
   const removeFav = (post) => {
     props.RemoveFav(post);
   };
-  return (
-    <div className="sfield-container">
-      {itemState ? (
-        <div className="sfield-contents">
-          <div className="sfield-header">
-            <div className="box"></div>
-            <h2>{posts?.fieldName}</h2>
-          </div>
-          <div className="sfield-posts">
-            {posts?.usersPost?.map((item, index) => (
+  const handleDelete = (post) => {
+    setselPost(post);
+    setAlertState(true);
+  };
+  const confirmDelete = () => {
+    props.DeletePost(selPost);
+    // // setAlertState(true);
+    setAlertsucessState(true);
+  };
+  const renderComp = () => {
+    return itemState ? (
+      <div className="sfield-contents">
+        <div className="sfield-header">
+          <div className="box"></div>
+          <h2>{posts?.fieldName}</h2>
+        </div>
+        <div className="sfield-posts">
+          {posts?.usersPost?.map((item, index) => (
+            <div
+              className={
+                (index + 1) % 2 === 0
+                  ? "sfield-post-box post-align-left"
+                  : "sfield-post-box"
+              }
+              key={index}>
               <div
                 className={
                   (index + 1) % 2 === 0
-                    ? "sfield-post-box post-align-left"
-                    : "sfield-post-box"
-                }
-                key={index}>
-                <div
-                  className={
-                    (index + 1) % 2 === 0
-                      ? "sfield-post-text sfield-text-align"
-                      : "sfield-post-text"
-                  }>
-                  <h3>{item.title}</h3>
-                  <UserPostdetails
-                    post={item}
-                    userclass={
-                      (index + 1) % 2 === 0 ? "avatar avatar-align" : "avatar"
-                    }
-                  />
-                  <span className="sfield-desp">
-                    {item.description.length > 50 ? (
-                      <React.Fragment>
-                        {item.description.substring(0, 100) + "... "}
-                        <Link
-                          to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}
-                          className="readtag">
-                          Read more
-                        </Link>
-                      </React.Fragment>
-                    ) : (
-                      item.description
-                    )}
-                  </span>
-                </div>
-                <div className="sfield-image">
-                  <ImageFlip imageLink={item.image} imageClass="postimage" />
-                </div>
-
-                <div className="sfield-likes">
-                  <UserLikes
-                    props={props}
-                    item={item}
-                    iconClass={"sfield-like-icon"}
-                    dislikeClass={"sfield-like-icon sfield-dislike-icon"}
-                  />
-                </div>
-                <div className="sfield-fav-div">
-                  <FavComp
-                    addFav={handleFav}
-                    removeFav={removeFav}
-                    post={item}
-                    itemClass="sfield-fav"
-                    iconClass="sfield-fav-icon"
-                    favClass="sfield-fav-icon-fill"
-                    user={props.user}
-                  />
-                </div>
+                    ? "sfield-post-text sfield-text-align"
+                    : "sfield-post-text"
+                }>
+                <h3>
+                  {" "}
+                  <Link
+                    to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}>
+                    {" "}
+                    {item.title}
+                  </Link>{" "}
+                </h3>
+                <UserPostdetails
+                  post={item}
+                  userclass={
+                    (index + 1) % 2 === 0 ? "avatar avatar-align" : "avatar"
+                  }
+                />
+                <span className="sfield-desp">
+                  {item.description.length > 50 ? (
+                    <React.Fragment>
+                      {item.description.substring(0, 100) + "... "}
+                      <Link
+                        to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}
+                        className="readtag">
+                        Read more
+                      </Link>
+                    </React.Fragment>
+                  ) : (
+                    item.description
+                  )}
+                </span>
               </div>
-            ))}
-          </div>
+              <div className="sfield-image">
+                <ImageFlip imageLink={item.image} imageClass="postimage" />
+              </div>
+
+              <div
+                className={
+                  (index + 1) % 2 === 0
+                    ? "sfield-likes sfield-likes-left"
+                    : "sfield-likes"
+                }>
+                <UserLikes
+                  props={props}
+                  item={item}
+                  iconClass={"sfield-like-icon"}
+                  dislikeClass={"sfield-like-icon sfield-dislike-icon"}
+                />
+              </div>
+              <div
+                className={
+                  (index + 1) % 2 === 0
+                    ? "sfield-fav-div sfield-fav-div-left"
+                    : "sfield-fav-div"
+                }>
+                <FavComp
+                  addFav={handleFav}
+                  removeFav={removeFav}
+                  post={item}
+                  itemClass="sfield-fav"
+                  iconClass="sfield-fav-icon"
+                  favClass="sfield-fav-icon-fill"
+                  user={props.user}
+                />
+                {props.user.userData.userId === item.userId && (
+                  <div className="sfield-delete">
+                    <RiDeleteBinLine
+                      onClick={() => handleDelete(item)}
+                      className="sfield-delete-icon"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
+    ) : (
+      <div className="sfield-noitem">
+        <SfieldAnimation w={250} h={250} />
+        <p className="sfield-np">No {id} documents Found</p>
+      </div>
+    );
+  };
+  return (
+    <div className="sfield-container">
+      {alertState ? (
+        <Alert
+          setAlertsucessState={setAlertsucessState}
+          setAlertState={setAlertState}
+          alertsucessState={alertsucessState}
+          DeletePost={props.DeletePost}
+          confirmDelete={confirmDelete}
+          selPost={selPost}
+        />
       ) : (
-        <div className="sfield-noitem">
-          <SfieldAnimation w={250} h={250} />
-          <p className="sfield-np">No {id} documents Found</p>
-        </div>
+        renderComp()
       )}
     </div>
   );
@@ -134,5 +188,6 @@ export default connect(mapStateToProps, {
   removedisLikes,
   removeLikes,
   AddFav,
+  DeletePost,
   RemoveFav,
 })(SingleField);

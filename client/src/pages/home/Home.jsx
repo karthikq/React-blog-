@@ -22,6 +22,7 @@ const Home = (props) => {
     const item = maxlike.filter((item) => item.length > 0 && item);
 
     const randomNumber = Math.floor(Math.random() * item.length);
+
     const data = { ...item[randomNumber] };
     setLikedPost(data[0]);
     setimgState(true);
@@ -37,9 +38,14 @@ const Home = (props) => {
           {imgState && likedPost ? (
             <>
               <div className="home-left-details">
-                <h1>{likedPost?.title}</h1>
+                <h1>
+                  <span className="home-t-span">Title</span> :{" "}
+                  {likedPost?.title}
+                </h1>
                 <UserPostdetails post={likedPost} userclass="avatar" />
                 <span className="post-details">
+                  {" "}
+                  <span className="home-t-span">Description</span> :
                   {likedPost?.description.length > 20 ? (
                     <>
                       {likedPost.description.substring(0, 100) + "... "}

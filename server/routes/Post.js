@@ -205,19 +205,25 @@ router.patch("/post/undislike/:id", async (req, res) => {
 
 router.delete("/post/delete/:id", async (req, res) => {
   const postid = req.params.id;
-  const { fieldName } = req.body;
+  const { fieldName, userId } = req.body;
 
   const deletePost = await Post.findOneAndUpdate(
     { fieldName: fieldName },
     { $pull: { usersPost: { post_Id: postid } } },
     { new: true }
   );
-  if (deletePost.usersPost.length > 0) {
-    res.json({ deletePost });
+  const userModel = await User.findOneAndUpdate(
+    { userId: userId },
+    { $pull: { posts: { post_Id: postid } } },
+    { new: true }
+  );
+
+  if (deletePost && deletePost.usersPost.length > 0) {
+    res.json({ deletePost, userModel });
   } else {
     await Post.findOneAndDelete({ fieldName: fieldName }, { new: true });
     const posts = await Post.find({});
-    res.json({ deletePost, posts });
+    res.json({ deletePost, posts, userModel });
   }
 });
 router.patch("/post/addfav/:id", async (req, res) => {

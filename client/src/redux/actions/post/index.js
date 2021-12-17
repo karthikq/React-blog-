@@ -197,7 +197,7 @@ export const DeletePost = (post) => async (dispatch) => {
     });
   } else {
     dispatch({
-      type: "DELETE_POST",
+      type: "DELETE_POST_FIELD",
       payload: post,
     });
     dispatch({
@@ -205,6 +205,14 @@ export const DeletePost = (post) => async (dispatch) => {
       payload: data.posts,
     });
   }
+  dispatch({
+    type: "DELETE_USER_POST",
+    payload: data.userModel,
+  });
+  dispatch({
+    type: "UPDATE_USER_DATA",
+    payload: data.userModel,
+  });
 };
 
 export const AddFav = (post) => async (dispatch, getState) => {

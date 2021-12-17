@@ -99,10 +99,12 @@ const Navbar = (props) => {
       <div className="navbar-wrapper">
         <div className="nav-contents">
           <div className="brand-logo">
-            <img
-              src="https://www.pngitem.com/pimgs/m/19-196348_logo-logotipo-de-la-plantilla-grey-free-logo.png"
-              alt="brand logo"
-            />
+            <Link to="/">
+              <img
+                src="https://i.ibb.co/HN1s5Td/logo-react-blog8.png"
+                alt="brand logo"
+              />{" "}
+            </Link>
           </div>
           <div className="nav-details">
             <div className="nav-profile">

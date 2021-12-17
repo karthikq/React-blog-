@@ -66,16 +66,20 @@ export const loginUser = (data, history) => async (dispatch) => {
   }
 };
 
-export const registerUser = (data) => async (dispatch) => {
+export const registerUser = (data, url, toast, toastId) => async (dispatch) => {
   try {
-    const resp = await api.post("/user/register", data);
+    const resp = await api.post("/user/register", { data: data, url });
     console.log(resp.data);
     if (resp.data.usernameExists) {
+      toast.dismiss(toastId);
+      toast.error("username already exists");
       return dispatch({
         type: "USERNAME_EXISTS",
       });
     }
     if (resp.data.useremailExists) {
+      toast.dismiss(toastId);
+      toast.error("email already exists");
       return dispatch({
         type: "USEREMAIL_EXISTS",
       });
@@ -86,6 +90,10 @@ export const registerUser = (data) => async (dispatch) => {
         type: "REGISTER_USER",
         payload: resp.data,
       });
+      toast.success("data saved", {
+        id: toastId,
+      });
+      toast.dismiss(toastId);
       return history.push("/");
     }
   } catch (error) {
@@ -93,7 +101,7 @@ export const registerUser = (data) => async (dispatch) => {
   }
 };
 export const Updateuser = (user, url, toast) => async (dispatch) => {
-  console.log(user);
+  console.log(url);
   try {
     const { data } = await Api.patch(`/user/model/update/${user.userId}`, {
       user,
@@ -101,7 +109,7 @@ export const Updateuser = (user, url, toast) => async (dispatch) => {
     });
     if (data) {
       dispatch({
-        type: "UPDATE_USER",
+        type: "UPDATE_USER_DATA",
         payload: data,
       });
     }

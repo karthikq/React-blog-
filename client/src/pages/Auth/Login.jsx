@@ -10,10 +10,11 @@ import { useHistory } from "react-router-dom";
 const Login = (props) => {
   console.log(props);
   const history = useHistory();
-  const handleLogin = async (data) => {
+  const handleLogin = async (data, setbtnStatus) => {
     try {
       // const resp = await Api.post("/user/login", data);
-      props.loginUser(data, history);
+      await props.loginUser(data, history);
+      setbtnStatus(false);
     } catch (error) {
       console.log(error);
     }

@@ -65,8 +65,9 @@ export const AuthReducer = (state = initialState, action) => {
         ...state,
         userData: { ...state.userData, fav: action.payload.fav },
       };
-    case "UPDATE_USER":
+    case "UPDATE_USER_DATA":
       return { ...state, userData: action.payload };
+
     default:
       return state;
   }

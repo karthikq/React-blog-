@@ -106,7 +106,12 @@ const UserProfle = ({ user, posts, otherusers }) => {
             <React.Fragment>
               {user.likes?.length > 0 ? (
                 user.likes.map((item, index) => (
-                  <UserPost item={item} key={index} state={true} />
+                  <UserPost
+                    item={item}
+                    key={index}
+                    state={true}
+                    userState={true}
+                  />
                 ))
               ) : (
                 <h2>No Items found</h2>
@@ -119,14 +124,24 @@ const UserProfle = ({ user, posts, otherusers }) => {
               {adminUser ? (
                 user.fav.length > 0 ? (
                   user.fav?.map((item, index) => (
-                    <UserPost item={item} key={index} state={false} />
+                    <UserPost
+                      item={item}
+                      key={index}
+                      state={false}
+                      userState={true}
+                    />
                   ))
                 ) : (
                   <h2>No Posts found</h2>
                 )
-              ) : userDetails?.fav.length > 0 ? (
-                userDetails?.fav.map((item, index) => (
-                  <UserPost item={item} key={index} state={false} />
+              ) : userDetails?.fav?.length > 0 ? (
+                userDetails?.fav?.map((item, index) => (
+                  <UserPost
+                    item={item}
+                    key={index}
+                    state={false}
+                    userState={false}
+                  />
                 ))
               ) : (
                 <h2>No Favorites items found</h2>

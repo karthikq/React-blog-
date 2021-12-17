@@ -10,8 +10,8 @@ const GithubLogin = (passport) => {
   passport.use(
     new GitHubStrategy(
       {
-        clientID: "",
-        clientSecret: "",
+        clientID: "86624bc8408780a172b2",
+        clientSecret: "1423610c1ee5644df8060a71d144adda8538e189",
         callbackURL: Checkenv(port) + "/auth/github/callback",
       },
       async function (accessToken, refreshToken, profile, done) {

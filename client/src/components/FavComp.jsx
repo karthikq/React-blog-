@@ -13,7 +13,7 @@ const FavComp = (props) => {
           className={props.itemClass}
           onClick={() => props.removeFav(props.post)}>
           <BsFillHeartFill
-            title="Add to favourites"
+            title="Remove from favourite"
             className={props.iconClass + " " + props.favClass}
           />
         </div>
@@ -22,7 +22,7 @@ const FavComp = (props) => {
           className={props.itemClass}
           onClick={() => props.addFav(props.post)}>
           <BsFillHeartFill
-            title="Remove from favourite"
+            title="Add to favourites"
             className={props.iconClass}
           />
         </div>

@@ -5,9 +5,10 @@
   height: 250px;
   position: relative;
   cursor: pointer;
-
+  filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.103));
   .field-left-flip-front {
     transition: all 0.5s ease-in-out;
+
     img {
       width: 100%;
       height: 100%;
@@ -27,7 +28,9 @@
     flex-direction: column;
     color: rgb(255, 255, 255);
     pointer-events: none;
-    transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transform: translateY(10px);
+    transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+
     a {
       text-decoration: none;
       color: rgb(255, 255, 255);
@@ -45,6 +48,7 @@
   }
   .field-left-flip-front {
     z-index: 20;
+    transition: all 0.84s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .field-left-flip-front,
   .field-left-flip-back {
@@ -72,6 +76,7 @@
     opacity: 1;
     pointer-events: all;
     z-index: 30;
+    transform: translateY(0px);
   }
 }
 @media screen and (max-width: 1100px) {

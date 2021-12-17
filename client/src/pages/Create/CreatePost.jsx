@@ -186,24 +186,29 @@ export class CreatePost extends Component {
                         },
                       });
                     }}>
-                    {/* <option value="Design">Design</option>
+                    <option value="Design">Design</option>
+                    {/* 
                     <option value="Engineering">Engineering</option>
                     <option value="Fashion">Fashion</option>
                     <option value="Sports">Sports</option>
                     <option value="News">News</option>
                     <option value="Festival">Festival</option>
                     <option value="Religion">Religion</option> */}
-                    {this.props.fields.map((field, index) => (
-                      <option value={field.fieldName} key={index}>
-                        {field.fieldName}
-                      </option>
-                    ))}
+                    {this.props.fields.map(
+                      (field, index) =>
+                        field.fieldName !== "Design" && (
+                          <option value={field.fieldName} key={index}>
+                            {field.fieldName}
+                          </option>
+                        )
+                    )}
                   </select>
                 ) : (
                   <input
                     type="text"
                     name="fieldName"
                     required
+                    maxLength={20}
                     placeholder="eg:clothing"
                     onChange={(e) =>
                       this.setState({

@@ -83,7 +83,10 @@ export const PostsReducer = (state = inittalState, action) => {
             }
           : item
       );
-
+    case "DELETE_POST_FIELD":
+      return state.filter(
+        (item) => item.fieldName !== action.payload.fieldName
+      );
     default:
       return state;
   }

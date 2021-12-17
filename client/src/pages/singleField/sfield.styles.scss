@@ -56,6 +56,14 @@
       margin-bottom: 0.9rem;
       font-weight: 600;
       text-transform: capitalize;
+      a {
+        text-decoration: none;
+        color: inherit;
+        &:hover {
+          color: #0ea861;
+          text-decoration: underline;
+        }
+      }
     }
     .sfield-desp {
       font-family: "Poppins", sans-serif;
@@ -89,19 +97,45 @@
     }
   }
 }
+.sfield-fav-div-left {
+  left: 1rem !important;
+  justify-content: flex-start !important;
+}
 .sfield-fav-div {
   position: absolute;
   bottom: 1rem;
-  left: 1rem;
+  right: 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  gap: 0 1.8rem;
+  width: 8rem;
+  .sfield-delete {
+    .sfield-delete-icon {
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0.5rem;
+      background: #00000005;
+      border-radius: 50%;
+      color: #252525b7;
+      &:active {
+        animation: favAnimateout 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+      }
+    }
+  }
 }
 .sfield-fav {
   padding: 0.25rem 0.3rem;
   .sfield-fav-icon {
     font-size: 1.05rem;
-    padding: inherit;
+
+    background: #00000009;
+    border-radius: 50%;
+
     color: #ff210438;
     cursor: pointer;
-    padding: inherit;
+    padding: 0.5rem;
     animation: favAnimateout 0.7s cubic-bezier(0.19, 1, 0.22, 1);
     &:hover {
       color: rgba(221, 3, 3, 0.897);
@@ -112,11 +146,15 @@
     animation: favAnimate 0.7s cubic-bezier(0.19, 1, 0.22, 1);
   }
 }
+.sfield-likes-left {
+  right: 1rem !important;
+  left: initial !important;
+}
 .sfield-likes {
   width: 7rem;
   position: absolute;
   bottom: 1.8rem;
-  right: 1rem;
+  left: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;

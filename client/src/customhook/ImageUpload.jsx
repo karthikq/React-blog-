@@ -12,7 +12,7 @@ import {
 firebaseApp();
 const storage = getStorage();
 
-const ImageUpload = (file, progressbar, handleImage) => {
+const ImageUpload = (file, progressbar, handleImage, toast, data) => {
   const storageRef = ref(storage);
   const imageRef = ref(storageRef, file.name);
   const uploadTask = uploadBytesResumable(imageRef, file);
@@ -27,15 +27,15 @@ const ImageUpload = (file, progressbar, handleImage) => {
       progressbar.style.width = progress + "%";
     },
     (error) => {
-      // Handle unsuccessful uploads
-      return error;
+      toast.error("Please refresh and submit again");
+      setTimeout(() => {
+        toast.dismiss();
+      }, 2000);
     },
     () => {
-      // Handle successful uploads on complete
-      // For instance, get the download URL: https://firebasestorage.googleapis.com/...
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        handleImage(downloadURL);
-        return downloadURL;
+        if (data) handleImage(downloadURL, data);
+        if (!data) handleImage(downloadURL);
       });
     }
   );
