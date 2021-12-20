@@ -4,8 +4,14 @@ import React, { useState } from "react";
 
 import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import "./fields.styles.scss";
-import { FcLikePlaceholder } from "react-icons/fc";
-import { RiShareBoxFill, RiDeleteBinLine, RiEditBoxLine } from "react-icons/ri";
+import { FaRegUserCircle, FaUserAlt } from "react-icons/fa";
+import {
+  RiShareBoxFill,
+  RiDeleteBinLine,
+  RiEditBoxLine,
+  RiUser2Fill,
+  RiUserLine,
+} from "react-icons/ri";
 import { Menu, Dropdown } from "antd";
 import UserLikes from "../../components/UserLikes";
 
@@ -211,7 +217,7 @@ const Fields = (props) => {
                                     style={{ marginRight: "0.3rem" }}
                                   />
                                   Read Post
-                                </span>
+                                </span>{" "}
                               </Link>
 
                               {props.user.Auth &&
@@ -231,6 +237,10 @@ const Fields = (props) => {
                                     </span>
                                   </React.Fragment>
                                 )}
+                              <span>
+                                <RiUserLine style={{ marginRight: "0.3rem" }} />
+                                User details
+                              </span>
                             </div>
                           )}
                       </div>
