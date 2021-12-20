@@ -1,7 +1,9 @@
 /** @format */
 
 import React, { useEffect } from "react";
+
 import "./App.css";
+
 import Navbar from "./components/navbar/Navbar";
 import CreatePost from "./pages/Create/CreatePost";
 

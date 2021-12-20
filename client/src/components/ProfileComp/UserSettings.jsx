@@ -89,6 +89,7 @@ const UserSettings = ({ userData, Updateuser, userDetail }) => {
             async (blob) => {
               if (!blob) {
                 toast.dismiss();
+                formBtn.current.removeAttribute("disabled");
                 return toast.error("please crop the image to continue");
               } else {
                 blob.name = imgUrl.name;

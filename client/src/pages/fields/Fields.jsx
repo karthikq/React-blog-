@@ -1,14 +1,16 @@
 /** @format */
 
 import React, { useState } from "react";
+
 import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import "./fields.styles.scss";
 import { FcLikePlaceholder } from "react-icons/fc";
-import { RiShareBoxFill, RiDeleteBinLine } from "react-icons/ri";
-
+import { RiShareBoxFill, RiDeleteBinLine, RiEditBoxLine } from "react-icons/ri";
+import { Menu, Dropdown } from "antd";
 import UserLikes from "../../components/UserLikes";
 
-import { BsFillHeartFill } from "react-icons/bs";
+import { BsFillHeartFill, BsThreeDots } from "react-icons/bs";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 import {
   AddFav,
@@ -24,11 +26,14 @@ import ImageFlip from "../../ImageFlip/ImageFlip";
 import { Link } from "react-router-dom";
 import FavComp from "../../components/FavComp";
 import Alert from "../../components/alert/Alert";
+import "antd/dist/antd.less";
 
 const Fields = (props) => {
   const [alertState, setAlertState] = useState(false);
   const [alertsucessState, setAlertsucessState] = useState(false);
+  const [dropdownState, setdropdownState] = useState(false);
   const [selPost, setselPost] = useState("");
+  const [dropdownPost, setdropdownPost] = useState("");
 
   const handleDelete = (post) => {
     setselPost(post);
@@ -46,6 +51,24 @@ const Fields = (props) => {
     // setAlertState(true);
     setAlertsucessState(true);
   };
+  const menu = (post) => (
+    <Menu className="menu-item">
+      <Menu.Item key="1">
+        <Link to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
+          <div className="open-item" title="Read Post">
+            <RiShareBoxFill style={{ position: "relative", top: "0.2rem" }} />{" "}
+            Read more
+          </div>
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2">Edit Post</Menu.Item>
+    </Menu>
+  );
+  const handlePost = (post) => {
+    setdropdownPost(post);
+    setdropdownState(true);
+  };
+  console.log(dropdownPost);
   return (
     <div className="field-container">
       {alertState ? (
@@ -169,12 +192,54 @@ const Fields = (props) => {
                     </div>
 
                     <div className="user-options">
-                      <Link
+                      <div className="dropdown-item-container">
+                        {dropdownPost.post_Id === post.post_Id ? (
+                          <IoIosCloseCircleOutline
+                            className="dropdown-item-icon"
+                            onClick={() => {
+                              setdropdownPost("");
+                              setdropdownState(false);
+                            }}
+                          />
+                        ) : (
+                          <BsThreeDots
+                            className="dropdown-item-icon"
+                            onClick={() => handlePost(post)}
+                          />
+                        )}
+                        {dropdownPost.post_Id === post.post_Id &&
+                          dropdownState && (
+                            <div className="dropdown-items-list">
+                              <span>
+                                {" "}
+                                <RiShareBoxFill
+                                  style={{ marginRight: "0.3rem" }}
+                                />{" "}
+                                Read Post
+                              </span>
+                              <span>
+                                <RiEditBoxLine
+                                  style={{ marginRight: "0.3rem" }}
+                                />
+                                Edit Post
+                              </span>
+                              <span>
+                                {" "}
+                                <RiDeleteBinLine
+                                  style={{ marginRight: "0.3rem" }}
+                                />
+                                Delete Post
+                              </span>
+                            </div>
+                          )}
+                      </div>
+
+                      {/* <Link
                         to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
                         <div className="open-item" title="Read Post">
                           <RiShareBoxFill />
                         </div>
-                      </Link>
+                      </Link> */}
                       {props.user.Auth &&
                         props.user.userData.userId === post.userId && (
                           <div
