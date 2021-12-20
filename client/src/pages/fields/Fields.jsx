@@ -36,6 +36,7 @@ const Fields = (props) => {
   const [dropdownPost, setdropdownPost] = useState("");
 
   const handleDelete = (post) => {
+    console.log(post);
     setselPost(post);
     setAlertState(true);
   };
@@ -51,24 +52,12 @@ const Fields = (props) => {
     // setAlertState(true);
     setAlertsucessState(true);
   };
-  const menu = (post) => (
-    <Menu className="menu-item">
-      <Menu.Item key="1">
-        <Link to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
-          <div className="open-item" title="Read Post">
-            <RiShareBoxFill style={{ position: "relative", top: "0.2rem" }} />{" "}
-            Read more
-          </div>
-        </Link>
-      </Menu.Item>
-      <Menu.Item key="2">Edit Post</Menu.Item>
-    </Menu>
-  );
+
   const handlePost = (post) => {
     setdropdownPost(post);
     setdropdownState(true);
   };
-  console.log(dropdownPost);
+
   return (
     <div className="field-container">
       {alertState ? (
@@ -210,26 +199,38 @@ const Fields = (props) => {
                         {dropdownPost.post_Id === post.post_Id &&
                           dropdownState && (
                             <div className="dropdown-items-list">
-                              <span>
+                              <Link
+                                style={{
+                                  textDecoration: "none",
+                                  color: "black",
+                                }}
+                                to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
                                 {" "}
-                                <RiShareBoxFill
-                                  style={{ marginRight: "0.3rem" }}
-                                />{" "}
-                                Read Post
-                              </span>
-                              <span>
-                                <RiEditBoxLine
-                                  style={{ marginRight: "0.3rem" }}
-                                />
-                                Edit Post
-                              </span>
-                              <span>
-                                {" "}
-                                <RiDeleteBinLine
-                                  style={{ marginRight: "0.3rem" }}
-                                />
-                                Delete Post
-                              </span>
+                                <span>
+                                  <RiShareBoxFill
+                                    style={{ marginRight: "0.3rem" }}
+                                  />
+                                  Read Post
+                                </span>
+                              </Link>
+
+                              {props.user.Auth &&
+                                props.user.userData.userId === post.userId && (
+                                  <React.Fragment>
+                                    <span>
+                                      <RiEditBoxLine
+                                        style={{ marginRight: "0.3rem" }}
+                                      />
+                                      Edit Post
+                                    </span>
+                                    <span onClick={() => handleDelete(post)}>
+                                      <RiDeleteBinLine
+                                        style={{ marginRight: "0.3rem" }}
+                                      />
+                                      Delete Post
+                                    </span>
+                                  </React.Fragment>
+                                )}
                             </div>
                           )}
                       </div>
@@ -240,7 +241,7 @@ const Fields = (props) => {
                           <RiShareBoxFill />
                         </div>
                       </Link> */}
-                      {props.user.Auth &&
+                      {/* {props.user.Auth &&
                         props.user.userData.userId === post.userId && (
                           <div
                             className="delete-item"
@@ -248,7 +249,7 @@ const Fields = (props) => {
                             onClick={() => handleDelete(post)}>
                             <RiDeleteBinLine />
                           </div>
-                        )}
+                        )} */}
                     </div>
                     <p className="post-date">{post.date?.substring(0, 19)}</p>
                   </div>
