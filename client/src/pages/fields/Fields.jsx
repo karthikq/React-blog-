@@ -12,7 +12,7 @@ import {
   RiUser2Fill,
   RiUserLine,
 } from "react-icons/ri";
-import { Menu, Dropdown } from "antd";
+import Dropdown from "../../components/Dropdown/Dropdown";
 import UserLikes from "../../components/UserLikes";
 
 import { BsFillHeartFill, BsThreeDots } from "react-icons/bs";
@@ -37,9 +37,8 @@ import "antd/dist/antd.less";
 const Fields = (props) => {
   const [alertState, setAlertState] = useState(false);
   const [alertsucessState, setAlertsucessState] = useState(false);
-  const [dropdownState, setdropdownState] = useState(false);
+
   const [selPost, setselPost] = useState("");
-  const [dropdownPost, setdropdownPost] = useState("");
 
   const handleDelete = (post) => {
     console.log(post);
@@ -57,11 +56,6 @@ const Fields = (props) => {
     props.DeletePost(selPost);
     // setAlertState(true);
     setAlertsucessState(true);
-  };
-
-  const handlePost = (post) => {
-    setdropdownPost(post);
-    setdropdownState(true);
   };
 
   return (
@@ -138,7 +132,7 @@ const Fields = (props) => {
               </p>
               {props.item.usersPost.map((post, index) =>
                 index >= 0 ? (
-                  <div className="field-right-items" key={index}>
+                  <div className="field-right-items" key={index} id={post.post_Id}>
                     <FavComp
                       addFav={handleFav}
                       removeFav={removeFav}
@@ -187,63 +181,12 @@ const Fields = (props) => {
                     </div>
 
                     <div className="user-options">
-                      <div className="dropdown-item-container">
-                        {dropdownPost.post_Id === post.post_Id ? (
-                          <IoIosCloseCircleOutline
-                            className="dropdown-item-icon"
-                            onClick={() => {
-                              setdropdownPost("");
-                              setdropdownState(false);
-                            }}
-                          />
-                        ) : (
-                          <BsThreeDots
-                            className="dropdown-item-icon"
-                            onClick={() => handlePost(post)}
-                          />
-                        )}
-                        {dropdownPost.post_Id === post.post_Id &&
-                          dropdownState && (
-                            <div className="dropdown-items-list">
-                              <Link
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                                to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
-                                {" "}
-                                <span>
-                                  <RiShareBoxFill
-                                    style={{ marginRight: "0.3rem" }}
-                                  />
-                                  Read Post
-                                </span>{" "}
-                              </Link>
-
-                              {props.user.Auth &&
-                                props.user.userData.userId === post.userId && (
-                                  <React.Fragment>
-                                    <span>
-                                      <RiEditBoxLine
-                                        style={{ marginRight: "0.3rem" }}
-                                      />
-                                      Edit Post
-                                    </span>
-                                    <span onClick={() => handleDelete(post)}>
-                                      <RiDeleteBinLine
-                                        style={{ marginRight: "0.3rem" }}
-                                      />
-                                      Delete Post
-                                    </span>
-                                  </React.Fragment>
-                                )}
-                              <span>
-                                <RiUserLine style={{ marginRight: "0.3rem" }} />
-                                User details
-                              </span>
-                            </div>
-                          )}
-                      </div>
+                      <Dropdown
+                        user={props.user}
+                        handleDelete={handleDelete}
+                        post={post}
+                        fieldState={true}
+                      />
 
                       {/* <Link
                         to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>

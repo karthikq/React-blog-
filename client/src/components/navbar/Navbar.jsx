@@ -6,9 +6,10 @@ import { Link } from "react-router-dom";
 import "./navbar.styles.scss";
 import { useHistory, useLocation } from "react-router-dom";
 import Select from "react-select";
-
+import { RiUserLine } from "react-icons/ri";
 import { logoutUser } from "../../redux/actions";
 import avatar from "./download.svg";
+import { IoIosLogIn, IoIosLogOut } from "react-icons/io";
 
 const customStyles = {
   control: (base) => ({
@@ -46,9 +47,9 @@ const Navbar = (props) => {
   const [dropdownState, setDropdownState] = useState(false);
   const ref = useRef();
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
-  const path = location.pathname.split("/")[2];
+  // const path = location.pathname.split("/")[2];
 
   setTimeout(() => {
     const list = document.querySelectorAll("#ul li");
@@ -101,7 +102,7 @@ const Navbar = (props) => {
           <div className="brand-logo">
             <Link to="/">
               <img
-                src="https://i.ibb.co/HN1s5Td/logo-react-blog8.png"
+                src="https://i.ibb.co/yPBrs0Z/ARTICLESg.png"
                 alt="brand logo"
               />{" "}
             </Link>
@@ -120,14 +121,23 @@ const Navbar = (props) => {
                 {props.isAuth && (
                   <Link
                     to={`/user/profile/${props.userDetails?.userId}?path=posts`}>
-                    <span onClick={() => setDropdownState(false)}>Profile</span>
+                    <span onClick={() => setDropdownState(false)}>
+                      {" "}
+                      <RiUserLine /> Profile
+                    </span>
                   </Link>
                 )}
                 {props.isAuth ? (
-                  <span onClick={handleLogout}>Logout</span>
+                  <span onClick={handleLogout}>
+                    {" "}
+                    <IoIosLogOut /> Logout
+                  </span>
                 ) : (
                   <Link to="/user/login">
-                    <span onClick={() => setDropdownState(false)}>Login</span>
+                    <span onClick={() => setDropdownState(false)}>
+                      {" "}
+                      <IoIosLogIn /> Login
+                    </span>
                   </Link>
                 )}
               </div>

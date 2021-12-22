@@ -19,12 +19,14 @@ import {
   removeLikes,
 } from "../../redux/actions/post";
 import ImageFlip from "../../ImageFlip/ImageFlip";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import FavComp from "../../components/FavComp";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Alert from "../../components/alert/Alert";
+import Dropdown from "../../components/Dropdown/Dropdown";
 
 const SingleField = (props) => {
+  const location = useLocation();
   const [posts, setPosts] = useState("");
   const [itemState, setitemState] = useState(false);
   const [alertState, setAlertState] = useState(false);
@@ -32,6 +34,18 @@ const SingleField = (props) => {
   const [selPost, setselPost] = useState("");
 
   const { id } = useParams();
+  const { scroll } = window.Qs.parse(location.search, {
+    ignoreQueryPrefix: true,
+  });
+  if (scroll) {
+    setTimeout(() => {
+      const el = document.getElementById(scroll);
+      el.scrollIntoView({
+        behavior: "smooth",
+      });
+      window.history.pushState({}, "field", "/field/" + id);
+    }, 1200);
+  }
 
   useEffect(() => {
     const FieldPost = props.userposts.find(
@@ -69,6 +83,7 @@ const SingleField = (props) => {
         <div className="sfield-posts">
           {posts?.usersPost?.map((item, index) => (
             <div
+              id={item.post_Id}
               className={
                 (index + 1) % 2 === 0
                   ? "sfield-post-box post-align-left"
@@ -142,14 +157,20 @@ const SingleField = (props) => {
                   favClass="sfield-fav-icon-fill"
                   user={props.user}
                 />
-                {props.user.userData.userId === item.userId && (
+                <Dropdown
+                  handleDelete={handleDelete}
+                  user={props.user}
+                  post={item}
+                  fieldState={(index + 1) % 2 === 0 ? false : true}
+                />
+                {/* {props.user.userData.userId === item.userId && (
                   <div className="sfield-delete">
                     <RiDeleteBinLine
                       onClick={() => handleDelete(item)}
                       className="sfield-delete-icon"
                     />
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           ))}

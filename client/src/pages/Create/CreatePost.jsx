@@ -10,9 +10,12 @@ import imageCompression from "browser-image-compression";
 import { connect } from "react-redux";
 import { CreateUserPost } from "../../redux/actions/post";
 import history from "../../history";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 import ImageUpload from "../../customhook/ImageUpload";
 import errImage from "./warning.png";
+
 export class CreatePost extends Component {
   state = {
     selectState: true,
@@ -26,6 +29,7 @@ export class CreatePost extends Component {
     imageFile: "",
     largeSize: false,
     details: "",
+    pval: 0,
     userPosts: {
       title: "",
       description: "",
@@ -33,9 +37,11 @@ export class CreatePost extends Component {
       image: "",
     },
   };
+
   componentDidMount() {
     this.ref = createRef();
     this.ref2 = createRef();
+    this.setState({ userPosts: { ...this.state.userPosts, title: "2" } });
   }
   getFiles = async (e) => {
     if (!e.target.files[0]) {
@@ -76,15 +82,23 @@ export class CreatePost extends Component {
       toast.success("Post Created", {
         id: this.toastId,
       });
-      await this.props.CreateUserPost(this.state.userPosts);
+      const resp = await this.props.CreateUserPost(this.state.userPosts);
 
       this.setState({ uploadStatus: "Image uploaded sucessfully" });
 
       setTimeout(() => {
         this.setState({ submitState: false });
-        history.push("/field/" + this.state.userPosts.fieldName.toLowerCase());
+        history.push(
+          "/field/" +
+            this.state.userPosts.fieldName.toLowerCase() +
+            "?scroll=" +
+            resp.post_Id
+        );
       }, 2000);
     }
+  };
+  handleProgress = (progress) => {
+    this.setState({ pval: progress });
   };
   handleSubmit = async (e) => {
     e.preventDefault();
@@ -107,7 +121,10 @@ export class CreatePost extends Component {
       await ImageUpload(
         this.state.imageFile,
         this.progressbar,
-        this.handleImage
+        this.handleImage,
+        toast,
+        this.state.userPosts,
+        this.handleProgress
       );
     }, 1200);
   };
@@ -119,6 +136,17 @@ export class CreatePost extends Component {
             <div ref={this.ref2} className="progress">
               <p> {this.state.uploadStatus}</p>
               <span className="progress-span"> </span>
+              <div style={{ width: 120, height: 120, margin: "1.5rem auto" }}>
+                <CircularProgressbar
+                  value={this.state.pval}
+                  maxValue={100}
+                  strokeWidth={5}
+                  styles={buildStyles({
+                    pathColor: "#4dbc92",
+                  })}
+                  text={`${this.state.pval}%`}
+                />
+              </div>
             </div>
             <Toaster />
           </div>

@@ -12,7 +12,14 @@ import {
 firebaseApp();
 const storage = getStorage();
 
-const ImageUpload = (file, progressbar, handleImage, toast, data) => {
+const ImageUpload = (
+  file,
+  progressbar,
+  handleImage,
+  toast,
+  data,
+  handlePorgress
+) => {
   const storageRef = ref(storage);
   const imageRef = ref(storageRef, file.name);
   const uploadTask = uploadBytesResumable(imageRef, file);
@@ -25,6 +32,7 @@ const ImageUpload = (file, progressbar, handleImage, toast, data) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
 
       progressbar.style.width = progress + "%";
+      handlePorgress && handlePorgress(progress);
     },
     (error) => {
       toast.error("Please refresh and submit again");

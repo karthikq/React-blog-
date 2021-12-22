@@ -160,14 +160,15 @@
       }
     }
     .t-span-feild {
-      color: #8b8b8b;
-      font-weight: 500;
-      letter-spacing: 0.6px;
-      font-size: 0.95rem;
+      color: #8b8b8be0;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      font-size: 0.9rem;
       margin-bottom: 2rem;
       text-align: right;
       width: 100%;
       display: block;
+      text-decoration: underline;
     }
     margin-top: 2rem;
     h1 {
@@ -231,7 +232,7 @@
   }
   .item-contents {
     padding: 3% 0 5%;
-    width: 92%;
+    width: 90%;
     margin: 0 auto;
   }
   .item-body {
@@ -265,7 +266,7 @@
     .item-details {
       margin-top: 2rem;
       h1 {
-        font-size: 1.2rem;
+        font-size: 1.31rem;
 
         font-weight: 600;
         margin-bottom: 0.8rem;

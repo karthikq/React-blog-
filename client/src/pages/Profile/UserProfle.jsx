@@ -10,6 +10,9 @@ import UserPost from "../../components/UserPost";
 import { Link } from "react-router-dom";
 import history from "../../history";
 import UserSettings from "../../components/ProfileComp/UserSettings";
+import { FiSettings } from "react-icons/fi";
+import { BsHeart, BsHeartFill, BsListUl } from "react-icons/bs";
+import { BiLike } from "react-icons/bi";
 
 const UserProfle = ({ user, posts, otherusers }) => {
   const { id } = useParams();
@@ -33,11 +36,7 @@ const UserProfle = ({ user, posts, otherusers }) => {
     ignoreQueryPrefix: true,
   });
 
-  useEffect(() => {
-    if (path) setUserpath(path);
-  }, [path]);
   const handleUserClick = (userselPath) => {
-    setUserpath(userselPath);
     history.push(`/user/profile/${id}?path=${userselPath}`);
   };
   return (
@@ -57,7 +56,11 @@ const UserProfle = ({ user, posts, otherusers }) => {
                 path !== "posts" ? "up-p-tag" : "up-p-tag up-p-tag-active"
               }
               onClick={() => handleUserClick("posts")}>
-              Posts <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
+              {" "}
+              <span>
+                <BsListUl /> Posts{" "}
+              </span>
+              <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
             </p>
             {adminUser && (
               <p
@@ -65,7 +68,10 @@ const UserProfle = ({ user, posts, otherusers }) => {
                   path !== "settings" ? "up-p-tag" : "up-p-tag up-p-tag-active"
                 }
                 onClick={() => handleUserClick("settings")}>
-                Settings{" "}
+                <span>
+                  <FiSettings /> Settings{" "}
+                </span>
+
                 <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
               </p>
             )}
@@ -75,7 +81,11 @@ const UserProfle = ({ user, posts, otherusers }) => {
                   path !== "likes" ? "up-p-tag" : "up-p-tag  up-p-tag-active"
                 }
                 onClick={() => handleUserClick("likes")}>
-                Likes <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
+                {" "}
+                <span>
+                  <BiLike /> Likes
+                </span>
+                <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
               </p>
             )}
             <p
@@ -83,7 +93,9 @@ const UserProfle = ({ user, posts, otherusers }) => {
                 path !== "favorites" ? "up-p-tag" : "up-p-tag up-p-tag-active"
               }
               onClick={() => handleUserClick("favorites")}>
-              favorites{" "}
+              <span>
+                <BsHeart /> favorites
+              </span>
               <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
             </p>
           </div>

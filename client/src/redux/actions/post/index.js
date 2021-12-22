@@ -39,11 +39,27 @@ export const CreateUserPost = (postDetails) => async (dispatch, getState) => {
         payload: data,
       });
     }
+    return data;
   } catch (error) {
     console.log(error);
   }
 };
-
+export const UpdateUserpost = (postData, toast) => async (dispatch) => {
+  try {
+    const { data } = await Api.patch(
+      `/user/post/update/${postData.post_Id}`,
+      postData
+    );
+    if (data) {
+      dispatch({
+        type: "UP_USER_POST",
+        payload: data,
+      });
+    }
+  } catch (error) {
+    toast.error("Please refresh and try again");
+  }
+};
 export const fetchUsersPosts = () => async (dispatch, getState) => {
   await dispatch(FetchPosts());
 

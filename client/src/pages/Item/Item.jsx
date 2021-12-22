@@ -19,6 +19,8 @@ import FavComp from "../../components/FavComp";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Alert from "../../components/alert/Alert";
 import history from "../../history";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import { Link } from "react-router-dom";
 
 const Item = (props) => {
   const [data, setData] = useState("");
@@ -117,7 +119,10 @@ const Item = (props) => {
                 />{" "}
               </div>
               <div className="item-details">
-                <span className="t-span-feild">Field : {field} </span>
+                <Link to={"/field/" + field}>
+                  <span className="t-span-feild">Field : {field} </span>
+                </Link>
+
                 <h1>
                   <span className="home-t-span">Title</span> : {data.title}{" "}
                   <sub>{field}</sub>{" "}

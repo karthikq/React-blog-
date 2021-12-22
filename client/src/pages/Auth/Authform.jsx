@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillGithub, AiOutlineMail } from "react-icons/ai";
 import imageCompression from "browser-image-compression";
 
 import { connect } from "react-redux";
@@ -21,6 +21,8 @@ import CropImage from "../../components/CropImage/CropImage";
 import { async } from "@firebase/util";
 import ImageUpload from "../../customhook/ImageUpload";
 import toast, { Toaster } from "react-hot-toast";
+import { RiPassportLine, RiUserFill, RiUserLine } from "react-icons/ri";
+import { MdPassword } from "react-icons/md";
 
 const schema = yup
   .object()
@@ -155,7 +157,10 @@ const Authform = ({
                     })}
                   />
                   <div className="underline"> </div>
-                  <label>Username</label>
+                  <label>
+                    {" "}
+                    <RiUserLine style={{ color: "#35c26b" }} /> Username
+                  </label>
                 </Inputfield>
 
                 <span className="auth-errors">
@@ -169,7 +174,10 @@ const Authform = ({
             <Inputfield>
               <input type="text" required {...register("email")} />
               <div className="underline"> </div>
-              <label>Email</label>
+              <label>
+                {" "}
+                <AiOutlineMail style={{ color: "#35c26b" }} /> Email
+              </label>
             </Inputfield>
             <span className="auth-errors">
               {errors.email && errors.email.message}
@@ -183,7 +191,9 @@ const Authform = ({
             <Inputfield>
               <input type={passwordType} required {...register("password")} />
               <div className="underline"> </div>
-              <label>Password</label>
+              <label>
+                <MdPassword style={{ color: "#35c26b" }} /> Password
+              </label>
               <div
                 className="check-password"
                 onClick={() =>
@@ -209,7 +219,10 @@ const Authform = ({
                     {...register("confirmpassword")}
                   />
                   <div className="underline"> </div>
-                  <label>Confirm Password</label>
+                  <label>
+                    {" "}
+                    <MdPassword style={{ color: "#35c26b" }} /> Confirm Password
+                  </label>
                 </Inputfield>{" "}
                 <span className="auth-errors">
                   {errors.confirmpassword && errors.confirmpassword.message}

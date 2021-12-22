@@ -71,6 +71,12 @@ export const PostsReducer = (state = inittalState, action) => {
       );
     case "FETCH_POST":
       return [...action.payload];
+    case "UP_USER_POST":
+      return state.map((items) =>
+        items.fieldName === action.payload.fieldName
+          ? { ...items, usersPost: action.payload.usersPost }
+          : items
+      );
 
     case "DELETE_POST":
       return state.map((item) =>

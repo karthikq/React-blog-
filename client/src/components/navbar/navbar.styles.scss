@@ -50,6 +50,7 @@
 .select-dropdown {
   width: 12rem;
   padding: 0 0;
+  text-align: r;
 }
 .nav-profile {
   width: 60px;
@@ -97,11 +98,14 @@
       color: inherit;
     }
     span {
-      display: block;
-      padding: 0.2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0 0.4rem;
+      padding: 0.05rem 0;
       margin: 0.11rem 0 0.3rem;
-      font-weight: 500;
-      font-size: 0.92rem;
+      font-weight: 400;
+      font-size: 0.9rem;
       font-family: "Quicksand", sans-serif;
       cursor: pointer;
       text-align: center;

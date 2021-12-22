@@ -20,6 +20,7 @@ import SingleField from "./pages/singleField/SingleField";
 import Item from "./pages/Item/Item";
 import toast, { Toaster } from "react-hot-toast";
 import UserProfle from "./pages/Profile/UserProfle";
+import EditPost from "./pages/Create/EditPost";
 
 function App(props) {
   const { user, username } = window.Qs.parse(window.location.search, {
@@ -56,6 +57,7 @@ function App(props) {
         <Route path="/user/register" exact component={Register} />
         <Route path="/post" exact component={Item} />
         <Route path="/user/profile/:id" exact component={UserProfle} />
+        <Route path="/user/post/edit/:id" exact component={EditPost} />
       </Switch>
       <Toaster />
     </React.Fragment>

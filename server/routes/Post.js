@@ -61,6 +61,34 @@ router.post("/data/post", Authmiddleware, async (req, res) => {
   }
 });
 
+router.patch("/user/post/update/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const { fieldName, title, image, description } = req.body;
+  const fieldDetails = await Post.findOne({ fieldName });
+
+  if (fieldDetails) {
+    try {
+      const updatePost = await Post.findOneAndUpdate(
+        { fieldName, "usersPost.post_Id": id },
+        {
+          $set: {
+            "usersPost.$.title": title,
+            "usersPost.$.description": description,
+            "usersPost.$.image": image,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      res.json(updatePost);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+});
+
 router.get("/user/posts", async (req, res) => {
   const posts = await Post.find({});
   res.json(posts);
