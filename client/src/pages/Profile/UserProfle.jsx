@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import "./up.styles.scss";
-import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineContacts, MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { useParams } from "react-router";
 import { connect } from "react-redux";
 
@@ -17,8 +17,6 @@ import { BiLike } from "react-icons/bi";
 const UserProfle = ({ user, posts, otherusers }) => {
   const { id } = useParams();
 
-  const [userPosts, setUserPost] = useState([]);
-  const [userpath, setUserpath] = useState("");
   const [adminUser, setadminUser] = useState(false);
   const [userDetails, setUserDetails] = useState({});
 
@@ -81,7 +79,6 @@ const UserProfle = ({ user, posts, otherusers }) => {
                   path !== "likes" ? "up-p-tag" : "up-p-tag  up-p-tag-active"
                 }
                 onClick={() => handleUserClick("likes")}>
-                {" "}
                 <span>
                   <BiLike /> Likes
                 </span>
@@ -94,10 +91,22 @@ const UserProfle = ({ user, posts, otherusers }) => {
               }
               onClick={() => handleUserClick("favorites")}>
               <span>
-                <BsHeart /> favorites
+                <BsHeart /> Favorites
               </span>
               <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
             </p>
+            {!adminUser && (
+              <p
+                className={
+                  path !== "contact" ? "up-p-tag" : "up-p-tag up-p-tag-active"
+                }
+                onClick={() => handleUserClick("contact")}>
+                <span>
+                  <MdOutlineContacts /> Contact
+                </span>
+                <MdOutlineKeyboardArrowRight className="up-arraow-icon" />
+              </p>
+            )}
           </div>
         </div>
         <div className="up-details">
@@ -159,6 +168,30 @@ const UserProfle = ({ user, posts, otherusers }) => {
                 <h2>No Favorites items found</h2>
               )}
             </React.Fragment>
+          )}
+          {path === "contact" ? (
+            adminUser ? (
+              ""
+            ) : (
+              <div className="contact-container">
+                <h3>
+                  Username :{" "}
+                  <span style={{ fontWeight: 400 }}>
+                    {userDetails?.username}
+                  </span>
+                </h3>
+                <h4>
+                  Email :
+                  <span style={{ fontWeight: 400 }}>{userDetails?.email} </span>
+                </h4>
+                {/* <h5>
+                  To Mail {userDetails.username}
+                  <Link to="/"> Click here </Link>
+                </h5> */}
+              </div>
+            )
+          ) : (
+            ""
           )}
         </div>
       </div>

@@ -16,6 +16,9 @@ import { useRef } from "react";
 import { UpdateUserpost } from "../../redux/actions/post";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import Select from "react-select";
+import { MdPublic } from "react-icons/md";
+import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 
 const EditPost = (props) => {
   const {
@@ -32,6 +35,9 @@ const EditPost = (props) => {
   const [uploadStatus, setUploadStatus] = useState("Uploading");
   const [submitState, setSubmitState] = useState(false);
   const [pval, setpval] = useState(0);
+
+  const [noStatus, setnoStatus] = useState(false);
+  const [postStatus, setPostStatus] = useState("");
 
   const { field } = window.Qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -56,6 +62,7 @@ const EditPost = (props) => {
           image: selPost.image,
         });
         setImgFile(selPost.image);
+        setPostStatus(selPost.status);
       }
     }, 1200);
   }, [id, field, props]);
@@ -90,7 +97,8 @@ const EditPost = (props) => {
       userDetails.post_Id = id;
       userDetails.userId = selPostItem.userId;
       userDetails.fieldName = field;
-
+      userDetails.status = postStatus;
+      console.log(userDetails);
       await props.UpdateUserpost(userDetails);
       toast.dismiss();
       toast.success("Data updated", {
@@ -107,47 +115,62 @@ const EditPost = (props) => {
     setpval(progressval);
   };
   const onsubmit = async (data) => {
-    setSubmitState(true);
-    if (data.image === imgFile) {
-      setUploadStatus("Updating Data");
-      const toastId = toast.loading("Saving Data");
-      data.post_Id = id;
-      data.userId = selPostItem.userId;
-      data.fieldName = field;
-
-      await props.UpdateUserpost(data);
-      toast.success("Data saved", {
-        id: toastId,
-      });
-      setUploadStatus("Data saved");
-      setTimeout(() => {
-        ref.current.children[0].innerHtml = "Image Uploaded";
-        setSubmitState(false);
-        history.push("/field/" + field + "?scroll=" + id);
-      }, 2000);
+    if (!postStatus) {
+      return setnoStatus(true);
     } else {
-      setUploadStatus("Updating Image please wait");
-      if (!imgFile) {
-        return setImgFile({ name: "error" });
-      }
-      data.image = "";
-      toast.loading("Updating data Please wait", {
-        id: "loading",
-      });
-      setTimeout(async () => {
-        const progressbar = ref.current.children[1];
+      setnoStatus(false);
+      setSubmitState(true);
 
-        await ImageUpload(
-          imgFile,
-          progressbar,
-          handleImage,
-          toast,
-          data,
-          handlePorgress
-        );
-      }, 1200);
+      if (data.image === imgFile) {
+        setUploadStatus("Updating Data");
+        const toastId = toast.loading("Saving Data");
+        data.post_Id = id;
+        data.userId = selPostItem.userId;
+        data.fieldName = field;
+        data.status = postStatus;
+
+        await props.UpdateUserpost(data);
+        toast.success("Data saved", {
+          id: toastId,
+        });
+        setUploadStatus("Data saved");
+        setTimeout(() => {
+          ref.current.children[0].innerHtml = "Image Uploaded";
+          setSubmitState(false);
+          history.push("/field/" + field + "?scroll=" + id);
+        }, 2000);
+      } else {
+        setUploadStatus("Updating Image please wait");
+        if (!imgFile) {
+          return setImgFile({ name: "error" });
+        }
+        data.image = "";
+        toast.loading("Updating data Please wait", {
+          id: "loading",
+        });
+        setTimeout(async () => {
+          const progressbar = ref.current.children[1];
+
+          await ImageUpload(
+            imgFile,
+            progressbar,
+            handleImage,
+            toast,
+            data,
+            handlePorgress
+          );
+        }, 1200);
+      }
     }
   };
+  const options = [
+    { value: "Public", label: "Public", icon: <MdPublic /> },
+    {
+      value: "Private",
+      label: "Private",
+      icon: <RiGitRepositoryPrivateLine />,
+    },
+  ];
   return (
     <div className="create-conatiner">
       {submitState && (
@@ -195,6 +218,34 @@ const EditPost = (props) => {
                 placeholder="Description of the article"
                 {...register("description")}></textarea>
               <span className="desp-length"></span>
+            </div>
+            <div className="input-container">
+              <label style={{ marginBottom: "0.8rem" }}>Status</label>
+              <Select
+                options={options}
+                value={options.filter((opt) => opt.value === postStatus)}
+                onChange={({ value }) => setPostStatus(value)}
+                getOptionLabel={(e) => (
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    {e.icon}
+                    <span style={{ marginLeft: 5, fontSize: 15 }}>
+                      {e.value}
+                    </span>
+                  </div>
+                )}
+              />
+
+              {noStatus && (
+                <span
+                  style={{
+                    marginTop: "0.7rem",
+                    display: "block",
+                    fontSize: "0.8rem",
+                    color: "red",
+                  }}>
+                  This field is required !
+                </span>
+              )}
             </div>
             <div className="input-container" style={{ cursor: "not-allowed" }}>
               <label>Field</label>

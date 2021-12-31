@@ -16,6 +16,7 @@ router.get("/", (req, res) => {
 router.post("/data/post", Authmiddleware, async (req, res) => {
   const date = mommnet().format("MMMM Do YYYY h:mm:ss a");
   const post_Id = nanoid();
+  const sortDate = new Date();
 
   if (req.user) {
     try {
@@ -27,6 +28,8 @@ router.post("/data/post", Authmiddleware, async (req, res) => {
       req.body.post_Id = post_Id;
       req.body.like = 0;
       req.body.dislike = 0;
+      req.body.date = date;
+      req.body.sortDate = sortDate;
 
       if (checkFieldName) {
         await Post.findOneAndUpdate(
@@ -64,7 +67,7 @@ router.post("/data/post", Authmiddleware, async (req, res) => {
 router.patch("/user/post/update/:id", async (req, res) => {
   const { id } = req.params;
 
-  const { fieldName, title, image, description } = req.body;
+  const { fieldName, title, image, description, status } = req.body;
   const fieldDetails = await Post.findOne({ fieldName });
 
   if (fieldDetails) {
@@ -76,6 +79,7 @@ router.patch("/user/post/update/:id", async (req, res) => {
             "usersPost.$.title": title,
             "usersPost.$.description": description,
             "usersPost.$.image": image,
+            "usersPost.$.status": status,
           },
         },
         {

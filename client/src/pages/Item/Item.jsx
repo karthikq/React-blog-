@@ -16,10 +16,10 @@ import {
 import { FiDownloadCloud } from "react-icons/fi";
 import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import FavComp from "../../components/FavComp";
-import { RiDeleteBinLine } from "react-icons/ri";
+import { RiDeleteBinLine, RiEditBoxLine } from "react-icons/ri";
 import Alert from "../../components/alert/Alert";
 import history from "../../history";
-import Dropdown from "../../components/Dropdown/Dropdown";
+
 import { Link } from "react-router-dom";
 
 const Item = (props) => {
@@ -76,6 +76,18 @@ const Item = (props) => {
           <div className="item-body">
             <div className="itempostimg-div">
               <img src={data.image} alt="itemimage" className="itempostimg" />{" "}
+              <p className="item-date">
+                Created at : {new Date(data.sortDate).toLocaleDateString()}
+              </p>{" "}
+              <div className="item-download" title="Download Image">
+                <a
+                  download={data.image}
+                  href={data.image}
+                  target="_blank"
+                  rel="noreferrer">
+                  <FiDownloadCloud className="item-download-icon" />
+                </a>
+              </div>
             </div>
             <div className="item-post-details">
               <div className="itempostlikes">
@@ -92,22 +104,25 @@ const Item = (props) => {
                     />
                   </div>
                   {props.user.userData.userId === data.userId && (
-                    <div className="item-delete">
+                    <div className="item-delete" title="Delete Post">
                       <RiDeleteBinLine
                         className="item-delete-icon"
                         onClick={() => handleDelete(data)}
                       />
                     </div>
                   )}
-                  <div className="item-download">
-                    <a
-                      download={data.image}
-                      href={data.image}
-                      target="_blank"
-                      rel="noreferrer">
-                      <FiDownloadCloud className="item-download-icon" />
-                    </a>{" "}
-                  </div>{" "}
+                  {props.user.userData.userId === data.userId && (
+                    <div className="edit-icon-div">
+                      <Link
+                        title="Edit Post"
+                        to={`/user/post/edit/${data.post_Id}?field=${data.fieldName}`}>
+                        <RiEditBoxLine
+                          className="item-edit-icon"
+                          style={{ marginRight: "0.2rem" }}
+                        />
+                      </Link>
+                    </div>
+                  )}
                 </div>
                 <UserLikes
                   props={props}

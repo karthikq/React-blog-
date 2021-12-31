@@ -3,7 +3,7 @@
 import React, { Component, createRef } from "react";
 import "./create.styles.scss";
 import toast, { Toaster } from "react-hot-toast";
-
+import Select from "react-select";
 import "../../constant.styles.scss";
 import Animation from "../../lottie/Animation";
 import imageCompression from "browser-image-compression";
@@ -16,10 +16,14 @@ import "react-circular-progressbar/dist/styles.css";
 import ImageUpload from "../../customhook/ImageUpload";
 import errImage from "./warning.png";
 
+import { RiGitRepositoryPrivateLine } from "react-icons/ri";
+import { MdPublic } from "react-icons/md";
+
 export class CreatePost extends Component {
   state = {
     selectState: true,
     submitState: false,
+    noStatus: false,
     fields: [],
     uploadStatus: "Uploading Image...",
     files: {
@@ -35,6 +39,7 @@ export class CreatePost extends Component {
       description: "",
       fieldName: "Design",
       image: "",
+      status: "",
     },
   };
 
@@ -42,6 +47,14 @@ export class CreatePost extends Component {
     this.ref = createRef();
     this.ref2 = createRef();
     this.setState({ userPosts: { ...this.state.userPosts, title: "2" } });
+    this.options = [
+      { value: "Public", label: "Public", icon: <MdPublic /> },
+      {
+        value: "Private",
+        label: "Private",
+        icon: <RiGitRepositoryPrivateLine />,
+      },
+    ];
   }
   getFiles = async (e) => {
     if (!e.target.files[0]) {
@@ -89,10 +102,10 @@ export class CreatePost extends Component {
       setTimeout(() => {
         this.setState({ submitState: false });
         history.push(
-          "/field/" +
-            this.state.userPosts.fieldName.toLowerCase() +
-            "?scroll=" +
-            resp.post_Id
+          "/post/?postId=" +
+            resp.post_Id +
+            "&field=" +
+            this.state.userPosts.fieldName
         );
       }, 2000);
     }
@@ -102,41 +115,44 @@ export class CreatePost extends Component {
   };
   handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!this.state.imageFile) {
-      return this.setState({ details: "This field is required" });
+    if (!this.state.userPosts.status) {
+      return this.setState({ noStatus: true });
+    } else {
+      this.setState({ noStatus: false });
+      if (!this.state.imageFile) {
+        return this.setState({ details: "This field is required" });
+      }
+      const containes = document
+        .querySelector(".createimg")
+        .classList.contains("error-img");
+      if (containes) {
+        return this.setState({ details: "This field is required" });
+      }
+      this.setState({ submitState: true });
+      this.toastId = toast.loading("Creating post please wait ");
+      setTimeout(async () => {
+        this.progressbar = this.ref2.current.children[1];
+        await ImageUpload(
+          this.state.imageFile,
+          this.progressbar,
+          this.handleImage,
+          toast,
+          this.state.userPosts,
+          this.handleProgress
+        );
+      }, 1200);
     }
-
-    const containes = document
-      .querySelector(".createimg")
-      .classList.contains("error-img");
-    if (containes) {
-      return this.setState({ details: "This field is required" });
-    }
-
-    this.setState({ submitState: true });
-    this.toastId = toast.loading("Creating post please wait ");
-    setTimeout(async () => {
-      this.progressbar = this.ref2.current.children[1];
-      await ImageUpload(
-        this.state.imageFile,
-        this.progressbar,
-        this.handleImage,
-        toast,
-        this.state.userPosts,
-        this.handleProgress
-      );
-    }, 1200);
   };
+
   render() {
     return (
       <div className="create-conatiner">
         {this.state.submitState && (
           <div className="image-progress-upload">
             <div ref={this.ref2} className="progress">
-              <p> {this.state.uploadStatus}</p>
+              <p style={{ fontWeight: 500 }}> {this.state.uploadStatus}</p>
               <span className="progress-span"> </span>
-              <div style={{ width: 120, height: 120, margin: "1.5rem auto" }}>
+              <div style={{ width: 100, height: 100, margin: "1.5rem auto" }}>
                 <CircularProgressbar
                   value={this.state.pval}
                   maxValue={100}
@@ -166,7 +182,7 @@ export class CreatePost extends Component {
                   name="title"
                   placeholder="Title of the article"
                   required
-                  minLength="7"
+                  minLength="3"
                   onChange={(e) => {
                     this.setState({
                       userPosts: {
@@ -184,7 +200,7 @@ export class CreatePost extends Component {
                   cols="30"
                   required
                   rows="5"
-                  minLength="20"
+                  minLength="10"
                   onChange={(e) => {
                     this.setState({
                       userPosts: {
@@ -200,8 +216,42 @@ export class CreatePost extends Component {
                 </span>
               </div>
               <div className="input-container">
+                <label style={{ marginBottom: "0.8rem" }}>Status</label>
+                <Select
+                  options={this.options}
+                  onChange={({ value }) =>
+                    this.setState({
+                      userPosts: {
+                        ...this.state.userPosts,
+                        status: value,
+                      },
+                    })
+                  }
+                  getOptionLabel={(e) => (
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      {e.icon}
+                      <span style={{ marginLeft: 5, fontSize: 15 }}>
+                        {e.value}
+                      </span>
+                    </div>
+                  )}
+                />
+
+                {this.state.noStatus && (
+                  <span
+                    style={{
+                      marginTop: "0.7rem",
+                      display: "block",
+                      fontSize: "0.8rem",
+                      color: "red",
+                    }}>
+                    This field is required !{" "}
+                  </span>
+                )}
+              </div>
+              <div className="input-container">
                 <label>Field</label>
-                {this.state.selectState ? (
+                {!this.state.selectState ? (
                   <select
                     name="fieldName"
                     required
@@ -218,7 +268,7 @@ export class CreatePost extends Component {
                     {/* 
                     <option value="Engineering">Engineering</option>
                     <option value="Fashion">Fashion</option>
-                    <option value="Sports">Sports</option>
+                    <optin value="Sports">Sports</optin>
                     <option value="News">News</option>
                     <option value="Festival">Festival</option>
                     <option value="Religion">Religion</option> */}
@@ -249,7 +299,7 @@ export class CreatePost extends Component {
                   />
                 )}
                 <p className="usercreate-field">
-                  {this.state.selectState
+                  {!this.state.selectState
                     ? "Or To create new field   "
                     : "Or to choose from dropdown  "}
                   <span

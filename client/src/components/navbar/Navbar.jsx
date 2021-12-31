@@ -10,6 +10,13 @@ import { RiUserLine } from "react-icons/ri";
 import { logoutUser } from "../../redux/actions";
 import avatar from "./download.svg";
 import { IoIosLogIn, IoIosLogOut } from "react-icons/io";
+import { FaBitcoin } from "react-icons/fa";
+import {
+  AiOutlineAntDesign,
+  AiOutlineArrowUp,
+  AiOutlinePlusSquare,
+} from "react-icons/ai";
+import { MdEngineering } from "react-icons/md";
 
 const customStyles = {
   control: (base) => ({
@@ -122,20 +129,17 @@ const Navbar = (props) => {
                   <Link
                     to={`/user/profile/${props.userDetails?.userId}?path=posts`}>
                     <span onClick={() => setDropdownState(false)}>
-                      {" "}
                       <RiUserLine /> Profile
                     </span>
                   </Link>
                 )}
                 {props.isAuth ? (
                   <span onClick={handleLogout}>
-                    {" "}
                     <IoIosLogOut /> Logout
                   </span>
                 ) : (
                   <Link to="/user/login">
                     <span onClick={() => setDropdownState(false)}>
-                      {" "}
                       <IoIosLogIn /> Login
                     </span>
                   </Link>
@@ -148,20 +152,31 @@ const Navbar = (props) => {
       <div className="list-nav">
         <ul id="ul" ref={ref}>
           <li>
-            <Link to="/">Popular</Link>
+            <Link to="/">
+              <AiOutlineArrowUp className="list-nav-icon" /> Popular
+            </Link>
           </li>
           <li>
-            <Link to="/field/sports">Sports</Link>
+            <Link to="/field/sports">
+              <FaBitcoin className="list-nav-icon" /> Crypto
+            </Link>
           </li>
           <li>
-            <Link to="/field/engineering">Engineering</Link>
+            <Link to="/field/engineering">
+              <MdEngineering className="list-nav-icon" /> Engineering
+            </Link>
           </li>
           <li>
-            <Link to="/field/design">Design</Link>
+            <Link to="/field/design">
+              <AiOutlineAntDesign className="list-nav-icon" /> Design
+            </Link>
           </li>
           {props.isAuth && (
             <li>
-              <Link to="/create/post">Create</Link>
+              <Link to="/create/post">
+                {" "}
+                <AiOutlinePlusSquare className="list-nav-icon" /> Create
+              </Link>
             </li>
           )}
           <li>

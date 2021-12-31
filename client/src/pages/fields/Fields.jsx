@@ -33,12 +33,14 @@ import { Link } from "react-router-dom";
 import FavComp from "../../components/FavComp";
 import Alert from "../../components/alert/Alert";
 import "antd/dist/antd.less";
+import { useEffect } from "react";
 
 const Fields = (props) => {
   const [alertState, setAlertState] = useState(false);
   const [alertsucessState, setAlertsucessState] = useState(false);
 
   const [selPost, setselPost] = useState("");
+  const [postData, setpostData] = useState([]);
 
   const handleDelete = (post) => {
     console.log(post);
@@ -57,6 +59,14 @@ const Fields = (props) => {
     // setAlertState(true);
     setAlertsucessState(true);
   };
+  useEffect(() => {
+    const resp = props.item.usersPost.sort((a, b) => {
+      if (a.sortDate || b.sortDate) {
+        return new Date(b.sortDate) - new Date(a.sortDate);
+      }
+    });
+    setpostData(resp);
+  }, [props]);
 
   return (
     <div className="field-container">
@@ -130,74 +140,75 @@ const Fields = (props) => {
               <p className="field-right-header">
                 {props.item.usersPost.length > 1 && "Related Articles"}
               </p>
-              {props.item.usersPost.map((post, index) =>
-                index >= 0 ? (
-                  <div
-                    className="field-right-items"
-                    key={index}
-                    id={post.post_Id}>
-                    <FavComp
-                      addFav={handleFav}
-                      removeFav={removeFav}
-                      post={post}
-                      user={props.user}
-                      itemClass="field-fav"
-                      iconClass="fav-icon"
-                      favClass="fav-fill"
-                    />
-                    <Link
-                      className="fieldatag"
-                      style={{ textDecoration: "none" }}
-                      to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
-                      <h3>
-                        {post.title.length > 70
-                          ? post.title.substring(0, 50) + " ..."
-                          : post.title}{" "}
-                      </h3>
-                    </Link>
+              {postData.map((post, index) =>
+                index >= 0
+                  ? post.status === "Public" && (
+                      <div
+                        className="field-right-items"
+                        key={index}
+                        id={post.post_Id}>
+                        <FavComp
+                          addFav={handleFav}
+                          removeFav={removeFav}
+                          post={post}
+                          user={props.user}
+                          itemClass="field-fav"
+                          iconClass="fav-icon"
+                          favClass="fav-fill"
+                        />
+                        <Link
+                          className="fieldatag"
+                          style={{ textDecoration: "none" }}
+                          to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
+                          <h3>
+                            {post.title.length > 70
+                              ? post.title.substring(0, 50) + " ..."
+                              : post.title}{" "}
+                          </h3>
+                        </Link>
 
-                    <UserPostdetails post={post} userclass="avatar" />
-                    <span className="field-desp">
-                      <React.Fragment>
-                        {post.description.length > 30 ? (
+                        <UserPostdetails post={post} userclass="avatar" />
+                        <span className="field-desp">
                           <React.Fragment>
-                            {post.description.substring(0, 50) + "... "}
-                            <Link
-                              className="readtag"
-                              to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
-                              Read more
-                            </Link>
+                            {post.description.length > 30 ? (
+                              <React.Fragment>
+                                {post.description.substring(0, 50) + "... "}
+                                <Link
+                                  className="readtag"
+                                  to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
+                                  Read more
+                                </Link>
+                              </React.Fragment>
+                            ) : (
+                              post.description
+                            )}
                           </React.Fragment>
-                        ) : (
-                          post.description
-                        )}
-                      </React.Fragment>
-                    </span>
-                    <div className="field-likes">
-                      <UserLikes
-                        props={props}
-                        item={post}
-                        itemclass={"likes"}
-                        iconClass={"like-icons"}
-                        dislikeClass={"like-icons dislike"}
-                      />
-                    </div>
+                        </span>
+                        <div className="field-likes">
+                          <UserLikes
+                            props={props}
+                            item={post}
+                            itemclass={"likes"}
+                            iconClass={"like-icons"}
+                            dislikeClass={"like-icons dislike"}
+                          />
+                        </div>
 
-                    <div className="user-options">
-                      <Dropdown
-                        user={props.user}
-                        handleDelete={handleDelete}
-                        post={post}
-                        fieldState={true}
-                      />
+                        <div className="user-options">
+                          <Dropdown
+                            user={props.user}
+                            handleDelete={handleDelete}
+                            post={post}
+                            fieldState={true}
+                          />
 
-                      {/* <Link
+                          {/* <Link
                         to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
                         <div className="open-item" title="Read Post">
                           <RiShareBoxFill />
                         </div>
                       </Link> */}
-                      {/* {props.user.Auth &&
+                          {/* {props.user.Auth &&
                         props.user.userData.userId === post.userId && (
                           <div
                             className="delete-item"
@@ -206,12 +217,13 @@ const Fields = (props) => {
                             <RiDeleteBinLine />
                           </div>
                         )} */}
-                    </div>
-                    <p className="post-date">{post.date?.substring(0, 19)}</p>
-                  </div>
-                ) : (
-                  ""
-                )
+                        </div>
+                        <p className="post-date">
+                          {new Date(post.sortDate).toLocaleDateString()}
+                        </p>
+                      </div>
+                    )
+                  : ""
               )}
             </div>
           </div>

@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect, useState } from "react";
-import { AiTwotoneDislike, AiTwotoneLike } from "react-icons/ai";
+
 import { connect } from "react-redux";
 import UserLikes from "./UserLikes";
 import {

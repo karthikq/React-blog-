@@ -178,10 +178,18 @@
       font-weight: 500;
       border-bottom: 3px solid rgba(211, 211, 211, 0);
       cursor: pointer;
+
       a {
+        display: flex;
+        align-items: center;
+
         text-decoration: none;
         color: inherit;
         padding: inherit;
+        .list-nav-icon {
+          margin-right: 0.3rem;
+          opacity: 0.35;
+        }
       }
     }
     .bottom-border {

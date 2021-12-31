@@ -21,7 +21,7 @@ import {
 import ImageFlip from "../../ImageFlip/ImageFlip";
 import { Link, useLocation } from "react-router-dom";
 import FavComp from "../../components/FavComp";
-import { RiDeleteBinLine } from "react-icons/ri";
+
 import Alert from "../../components/alert/Alert";
 import Dropdown from "../../components/Dropdown/Dropdown";
 
@@ -32,6 +32,7 @@ const SingleField = (props) => {
   const [alertState, setAlertState] = useState(false);
   const [alertsucessState, setAlertsucessState] = useState(false);
   const [selPost, setselPost] = useState("");
+  const [sortPost, setSortPost] = useState([]);
 
   const { id } = useParams();
   const { scroll } = window.Qs.parse(location.search, {
@@ -73,6 +74,17 @@ const SingleField = (props) => {
     // // setAlertState(true);
     setAlertsucessState(true);
   };
+  useEffect(() => {
+    if (itemState) {
+      const resp = posts?.usersPost.sort((a, b) => {
+        if (a.sortDate || b.sortDate) {
+          return new Date(b.sortDate) - new Date(a.sortDate);
+        }
+      });
+      setSortPost(resp);
+    }
+  }, [itemState, posts]);
+
   const renderComp = () => {
     return itemState ? (
       <div className="sfield-contents">
@@ -81,89 +93,91 @@ const SingleField = (props) => {
           <h2>{posts?.fieldName}</h2>
         </div>
         <div className="sfield-posts">
-          {posts?.usersPost?.map((item, index) => (
-            <div
-              id={item.post_Id}
-              className={
-                (index + 1) % 2 === 0
-                  ? "sfield-post-box post-align-left"
-                  : "sfield-post-box"
-              }
-              key={index}>
-              <div
-                className={
-                  (index + 1) % 2 === 0
-                    ? "sfield-post-text sfield-text-align"
-                    : "sfield-post-text"
-                }>
-                <h3>
-                  {" "}
-                  <Link
-                    to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}>
-                    {" "}
-                    {item.title}
-                  </Link>{" "}
-                </h3>
-                <UserPostdetails
-                  post={item}
-                  userclass={
-                    (index + 1) % 2 === 0 ? "avatar avatar-align" : "avatar"
+          {sortPost.map(
+            (item, index) =>
+              item.status === "Public" && (
+                <div
+                  id={item.post_Id}
+                  className={
+                    (index + 1) % 2 === 0
+                      ? "sfield-post-box post-align-left"
+                      : "sfield-post-box"
                   }
-                />
-                <span className="sfield-desp">
-                  {item.description.length > 50 ? (
-                    <React.Fragment>
-                      {item.description.substring(0, 100) + "... "}
+                  key={index}>
+                  <div
+                    className={
+                      (index + 1) % 2 === 0
+                        ? "sfield-post-text sfield-text-align"
+                        : "sfield-post-text"
+                    }>
+                    <h3>
+                      {" "}
                       <Link
-                        to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}
-                        className="readtag">
-                        Read more
-                      </Link>
-                    </React.Fragment>
-                  ) : (
-                    item.description
-                  )}
-                </span>
-              </div>
-              <div className="sfield-image">
-                <ImageFlip imageLink={item.image} imageClass="postimage" />
-              </div>
+                        to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}>
+                        {" "}
+                        {item.title}
+                      </Link>{" "}
+                    </h3>
+                    <UserPostdetails
+                      post={item}
+                      userclass={
+                        (index + 1) % 2 === 0 ? "avatar avatar-align" : "avatar"
+                      }
+                    />
+                    <span className="sfield-desp">
+                      {item.description.length > 50 ? (
+                        <React.Fragment>
+                          {item.description.substring(0, 100) + "... "}
+                          <Link
+                            to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}
+                            className="readtag">
+                            Read more
+                          </Link>
+                        </React.Fragment>
+                      ) : (
+                        item.description
+                      )}
+                    </span>
+                  </div>
+                  <div className="sfield-image">
+                    <ImageFlip imageLink={item.image} imageClass="postimage" />
+                  </div>
 
-              <div
-                className={
-                  (index + 1) % 2 === 0
-                    ? "sfield-likes sfield-likes-left"
-                    : "sfield-likes"
-                }>
-                <UserLikes
-                  props={props}
-                  item={item}
-                  iconClass={"sfield-like-icon"}
-                  dislikeClass={"sfield-like-icon sfield-dislike-icon"}
-                />
-              </div>
-              <div
-                className={
-                  (index + 1) % 2 === 0
-                    ? "sfield-fav-div sfield-fav-div-left"
-                    : "sfield-fav-div"
-                }>
-                <FavComp
-                  addFav={handleFav}
-                  removeFav={removeFav}
-                  post={item}
-                  itemClass="sfield-fav"
-                  iconClass="sfield-fav-icon"
-                  favClass="sfield-fav-icon-fill"
-                  user={props.user}
-                />
-                <Dropdown
-                  handleDelete={handleDelete}
-                  user={props.user}
-                  post={item}
-                  fieldState={(index + 1) % 2 === 0 ? false : true}
-                />
-                {/* {props.user.userData.userId === item.userId && (
+                  <div
+                    className={
+                      (index + 1) % 2 === 0
+                        ? "sfield-likes sfield-likes-left"
+                        : "sfield-likes"
+                    }>
+                    <UserLikes
+                      props={props}
+                      item={item}
+                      iconClass={"sfield-like-icon"}
+                      dislikeClass={"sfield-like-icon sfield-dislike-icon"}
+                    />
+                  </div>
+                  <div
+                    className={
+                      (index + 1) % 2 === 0
+                        ? "sfield-fav-div sfield-fav-div-left"
+                        : "sfield-fav-div"
+                    }>
+                    <FavComp
+                      addFav={handleFav}
+                      removeFav={removeFav}
+                      post={item}
+                      itemClass="sfield-fav"
+                      iconClass="sfield-fav-icon"
+                      favClass="sfield-fav-icon-fill"
+                      user={props.user}
+                    />
+                    <Dropdown
+                      handleDelete={handleDelete}
+                      user={props.user}
+                      post={item}
+                      fieldState={(index + 1) % 2 === 0 ? false : true}
+                    />
+                    {/* {props.user.userData.userId === item.userId && (
                   <div className="sfield-delete">
                     <RiDeleteBinLine
                       onClick={() => handleDelete(item)}
@@ -171,9 +185,10 @@ const SingleField = (props) => {
                     />
                   </div>
                 )} */}
-              </div>
-            </div>
-          ))}
+                  </div>
+                </div>
+              )
+          )}
         </div>
       </div>
     ) : (

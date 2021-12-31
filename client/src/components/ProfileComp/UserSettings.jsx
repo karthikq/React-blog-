@@ -13,13 +13,8 @@ import { connect } from "react-redux";
 import { useCallback } from "react";
 import CropImage from "../CropImage/CropImage";
 
-const UserSettings = ({ userData, Updateuser, userDetail }) => {
-  const {
-    handleSubmit,
-    formState: { errors },
-    register,
-    reset,
-  } = useForm();
+const UserSettings = ({ userData, Updateuser }) => {
+  const { handleSubmit, register, reset } = useForm();
   const imgRef = useRef(null);
   const previewCanvasRef = useRef(null);
   const formBtn = useRef(null);
@@ -27,7 +22,7 @@ const UserSettings = ({ userData, Updateuser, userDetail }) => {
   const [imageState, setImageState] = useState(false);
   const [imgUrl, setimgUrl] = useState("");
   const [tId, settoastId] = useState("");
-  const [UpData, setUpData] = useState("");
+
   const [Upimg, setUpImg] = useState("");
 
   const [user, setUser] = useState("");
@@ -71,7 +66,7 @@ const UserSettings = ({ userData, Updateuser, userDetail }) => {
   };
   const onSubmit = async (data) => {
     data.userId = userData.userId;
-    setUpData(data);
+
     formBtn.current.setAttribute("disabled", true);
 
     if (imageState) {
