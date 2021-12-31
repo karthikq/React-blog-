@@ -119,7 +119,7 @@ const Fields = (props) => {
             <div className="open-left-item">
               <RiShareBoxFill />
             </div>
-          </Link> */}{" "}
+          </Link> */}
             </div>
             <div
               className={
@@ -132,7 +132,10 @@ const Fields = (props) => {
               </p>
               {props.item.usersPost.map((post, index) =>
                 index >= 0 ? (
-                  <div className="field-right-items" key={index} id={post.post_Id}>
+                  <div
+                    className="field-right-items"
+                    key={index}
+                    id={post.post_Id}>
                     <FavComp
                       addFav={handleFav}
                       removeFav={removeFav}

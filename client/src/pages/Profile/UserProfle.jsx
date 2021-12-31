@@ -134,7 +134,7 @@ const UserProfle = ({ user, posts, otherusers }) => {
           {path === "favorites" && (
             <React.Fragment>
               {adminUser ? (
-                user.fav.length > 0 ? (
+                user.fav?.length > 0 ? (
                   user.fav?.map((item, index) => (
                     <UserPost
                       item={item}
