@@ -95,42 +95,44 @@ const Fields = (props) => {
             </Link>
           </div>
           <div className="field-contents">
-            <div className="field-left-content">
-              <ImageFlip
-                imageLink={props.item?.usersPost[0]?.image}
-                imageClass={"post-left-img"}
-              />
-              <Link
-                style={{ textDecoration: "none" }}
-                to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
-                <h3> {props.item.usersPost[0]?.title}</h3>
-              </Link>
-              <UserPostdetails
-                post={props.item?.usersPost[0]}
-                userclass="avatar"
-              />
-              <span>
-                {props.item.usersPost[0]?.description.length > 30 ? (
-                  <React.Fragment>
-                    {props.item.usersPost[0]?.description.substring(0, 50) +
-                      "... "}
-                    <Link
-                      to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}
-                      className="readtag">
-                      Read more
-                    </Link>
-                  </React.Fragment>
-                ) : (
-                  props.item.usersPost[0]?.description
-                )}
-              </span>
-              {/* <Link
+            {props.item?.usersPost[0]?.status === "Public" && (
+              <div className="field-left-content">
+                <ImageFlip
+                  imageLink={props.item?.usersPost[0]?.image}
+                  imageClass={"post-left-img"}
+                />
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
+                  <h3> {props.item.usersPost[0]?.title}</h3>
+                </Link>
+                <UserPostdetails
+                  post={props.item?.usersPost[0]}
+                  userclass="avatar"
+                />
+                <span>
+                  {props.item.usersPost[0]?.description.length > 30 ? (
+                    <React.Fragment>
+                      {props.item.usersPost[0]?.description.substring(0, 50) +
+                        "... "}
+                      <Link
+                        to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}
+                        className="readtag">
+                        Read more
+                      </Link>
+                    </React.Fragment>
+                  ) : (
+                    props.item.usersPost[0]?.description
+                  )}
+                </span>
+                {/* <Link
             to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
             <div className="open-left-item">
               <RiShareBoxFill />
             </div>
           </Link> */}
-            </div>
+              </div>
+            )}
             <div
               className={
                 props.item.usersPost.length > 1

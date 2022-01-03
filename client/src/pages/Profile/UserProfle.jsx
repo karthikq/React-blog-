@@ -13,6 +13,7 @@ import UserSettings from "../../components/ProfileComp/UserSettings";
 import { FiSettings } from "react-icons/fi";
 import { BsHeart, BsHeartFill, BsListUl } from "react-icons/bs";
 import { BiLike } from "react-icons/bi";
+import { MetaTags } from "../../components/MetaTags";
 
 const UserProfle = ({ user, posts, otherusers }) => {
   const { id } = useParams();
@@ -39,6 +40,12 @@ const UserProfle = ({ user, posts, otherusers }) => {
   };
   return (
     <div className="up-container">
+      <MetaTags
+        title={`Profile | ${user ? user.username : userDetails.username}`}
+        description={`Articles of ${
+          user ? user.username : userDetails.username
+        }`}
+      />
       <div className="up-contents">
         <div className="up-sidebar">
           <div className="up-profile-img">

@@ -24,9 +24,7 @@ const UserSettings = ({ userData, Updateuser }) => {
   const [tId, settoastId] = useState("");
 
   const [Upimg, setUpImg] = useState("");
-
   const [user, setUser] = useState("");
-
   const [completedCrop, setCompletedCrop] = useState(null);
 
   useEffect(() => {

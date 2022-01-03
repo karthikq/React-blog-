@@ -24,6 +24,7 @@ import FavComp from "../../components/FavComp";
 
 import Alert from "../../components/alert/Alert";
 import Dropdown from "../../components/Dropdown/Dropdown";
+import { MetaTags } from "../../components/MetaTags";
 
 const SingleField = (props) => {
   const location = useLocation();
@@ -200,6 +201,7 @@ const SingleField = (props) => {
   };
   return (
     <div className="sfield-container">
+      <MetaTags title={`Article | ${id}`} description={id + "articles"} />
       {alertState ? (
         <Alert
           setAlertsucessState={setAlertsucessState}

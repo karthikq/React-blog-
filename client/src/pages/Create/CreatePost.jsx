@@ -18,6 +18,7 @@ import errImage from "./warning.png";
 
 import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 import { MdPublic } from "react-icons/md";
+import { MetaTags } from "../../components/MetaTags";
 
 export class CreatePost extends Component {
   state = {
@@ -147,6 +148,10 @@ export class CreatePost extends Component {
   render() {
     return (
       <div className="create-conatiner">
+        <MetaTags
+          title={"Create Article"}
+          description={"Articles creation page"}
+        />
         {this.state.submitState && (
           <div className="image-progress-upload">
             <div ref={this.ref2} className="progress">

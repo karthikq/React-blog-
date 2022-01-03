@@ -21,6 +21,7 @@ import Alert from "../../components/alert/Alert";
 import history from "../../history";
 
 import { Link } from "react-router-dom";
+import { MetaTags } from "../../components/MetaTags";
 
 const Item = (props) => {
   const [data, setData] = useState("");
@@ -62,6 +63,10 @@ const Item = (props) => {
 
   return (
     <div className="item-container">
+      <MetaTags
+        title={`Article | ${data.title}`}
+        description={data.description}
+      />
       {alertState ? (
         <Alert
           setAlertsucessState={setAlertsucessState}
