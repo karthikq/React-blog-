@@ -157,7 +157,7 @@ const Navbar = (props) => {
             </Link>
           </li>
           <li>
-            <Link to="/field/sports">
+            <Link to="/field/cryto">
               <FaBitcoin className="list-nav-icon" /> Crypto
             </Link>
           </li>
@@ -174,7 +174,6 @@ const Navbar = (props) => {
           {props.isAuth && (
             <li>
               <Link to="/create/post">
-                {" "}
                 <AiOutlinePlusSquare className="list-nav-icon" /> Create
               </Link>
             </li>

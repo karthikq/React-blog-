@@ -203,6 +203,30 @@
       }
     }
   }
+  .up-userpost-status {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 0.3rem;
+
+    padding: 0.25rem;
+    a {
+      text-decoration: none;
+      opacity: 0.65;
+      color: black;
+      &:hover {
+        opacity: 1;
+      }
+    }
+    .up-userpost-status-icon {
+      padding: inherit;
+      cursor: pointer;
+
+      font-size: 0.95rem;
+      &:hover {
+        color: #039e56;
+      }
+    }
+  }
 }
 @media screen and (max-width: 1080px) {
   .up-contents {

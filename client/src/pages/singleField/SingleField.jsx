@@ -35,6 +35,9 @@ const SingleField = (props) => {
   const [selPost, setselPost] = useState("");
   const [sortPost, setSortPost] = useState([]);
 
+  const [publicPost, setPublicPost] = useState("");
+  const [PrivateState, setPrivateState] = useState(false);
+
   const { id } = useParams();
   const { scroll } = window.Qs.parse(location.search, {
     ignoreQueryPrefix: true,
@@ -42,20 +45,31 @@ const SingleField = (props) => {
   if (scroll) {
     setTimeout(() => {
       const el = document.getElementById(scroll);
-      el.scrollIntoView({
-        behavior: "smooth",
-      });
+      if (el) {
+        el.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
       window.history.pushState({}, "field", "/field/" + id);
     }, 1200);
   }
 
   useEffect(() => {
-    const FieldPost = props.userposts.find(
+    const fieldPost = props.userposts.find(
       (item) => item.fieldName.toLowerCase() === id.toLowerCase()
     );
-    if (FieldPost) {
-      setPosts(FieldPost);
+    if (fieldPost) {
+      setPosts(fieldPost);
       setitemState(true);
+      const findPublicPost = fieldPost.usersPost.find(
+        (item) => item.status === "Public"
+      );
+
+      if (findPublicPost) {
+        console.log("S");
+      } else {
+        setitemState(false);
+      }
     } else {
       setitemState(false);
     }
@@ -112,12 +126,10 @@ const SingleField = (props) => {
                         : "sfield-post-text"
                     }>
                     <h3>
-                      {" "}
                       <Link
                         to={`/post/?postId=${item.post_Id}&field=${item.fieldName}`}>
-                        {" "}
                         {item.title}
-                      </Link>{" "}
+                      </Link>
                     </h3>
                     <UserPostdetails
                       post={item}
@@ -195,7 +207,14 @@ const SingleField = (props) => {
     ) : (
       <div className="sfield-noitem">
         <SfieldAnimation w={250} h={250} />
-        <p className="sfield-np">No {id} documents Found</p>
+        <p className="sfield-np">No {id} documents Found.</p>
+        <span>Or user has made Article Private.</span>
+        <span>
+          Click here to{" "}
+          <Link to="/" style={{ color: "green" }}>
+            go back
+          </Link>
+        </span>
       </div>
     );
   };

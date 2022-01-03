@@ -121,10 +121,10 @@ const UserProfle = ({ user, posts, otherusers }) => {
             <React.Fragment>
               {adminUser
                 ? user.posts?.map((item, index) => (
-                    <UserPost item={item} key={index} state={true} />
+                    <UserPost item={item} key={index} state={true} userState={true} />
                   ))
                 : userDetails?.posts?.map((item, index) => (
-                    <UserPost item={item} key={index} state={true} />
+                    <UserPost item={item} key={index} state={true} userState={false} />
                   ))}
             </React.Fragment>
           )}

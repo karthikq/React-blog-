@@ -14,6 +14,8 @@ import {
 } from "../redux/actions/post/index";
 import { Link } from "react-router-dom";
 import FavComp from "./FavComp";
+import { MdPublic } from "react-icons/md";
+import { RiGitRepositoryPrivateLine } from "react-icons/ri";
 
 const UserPost = (props) => {
   const [postData, setPostData] = useState({});
@@ -48,6 +50,7 @@ const UserPost = (props) => {
   const removeFav = (post) => {
     props.RemoveFav(post);
   };
+  console.log(postData);
   return (
     <>
       {datap && (
@@ -93,8 +96,29 @@ const UserPost = (props) => {
               />
             </div>
           )}
+          {props.userState && (
+            <div className="up-userpost-status">
+              {postData.status === "Public" ? (
+                <Link
+                  to={`/user/post/edit/${postData.post_Id}?field=${postData.fieldName}`}>
+                  <MdPublic
+                    title="Click here to change status"
+                    className="up-userpost-status-icon"
+                  />
+                </Link>
+              ) : (
+                <Link
+                  to={`/user/post/edit/${postData.post_Id}?field=${postData.fieldName}`}>
+                  <RiGitRepositoryPrivateLine
+                    title="Click here to change status"
+                    className="up-userpost-status-icon"
+                  />
+                </Link>
+              )}
+            </div>
+          )}
         </div>
-      )}{" "}
+      )}
     </>
   );
 };

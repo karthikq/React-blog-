@@ -107,7 +107,13 @@ const EditPost = (props) => {
       setTimeout(() => {
         ref.current.children[0].innerHtml = "Image Uploaded";
         setSubmitState(false);
-        history.push("/field/" + field + "?scroll=" + id);
+        const data = props.posts.find((item) => item.fieldName === field);
+        const resp = data.usersPost.find((post) => post.status === "Public");
+        if (resp) {
+          history.push("/field/" + field + "?scroll=" + id);
+        } else {
+          history.push("/");
+        }
       }, 2000);
     }
   };
@@ -137,7 +143,15 @@ const EditPost = (props) => {
         setTimeout(() => {
           ref.current.children[0].innerHtml = "Image Uploaded";
           setSubmitState(false);
-          history.push("/field/" + field + "?scroll=" + id);
+
+          const data = props.posts.find((item) => item.fieldName === field);
+          const resp = data.usersPost.find((post) => post.status === "Public");
+
+          if (resp) {
+            history.push("/field/" + field + "?scroll=" + id);
+          } else {
+            history.push("/");
+          }
         }, 2000);
       } else {
         setUploadStatus("Updating Image please wait");

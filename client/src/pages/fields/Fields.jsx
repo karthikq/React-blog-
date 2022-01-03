@@ -41,7 +41,8 @@ const Fields = (props) => {
 
   const [selPost, setselPost] = useState("");
   const [postData, setpostData] = useState([]);
-
+  const [publicPost, setPublicPost] = useState("");
+  const [PrivateState, setPrivateState] = useState(false);
   const handleDelete = (post) => {
     console.log(post);
     setselPost(post);
@@ -65,152 +66,162 @@ const Fields = (props) => {
         return new Date(b.sortDate) - new Date(a.sortDate);
       }
     });
+
     setpostData(resp);
+
+    const findPublicPost = props.item.usersPost.find(
+      (item) => item.status === "Public"
+    );
+    if (findPublicPost) {
+      setPublicPost(findPublicPost);
+      setPrivateState(false);
+      console.log(findPublicPost);
+    } else {
+      setPrivateState(true);
+    }
   }, [props]);
 
   return (
-    <div className="field-container">
-      {alertState ? (
-        <Alert
-          setAlertsucessState={setAlertsucessState}
-          setAlertState={setAlertState}
-          alertsucessState={alertsucessState}
-          DeletePost={props.DeletePost}
-          confirmDelete={confirmDelete}
-          selPost={selPost}
-        />
-      ) : (
-        <React.Fragment>
-          <div className="field-header">
-            <div className="field-header-name">
-              <div className="box"></div>
-              <h2>{props.item?.fieldName} </h2>
-            </div>
-            <Link
-              to={`/field/${props.item?.fieldName}`}
-              style={{ textDecoration: "none" }}>
-              <span className="field-header-span">
-                All {props.item?.fieldName} articles
-              </span>
-            </Link>
-          </div>
-          <div className="field-contents">
-            {props.item?.usersPost[0]?.status === "Public" && (
-              <div className="field-left-content">
-                <ImageFlip
-                  imageLink={props.item?.usersPost[0]?.image}
-                  imageClass={"post-left-img"}
-                />
+    <>
+      {!PrivateState && (
+        <div className="field-container">
+          {alertState ? (
+            <Alert
+              setAlertsucessState={setAlertsucessState}
+              setAlertState={setAlertState}
+              alertsucessState={alertsucessState}
+              DeletePost={props.DeletePost}
+              confirmDelete={confirmDelete}
+              selPost={selPost}
+            />
+          ) : (
+            <React.Fragment>
+              <div className="field-header">
+                <div className="field-header-name">
+                  <div className="box"></div>
+                  <h2>{props.item?.fieldName} </h2>
+                </div>
                 <Link
-                  style={{ textDecoration: "none" }}
-                  to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
-                  <h3> {props.item.usersPost[0]?.title}</h3>
+                  to={`/field/${props.item?.fieldName}`}
+                  style={{ textDecoration: "none" }}>
+                  <span className="field-header-span">
+                    All {props.item?.fieldName} articles
+                  </span>
                 </Link>
-                <UserPostdetails
-                  post={props.item?.usersPost[0]}
-                  userclass="avatar"
-                />
-                <span>
-                  {props.item.usersPost[0]?.description.length > 30 ? (
-                    <React.Fragment>
-                      {props.item.usersPost[0]?.description.substring(0, 50) +
-                        "... "}
-                      <Link
-                        to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}
-                        className="readtag">
-                        Read more
-                      </Link>
-                    </React.Fragment>
-                  ) : (
-                    props.item.usersPost[0]?.description
-                  )}
-                </span>
-                {/* <Link
+              </div>
+
+              <div className="field-contents">
+                <div className="field-left-content">
+                  <ImageFlip
+                    imageLink={publicPost?.image}
+                    imageClass={"post-left-img"}
+                  />
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/post/?postId=${publicPost?.post_Id}&field=${publicPost?.fieldName}`}>
+                    <h3> {publicPost?.title}</h3>
+                  </Link>
+                  <UserPostdetails post={publicPost} userclass="avatar" />
+                  <span>
+                    {publicPost?.description?.length > 30 ? (
+                      <React.Fragment>
+                        {publicPost?.description.substring(0, 50) + "... "}
+                        <Link
+                          to={`/post/?postId=${publicPost?.post_Id}&field=${publicPost?.fieldName}`}
+                          className="readtag">
+                          Read more
+                        </Link>
+                      </React.Fragment>
+                    ) : (
+                      publicPost?.description
+                    )}
+                  </span>
+                  {/* <Link
             to={`/post/?postId=${props.item.usersPost[0]?.post_Id}&field=${props.item?.usersPost[0]?.fieldName}`}>
             <div className="open-left-item">
               <RiShareBoxFill />
             </div>
           </Link> */}
-              </div>
-            )}
-            <div
-              className={
-                props.item.usersPost.length > 1
-                  ? "field-right-content"
-                  : "field-right-content field-right-nocontent"
-              }>
-              <p className="field-right-header">
-                {props.item.usersPost.length > 1 && "Related Articles"}
-              </p>
-              {postData.map((post, index) =>
-                index >= 0
-                  ? post.status === "Public" && (
-                      <div
-                        className="field-right-items"
-                        key={index}
-                        id={post.post_Id}>
-                        <FavComp
-                          addFav={handleFav}
-                          removeFav={removeFav}
-                          post={post}
-                          user={props.user}
-                          itemClass="field-fav"
-                          iconClass="fav-icon"
-                          favClass="fav-fill"
-                        />
-                        <Link
-                          className="fieldatag"
-                          style={{ textDecoration: "none" }}
-                          to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
-                          <h3>
-                            {post.title.length > 70
-                              ? post.title.substring(0, 50) + " ..."
-                              : post.title}{" "}
-                          </h3>
-                        </Link>
+                </div>
 
-                        <UserPostdetails post={post} userclass="avatar" />
-                        <span className="field-desp">
-                          <React.Fragment>
-                            {post.description.length > 30 ? (
+                <div
+                  className={
+                    props.item.usersPost.length > 1
+                      ? "field-right-content"
+                      : "field-right-content field-right-nocontent"
+                  }>
+                  <p className="field-right-header">
+                    {props.item.usersPost.length > 1 && "Related Articles"}
+                  </p>
+                  {postData.map((post, index) =>
+                    index >= 0
+                      ? post.status === "Public" && (
+                          <div
+                            className="field-right-items"
+                            key={index}
+                            id={post.post_Id}>
+                            <FavComp
+                              addFav={handleFav}
+                              removeFav={removeFav}
+                              post={post}
+                              user={props.user}
+                              itemClass="field-fav"
+                              iconClass="fav-icon"
+                              favClass="fav-fill"
+                            />
+                            <Link
+                              className="fieldatag"
+                              style={{ textDecoration: "none" }}
+                              to={`/post/?postId=${post?.post_Id}&field=${post?.fieldName}`}>
+                              <h3>
+                                {post.title.length > 70
+                                  ? post.title.substring(0, 50) + " ..."
+                                  : post.title}{" "}
+                              </h3>
+                            </Link>
+
+                            <UserPostdetails post={post} userclass="avatar" />
+                            <span className="field-desp">
                               <React.Fragment>
-                                {post.description.substring(0, 50) + "... "}
-                                <Link
-                                  className="readtag"
-                                  to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
-                                  Read more
-                                </Link>
+                                {post.description.length > 30 ? (
+                                  <React.Fragment>
+                                    {post.description.substring(0, 50) + "... "}
+                                    <Link
+                                      className="readtag"
+                                      to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
+                                      Read more
+                                    </Link>
+                                  </React.Fragment>
+                                ) : (
+                                  post.description
+                                )}
                               </React.Fragment>
-                            ) : (
-                              post.description
-                            )}
-                          </React.Fragment>
-                        </span>
-                        <div className="field-likes">
-                          <UserLikes
-                            props={props}
-                            item={post}
-                            itemclass={"likes"}
-                            iconClass={"like-icons"}
-                            dislikeClass={"like-icons dislike"}
-                          />
-                        </div>
+                            </span>
+                            <div className="field-likes">
+                              <UserLikes
+                                props={props}
+                                item={post}
+                                itemclass={"likes"}
+                                iconClass={"like-icons"}
+                                dislikeClass={"like-icons dislike"}
+                              />
+                            </div>
 
-                        <div className="user-options">
-                          <Dropdown
-                            user={props.user}
-                            handleDelete={handleDelete}
-                            post={post}
-                            fieldState={true}
-                          />
+                            <div className="user-options">
+                              <Dropdown
+                                user={props.user}
+                                handleDelete={handleDelete}
+                                post={post}
+                                fieldState={true}
+                              />
 
-                          {/* <Link
+                              {/* <Link
                         to={`/post/?postId=${post.post_Id}&field=${post.fieldName}`}>
                         <div className="open-item" title="Read Post">
                           <RiShareBoxFill />
                         </div>
                       </Link> */}
-                          {/* {props.user.Auth &&
+                              {/* {props.user.Auth &&
                         props.user.userData.userId === post.userId && (
                           <div
                             className="delete-item"
@@ -219,19 +230,21 @@ const Fields = (props) => {
                             <RiDeleteBinLine />
                           </div>
                         )} */}
-                        </div>
-                        <p className="post-date">
-                          {new Date(post.sortDate).toLocaleDateString()}
-                        </p>
-                      </div>
-                    )
-                  : ""
-              )}
-            </div>
-          </div>
-        </React.Fragment>
+                            </div>
+                            <p className="post-date">
+                              {new Date(post.sortDate).toLocaleDateString()}
+                            </p>
+                          </div>
+                        )
+                      : ""
+                  )}
+                </div>
+              </div>
+            </React.Fragment>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 const mapStateToProps = (state) => {
