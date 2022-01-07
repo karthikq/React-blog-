@@ -1,10 +1,10 @@
 /** @format */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import "./navbar.styles.scss";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Select from "react-select";
 import { RiUserLine } from "react-icons/ri";
 import { logoutUser } from "../../redux/actions";
@@ -17,39 +17,11 @@ import {
   AiOutlinePlusSquare,
 } from "react-icons/ai";
 import { MdEngineering } from "react-icons/md";
+import { motion } from "framer-motion";
+import ThemeContext from "../context/ThemeContext";
+import { useContext } from "react";
+import { BsMoon, BsSun } from "react-icons/bs";
 
-const customStyles = {
-  control: (base) => ({
-    ...base,
-    minHeight: 30,
-    fontSize: "14px",
-    border: "0",
-    borderRadius: "0",
-    outline: "0",
-    borderBottom: "1px solid rgb(44, 44, 44)",
-  }),
-  dropdownIndicator: (base) => ({
-    ...base,
-    padding: 6,
-  }),
-  clearIndicator: (base) => ({
-    ...base,
-    padding: 4,
-  }),
-  multiValue: (base) => ({
-    ...base,
-    backgroundColor: "white",
-  }),
-  valueContainer: (base) => ({
-    ...base,
-    padding: "0px 6px",
-  }),
-  input: (base) => ({
-    ...base,
-    margin: 0,
-    padding: 0,
-  }),
-};
 const Navbar = (props) => {
   const [dropdownState, setDropdownState] = useState(false);
   const ref = useRef();
@@ -102,6 +74,62 @@ const Navbar = (props) => {
     };
   });
 
+  const { theme, updateTheme } = useContext(ThemeContext);
+  const customStyles = {
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: theme === "light" ? "white" : "black",
+      color:
+        theme === "light"
+          ? state.isSelected
+            ? "black"
+            : "#4dbc92"
+          : state.isSelected
+          ? "white"
+          : "#4dbc92",
+    }),
+    placeholder: (defaultStyles) => {
+      return {
+        ...defaultStyles,
+        color: theme === "light" ? "black" : "white",
+      };
+    },
+    control: (base) => ({
+      ...base,
+      minHeight: 30,
+      fontSize: "14px",
+      border: "0",
+      borderRadius: "0",
+      outline: "0",
+      backgroundColor: theme === "light" ? "white" : "black",
+      borderBottom: "1px solid rgb(44, 44, 44)",
+    }),
+    dropdownIndicator: (base) => ({
+      ...base,
+      padding: 6,
+    }),
+    clearIndicator: (base) => ({
+      ...base,
+      padding: 4,
+    }),
+    multiValue: (base) => ({
+      ...base,
+      backgroundColor: "white",
+    }),
+    valueContainer: (base) => ({
+      ...base,
+      padding: "0px 6px",
+    }),
+    input: (base) => ({
+      ...base,
+      margin: 0,
+      padding: 0,
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: theme === "light" ? "black" : "white",
+    }),
+  };
   return (
     <React.Fragment>
       <div className="navbar-wrapper">
@@ -115,13 +143,56 @@ const Navbar = (props) => {
             </Link>
           </div>
           <div className="nav-details">
+            <div className="toogle-mode">
+              {/* <input type="checkbox" id="checkbox" />
+              <label htmlFor="checkbox" className="checkbox-label" >
+
+              </label> */}
+              {/* <motion.svg
+                className="sun-svg"
+                initial="start"
+                animate={theme === "light" ? "start" : "end"}
+                width="50"
+                height="50"
+                viewBox="0 0 50 50"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{ outline: 0 }}>
+                <motion.path
+                  transition={{ duration: 1 }}
+                  variants={ellipseVariants}
+                  fill={theme === "light" ? "#F0CA00" : "white"}
+                />
+              </motion.svg> */}
+
+              {/* <motion.svg
+                initial="start"
+                width="100"
+                height="100"
+                viewBox="0 0 100 100"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                whileHover="end">
+                <motion.path
+                  variants={ellipseVariants}
+                  transition={{
+                    duration: 2,
+                    yoyo: Infinity,
+                    repeat: Infinity,
+                  }}
+                  fill="#5C63FE"
+                />
+              </motion.svg> */}
+            </div>
             <div className="nav-profile">
               <img
                 onClick={() => setDropdownState(!dropdownState)}
                 src={props.isAuth ? props.userDetails.profileUrl : avatar}
                 alt="profileimage"
               />
-              <div
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 className={
                   dropdownState ? "dropdown dropdown-active" : "dropdown"
                 }>
@@ -144,7 +215,27 @@ const Navbar = (props) => {
                     </span>
                   </Link>
                 )}
-              </div>
+                {theme !== "light" ? (
+                  <span
+                    style={{ marginBottom: "0.4rem" }}
+                    onClick={() => {
+                      updateTheme();
+                      setDropdownState(false);
+                    }}>
+                    <BsSun />
+                    Light Mode
+                  </span>
+                ) : (
+                  <span
+                    style={{ marginBottom: "0.4rem" }}
+                    onClick={() => {
+                      updateTheme();
+                      setDropdownState(false);
+                    }}>
+                    <BsMoon style={{ fontSize: "0.8rem" }} /> Dark Mode
+                  </span>
+                )}
+              </motion.div>
             </div>
           </div>
         </div>
@@ -157,7 +248,7 @@ const Navbar = (props) => {
             </Link>
           </li>
           <li>
-            <Link to="/field/cryto">
+            <Link to="/field/crypto">
               <FaBitcoin className="list-nav-icon" /> Crypto
             </Link>
           </li>

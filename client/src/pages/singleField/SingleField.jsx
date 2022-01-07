@@ -66,7 +66,7 @@ const SingleField = (props) => {
       );
 
       if (findPublicPost) {
-        console.log("S");
+        setitemState(true);
       } else {
         setitemState(false);
       }

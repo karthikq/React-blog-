@@ -291,6 +291,7 @@ export class CreatePost extends Component {
                     type="text"
                     name="fieldName"
                     required
+                    style={{ textTransform: "lowercase" }}
                     maxLength={20}
                     placeholder="eg:clothing"
                     onChange={(e) =>

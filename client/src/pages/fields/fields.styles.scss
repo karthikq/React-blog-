@@ -8,7 +8,7 @@
 .box {
   width: 10px;
   height: 45px;
-  background-color: rgba(0, 0, 0, 0.123);
+  background-color: var(--field-header-box);
   margin-right: 0.5rem;
 }
 .alert-container {
@@ -60,7 +60,7 @@
       max-width: 7rem;
       font-size: 1.5rem;
 
-      color: #242424b9;
+      color: var(--field-header-h1);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -99,16 +99,17 @@
       align-items: center;
       font-size: 0.95rem;
       font-weight: 400;
+      color: var(--primary-color);
     }
     .like-icons {
       font-size: 1.2rem;
       padding: 0.2rem 0.15rem;
       cursor: pointer;
       margin-right: 0.3rem;
-      color: rgba(8, 8, 8, 0.753);
+      color: var(--like-color);
       transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
       &:hover {
-        fill: #29c97e;
+        fill: var(--field-header-green);
       }
       &:active {
         transform: scale(1.4);
@@ -161,12 +162,12 @@
     margin-top: 1.5rem;
     font-size: 1.4rem;
     margin-bottom: 0.8rem;
-    color: #353535ee;
+    color: var(--primary-color);
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     &:hover {
-      color: #1a9e60;
+      color: var(--field-hover-green);
       text-decoration: underline;
     }
   }
@@ -179,6 +180,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: var(--primary-color);
   }
 }
 // .field-right-nocontent {
@@ -214,13 +216,13 @@
   }
   .field-right-items {
     margin: 2rem 0;
-    background-color: #ffffff;
+    background: var(--bg-color);
     padding: 0.2rem 1.8rem 0.8rem;
     border-radius: 10px;
-    border: 2px solid rgba(0, 0, 0, 0.041);
-    filter: drop-shadow(0px 5px 10px rgba(0, 0, 0, 0.048));
+    border: 2px solid var(--border-color);
+    filter: drop-shadow(0px 5px 10px var(--field-shadow));
     position: relative;
-
+    transition: all 0.3s ease-in-out;
     .user-options {
       position: absolute;
       bottom: 0.9rem;
@@ -274,8 +276,8 @@
       .fav-icon {
         font-size: 1.05rem;
         padding: 0.5rem;
-        color: #ff210438;
-        background: #00000009;
+        color: #ff210465;
+        background: var(--icon-bg-color);
         border-radius: 50%;
 
         cursor: pointer;
@@ -337,7 +339,7 @@
     margin-top: 0.5rem;
     font-weight: 600;
     // color: #05b439ee;
-
+    color: var(--primary-color);
     letter-spacing: 0px;
     &:hover {
       color: #1a9e60;
@@ -353,6 +355,7 @@
     margin-bottom: 0;
     font-size: 0.9rem;
     width: 90%;
+    color: var(--primary-color);
   }
 }
 @media screen and (max-width: 1100px) {

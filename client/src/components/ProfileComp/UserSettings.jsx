@@ -125,11 +125,11 @@ const UserSettings = ({ userData, Updateuser }) => {
           <div className="up-form-left">
             <div className="up-form-item">
               <label>Name</label>
-              <input type="text" {...register("username")} />
+              <input required type="text" {...register("username")} />
             </div>
             <div className="up-form-item">
               <label>Email</label>
-              <input type="email" {...register("email")} />
+              <input disabled required type="email" {...register("email")} />
             </div>
             <div className="up-form-item">
               <label>Profile img</label>

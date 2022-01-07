@@ -1,4 +1,53 @@
 /** @format */
+:root {
+  --tag-color: rgb(17, 17, 17);
+  --home-h1-color: rgba(2, 2, 2, 0.712);
+  --primary-color: rgb(0, 0, 0);
+  --secondary-color: rgba(0, 0, 0, 0.945);
+  --field-header-h1: rgba(36, 36, 36, 0.725);
+  --field-header-green: #4dbc92;
+  --like-color: rgba(8, 8, 8, 0.753);
+  --field-hover-green: #1a9e60;
+  --bg-color: rgb(255, 255, 255);
+  --border-color: rgba(0, 0, 0, 0.041);
+  --field-shadow: rgba(0, 0, 0, 0.048);
+  --nav-icons: rgba(0, 0, 0, 0.267);
+  --nav-text-hover: #17b478;
+  --field-header-box: rgba(0, 0, 0, 0.123);
+  --home-body-bottom: rgba(0, 0, 0, 0.048);
+  --item-post-likes: rgba(255, 255, 255, 0.829);
+  --item-post-likes-border: #34f1991e;
+  --icon-bg-color: #00000009;
+  --profile-label: rgba(75, 75, 75, 0.89);
+  --profile-input-border: rgba(0, 0, 0, 0.164);
+}
+.dark-theme {
+  --tag-color: rgb(255, 255, 255);
+  --home-h1-color: rgba(255, 255, 255, 0.712);
+  --primary-color: rgba(241, 241, 241, 0.973);
+  --secondary-color: rgb(255, 255, 255);
+  --field-header-h1: rgba(255, 255, 255, 0.725);
+  --field-header-green: #4dbc92;
+  --like-color: rgba(255, 255, 255, 0.753);
+  --field-hover-green: #1a9e60;
+  --bg-color: rgb(0, 0, 0);
+  --border-color: rgba(221, 221, 221, 0.11);
+  --field-shadow: rgba(255, 255, 255, 0.062);
+  --nav-icons: rgba(255, 255, 255, 0.637);
+  --nav-text-hover: #00db87e7;
+  --field-header-box: rgba(18, 235, 65, 0.527);
+  --home-body-bottom: rgba(21, 250, 0, 0.192);
+  --item-post-likes: rgba(0, 0, 0, 0.918);
+  --item-post-likes-border: rgba(0, 194, 0, 0.432);
+  --icon-bg-color: #94959928;
+  --profile-label: rgba(194, 193, 193, 0.89);
+  --profile-input-border: rgba(245, 244, 244, 0.24);
+}
+body {
+  background: var(--bg-color);
+
+  transition: background 0.3s linear;
+}
 
 .home-container {
   width: 100%;
@@ -14,8 +63,8 @@
   justify-content: space-between;
   flex-wrap: wrap;
   position: relative;
-  padding-bottom: 4.5%;
-  border-bottom: 3px solid rgba(0, 0, 0, 0.048);
+  padding-bottom: 5%;
+  border-bottom: 3px solid var(--home-body-bottom);
   .open-home-item {
     position: absolute;
     left: 0;
@@ -49,7 +98,7 @@
   }
   a {
     text-decoration: none;
-    color: black;
+    color: var(--primary-color);
     &:hover {
       color: rgb(20, 211, 61);
     }
@@ -62,7 +111,7 @@
   }
 }
 .home-t-span {
-  color: rgb(17, 17, 17);
+  color: var(--tag-color);
   font-weight: 600;
 }
 
@@ -77,7 +126,7 @@
     margin-top: 0;
     font-weight: 600;
     font-size: 1.55rem;
-    color: rgba(2, 2, 2, 0.712);
+    color: var(--home-h1-color);
     margin-bottom: 1.4rem;
     font-family: "Poppins", sans-serif;
   }
@@ -89,6 +138,7 @@
     font-weight: 400;
     line-height: 1.9;
     width: 90%;
+    color: var(--primary-color);
   }
   .a-tag {
     margin-top: 1.4rem;

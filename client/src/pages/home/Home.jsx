@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import UserPostdetails from "../../components/UserPostDetails/UserPostdetails";
 import Fields from "../fields/Fields";
 import "./Home.styles.scss";
-import { RiShareBoxFill } from "react-icons/ri";
+
 import { Link } from "react-router-dom";
 
 const Home = (props) => {

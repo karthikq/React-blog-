@@ -17,7 +17,7 @@
     font-size: 0.9rem;
 
     font-weight: 400;
-    color: rgba(75, 75, 75, 0.89);
+    color: var(--profile-label);
 
     width: 6rem;
     padding: 0.3rem;
@@ -32,11 +32,12 @@
     border-radius: 5px;
     background-color: rgba(255, 255, 255, 0);
 
-    border: 2px solid rgba(0, 0, 0, 0.164);
+    border: 2px solid var(--profile-input-border);
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.007);
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.795);
+    color: var(--primary-color);
+
     transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
     &::placeholder {
       opacity: 0.8;
@@ -75,15 +76,21 @@
     padding: 0.3rem;
     border: 0;
     outline: 0;
-    background-color: transparent;
-    border: 2px solid rgba(0, 0, 0, 0.288);
-    color: rgb(0, 0, 0);
+    background-color: black;
+    border: 2px solid rgba(100, 100, 100, 0.384);
+    color: white;
     position: relative;
+    transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     cursor: pointer;
+    transform: scale(1);
     top: 1rem;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.767);
-      color: white;
+      border: 2px solid rgba(163, 163, 163, 0.473);
+      background-color: var(--secondary-color);
+      color: var(--primary-color);
+    }
+    &:active {
+      transform: scale(0.8);
     }
   }
   .up-form-img {
@@ -118,6 +125,7 @@
         object-fit: cover;
       }
       .canvas-div {
+        align-self: flex-start;
         canvas {
           width: 60px !important;
           height: 60px !important;
@@ -126,7 +134,8 @@
         }
       }
       p {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
+        color: var(--primary-color);
       }
     }
     .up-progress-bar {
@@ -169,12 +178,14 @@
     .up-form-right {
       margin-top: 0.5rem;
       align-items: flex-start;
+
       width: auto;
       margin-bottom: 1rem;
       height: auto;
       .up-form-img-sel {
         width: 100%;
         height: auto;
+        flex-direction: column-reverse;
         img {
           width: 100%;
           height: 300px;

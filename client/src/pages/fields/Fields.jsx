@@ -75,7 +75,6 @@ const Fields = (props) => {
     if (findPublicPost) {
       setPublicPost(findPublicPost);
       setPrivateState(false);
-      console.log(findPublicPost);
     } else {
       setPrivateState(true);
     }
