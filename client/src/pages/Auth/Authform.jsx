@@ -291,7 +291,7 @@ const Authform = ({
             <a className="social-atag" href={Checkenv() + "/auth/github"}>
               <div className="circle-bg auth-border">
                 <AiFillGithub
-                  className="social-icon"
+                  className="social-icon github-icon"
                   title="Facebook Sign in"
                 />
               </div>

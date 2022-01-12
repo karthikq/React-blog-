@@ -4,7 +4,7 @@
   padding: 0.4rem 1.5rem;
 
   border: 2px solid rgba(0, 0, 0, 0);
-  background-color: #252525;
+  background-color: #03923a;
   color: white;
   font-weight: 500;
   font-size: 0.95rem;
@@ -19,8 +19,8 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(255, 255, 255);
-    color: black;
+    background-color: var(--bg-color);
+    color: var(--primary-color);
     content: "Its Free!";
     display: flex;
     align-items: center;
@@ -33,7 +33,7 @@
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
   }
   &:hover {
-    border: 2px solid rgba(0, 0, 0, 0.603);
+    border: 2px solid var(--login-btn-border);
     background: transparent;
     color: black;
   }
@@ -54,7 +54,7 @@
     padding: 0.2rem 0.4rem;
     position: relative;
     z-index: 50;
-    color: rgb(75, 75, 75);
+    color: var(--home-h1-color);
   }
 }
 .auth-contents {
@@ -65,6 +65,7 @@
   .opt {
     text-align: center;
     margin-top: 1.8rem;
+    color: var(--primary-color);
   }
   .social-login {
     width: 100%;
@@ -76,11 +77,11 @@
     margin-left: 0.2rem;
     .social-atag {
       text-decoration: none;
-      color: black;
+      color: var(--primary-color);
     }
     .circle-bg {
       padding: 0 1rem;
-      border-right: 2px solid rgba(0, 0, 0, 0.144);
+      border-right: 2px solid var(--auth-social-icon-border);
     }
     .circle-bg:nth-child(2) {
       border-right: 2px solid rgba(0, 0, 0, 0);
@@ -104,6 +105,9 @@
         transform: scale(0.9);
       }
     }
+    .github-icon {
+      color: var(--primary-color);
+    }
   }
 
   h1 {
@@ -112,7 +116,7 @@
     font-size: 2.2rem;
     font-weight: 600;
     letter-spacing: 0.7px;
-    color: rgb(44, 44, 44);
+    color: var(--primary-color);
     font-family: "Poppins", sans-serif;
     margin-bottom: 0.2rem;
     text-shadow: 0px 5px 10px rgba(20, 228, 89, 0.096);
@@ -162,14 +166,15 @@
       border: 0;
       width: 100%;
       height: 40px;
-      border-bottom: 2px solid rgba(0, 0, 0, 0.041);
+      border-bottom: 2px solid var(--login-boder-input);
       outline: 0;
       transition: all 0.45s cubic-bezier(0.19, 1, 0.22, 1);
       font-family: "Quicksand", sans-serif;
       font-weight: 500;
       letter-spacing: 0.8px;
       font-size: 1rem;
-
+      background: var(--bg-color);
+      color: var(--primary-color);
       &:focus ~ label,
       &:valid ~ label {
         transform: translateY(-28px);

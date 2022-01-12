@@ -20,6 +20,14 @@
   --icon-bg-color: #00000009;
   --profile-label: rgba(75, 75, 75, 0.89);
   --profile-input-border: rgba(0, 0, 0, 0.164);
+  --login-boder-input: rgba(0, 0, 0, 0.123);
+  --login-btn-border: rgba(0, 0, 0, 0.603);
+  --auth-social-icon-border: rgba(0, 0, 0, 0.144);
+  --create-label: #00000091;
+  --paceholder-color: rgba(0, 0, 0, 0.61);
+  --create-right-btn: white;
+  --user-create-field: rgb(87, 87, 87);
+  --image-progress: rgba(255, 255, 255, 0.89);
 }
 .dark-theme {
   --tag-color: rgb(255, 255, 255);
@@ -42,6 +50,14 @@
   --icon-bg-color: #94959928;
   --profile-label: rgba(194, 193, 193, 0.89);
   --profile-input-border: rgba(245, 244, 244, 0.24);
+  --login-boder-input: rgba(253, 253, 253, 0.13);
+  --login-btn-border: rgba(170, 170, 170, 0.603);
+  --auth-social-icon-border: rgba(255, 253, 253, 0.24);
+  --create-label: #f3f1f1de;
+  --paceholder-color: rgba(255, 255, 255, 0.555);
+  --create-right-btn: #000000;
+  --user-create-field: rgb(172, 170, 170);
+  --image-progress: rgba(0, 0, 0, 0.788);
 }
 body {
   background: var(--bg-color);
